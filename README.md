@@ -2,7 +2,8 @@
 
 Texas Inventionworks repository for student and equipment management
 
-===================================================================================================
+====================================================================
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
