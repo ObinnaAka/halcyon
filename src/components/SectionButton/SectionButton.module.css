@@ -1,8 +1,10 @@
 .ButtonSection {
     height: 25vh;
     max-height: 175px;
+    min-height: 100px;
     width: 25vh;
     max-width: 175px;
+    min-width:100px;
     margin: 1vh;
     padding: 1vh;
     display: flex;

@@ -4,6 +4,7 @@ import "./App.css";
 import { SectionButton } from "./components";
 import Clock from "react-live-clock";
 import { Scrollbars } from "react-custom-scrollbars";
+import StudentRequests from "./Pages/StudentRequests/StudentRequests";
 
 function App() {
 	return (
@@ -46,7 +47,9 @@ function App() {
 				<Scrollbars className="left-scroll">
 					{/* This is where the different pages will be rendered, e.g.
 					Student Requests.*/}
-					<div className="left-view"></div>
+					<div className="left-view">
+						<StudentRequests/>
+					</div>
 				</Scrollbars>
 			</div>
 			<div className="footer">Version 0.1 Jun 5th, 2020 - Obinna</div>

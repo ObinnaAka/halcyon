@@ -1,0 +1,33 @@
+.item {
+    margin: 2vh;
+    height: 10vh;
+	min-height: 40px;
+	width: 95%;
+	display: flex;
+	flex-direction: row;
+	border: 1px solid #cccccc;
+	border-radius: 10px;
+}
+.itemName {
+	display: flex;
+	width: 40%;
+	justify-content: left;
+	margin: auto;
+	padding-left: 5vh;
+}
+.memberName {
+	width: 40%;
+	margin: auto;
+}
+.itemNumber {
+	width: 20%;
+	margin: auto;
+}
+.workstation {
+	width: 20%;
+	margin: auto;
+}
+.time {
+	width: 20%;
+	margin: auto;
+}

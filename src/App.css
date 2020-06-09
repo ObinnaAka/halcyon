@@ -69,6 +69,7 @@
 }
 
 .right-view {
+	min-width: 27vh;
 	max-width: 500px;
 	padding: 2vh;
 	display: flex;
