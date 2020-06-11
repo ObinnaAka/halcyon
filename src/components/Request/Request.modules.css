@@ -1,0 +1,47 @@
+.itemDiv{
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: flex-start;
+
+}
+.item {
+    min-width: 400px;
+    width:100%;
+	margin: 10vh;
+	border: 1px solid #eeeeee;
+	border-radius: 5px;
+}
+.doneButton{
+    display: flex;
+    margin:2vh;
+    margin-top: 4.5vh;
+    flex-direction: column;
+    justify-self: start;
+}
+.itemButton{
+    align-self: center;
+}
+.itemName {
+	display: flex;
+	width: 40%;
+	justify-content: left;
+	margin: auto;
+	padding-left: 5vh;
+}
+.memberName {
+	width: 40%;
+	margin: auto;
+}
+.itemNumber {
+	width: 20%;
+	margin: auto;
+}
+.workstation {
+	width: 20%;
+	margin: auto;
+}
+.time {
+	width: 20%;
+	margin: auto;
+}

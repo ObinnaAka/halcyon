@@ -1,25 +1,25 @@
 import React, { Component } from "react";
 import { Member } from "../../Classes/Member";
-import { RequestItem } from "../../components";
+import { RequestItem, Request } from "../../components";
 import style from "./StudentRequests.module.css";
 
 const StudentRequests = () => {
 	// These are for testing
-	let items = ["Chicken Salad", "Lemon Greens"];
+	let items = ["Chicken Salad", "Lemon Greens", "Chicken Fetters"];
 	let member = new Member("Obinna", "Akahara");
 
 	return (
 		<div className={style.mainView}>
-			<RequestItem
-				items={items.slice(1)}
+			<Request
+				items={items.slice(0)}
 				member={member}
-				time="12:01"
+				time={new Date()}
 				workstation="DB-12"
 			/>
-			<RequestItem
-				items={items}
+			<Request
+				items={items.slice(1)}
 				member={member}
-				time="12:03"
+				time={new Date()}
 				workstation="HQ-1"
 			/>
 		</div>

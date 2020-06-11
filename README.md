@@ -2,7 +2,11 @@
 
 Texas Inventionworks repository for student and equipment management
 
-====================================================================
+Before starting, run
+
+### 'npm install'
+
+## to get all the dependencies
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
