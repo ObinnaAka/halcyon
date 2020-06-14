@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Member } from "../../Classes/Member";
-import { RequestItem, Request } from "../../components";
+import { Member } from "../../../Classes/Member";
+import { RequestItem, Request } from "../../../components";
 import style from "./StudentRequests.module.css";
 
 const StudentRequests = () => {
