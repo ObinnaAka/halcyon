@@ -1,11 +1,11 @@
 import React from "react";
-import { BrowserRouter } from "react-router-dom";
-import logo from "./images/tiw_logo.png";
+import { BrowserRouter, Route } from "react-router-dom";
+import logo from "../../images/tiw_logo.png";
 import "./App.css";
-import { SectionButton } from "./components";
+import { SectionButton } from "../../components";
 import Clock from "react-live-clock";
 import { Scrollbars } from "react-custom-scrollbars";
-import StudentRequests from "./Pages/StudentRequests/StudentRequests";
+import StudentRequests from "./StudentRequests/StudentRequests";
 
 function App() {
 	return (
