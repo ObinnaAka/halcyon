@@ -85,7 +85,11 @@ type Training{
 input TrainingInput{
     name: String!
 }
-
+type AuthData{
+    memberID: ID!
+    token: String!
+    tokenExpiration: Int!
+}
 enum MemberType{
     staff
     student
@@ -93,8 +97,11 @@ enum MemberType{
 }
 type RootQuery{
     members: [Member!]!
+    singleMember: Member!
     transactions: [Transaction!]!
+    singleTransaction: Transaction!
     tools: [Tool!]!
+    login(eid: String!, password: String!): AuthData!
 }
 
 type RootMutation{

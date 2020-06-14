@@ -14,12 +14,12 @@ const toolSchema = new Schema({
     barcode: {
         type: String,
     },
+    
     // either 0, 1, 2
     // default value is .
     // 0 : Cleaned and checked in
     // 1 : Not cleaned but checked in
     // 2 : Checked out
-	
     status: {
         type: Number,
         default: 0,

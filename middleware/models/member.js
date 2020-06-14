@@ -67,7 +67,6 @@ const memberSchema = new Schema(
 			{
 				type: Schema.Types.ObjectId,
 				ref: "Transaction",
-				autopopulate: true,
 				//default: null,
 			},
 		],
