@@ -29,11 +29,10 @@ const transactionSchema = new Schema(
 			ref: "Training",
 			autopopulate: true,
 		},
-
 		// Status of process (e.g. 3-D Print (Started, Processing, Done))
 		status: {
-			type: Boolean,
-			default: true,
+			type: String,
+			default: "Finished",
 		},
 		comment: {
 			type: String,
