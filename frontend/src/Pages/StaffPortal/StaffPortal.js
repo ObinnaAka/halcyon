@@ -1,51 +1,46 @@
 import React from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 import logo from "../../images/tiw_logo.png";
-import "./App.css";
+import "./StaffPortal.css";
 import { SectionButton } from "../../components";
 import Clock from "react-live-clock";
 import { Scrollbars } from "react-custom-scrollbars";
 import StudentRequests from "./StudentRequests/StudentRequests";
+import SignedInStudents from "./SignedInStudents/SignedInStudents";
 
 function App() {
+	const sections = {
+		"Student Requests": "/staff/requests",
+		"Signed-in Students": "/staff/students",
+		"Checked-out Tools": "/staff/toolcheckout",
+		"Transaction History": "/staff/transactions",
+		"Maintenance Request": "/staff/maintenance",
+		"TIW Wiki and Help": "/staff/wiki",
+	};
+
 	return (
-		<div className="App">
-			<header className="App-header">
-				<img src={logo} className="App-logo" alt="logo" />
-				<Clock
-					className="App-clock"
-					format={"HH:mm"}
-					ticking={true}
-					timezone={"US/Central"}
-				/>
-			</header>
+		<div className="page">
 			<div className="info-bar">
 				<h1>Staff Portal</h1>
 			</div>
 			<div className="main-view">
 				<Scrollbars className="right-scroll">
-					<div className="right-view">
-						<SectionButton sectionName="Student Requests" />
-						<SectionButton sectionName="Checked-in Students" />
-						<SectionButton sectionName="Checked-out Tools" />
-						<SectionButton sectionName="Transaction History" />
-						<SectionButton sectionName="Maintenance Request" />
-						<SectionButton sectionName="TIW Wiki and Help" />
-					</div>
+					<nav className="right-view">
+						{Object.entries(sections).map(([section, route]) => (
+							<SectionButton sectionName={section} route={route} />
+						))}
+					</nav>
 				</Scrollbars>
 				{/* These scroll views are being used to replace the ugly default scroll bar*/}
 				<Scrollbars className="left-scroll">
 					{/* This is where the different pages will be rendered, e.g.
 					Student Requests.*/}
 					<div className="left-view">
-						<BrowserRouter>
-							<Route path="/" component={null} />
-							<StudentRequests />
-						</BrowserRouter>
+						<Route path="/staff/requests" component={StudentRequests} />
+						<Route path="/staff/students" component={SignedInStudents} />
 					</div>
 				</Scrollbars>
 			</div>
-			<div className="footer">Version 0.1 Jun 5th, 2020 - Obinna</div>
 		</div>
 	);
 }

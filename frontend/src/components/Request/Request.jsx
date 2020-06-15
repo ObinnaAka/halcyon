@@ -21,23 +21,37 @@ const Request = ({ items, member, time, workstation }) => {
 	};
 	const handleDoneClick = () => {
 		setRequestDone(!requestDone);
-		(requestDone ? setDone(!done): setTimeout(function () { setDone(!done) }, 3000))
+		requestDone
+			? setDone(!done)
+			: setTimeout(function () {
+					setDone(!done);
+			  }, 3000);
 	};
 	const handleItemDone = () => {
 		setItemDone(!itemDone);
 	};
 
-	const listItems = items.slice(1).map((items) => (
-		<List component="div" disablePadding>
+	const listItems = items.slice(1).map((items, index) => (
+		<List component="div" key={index} disablePadding>
 			<ListItem button className={styles.nested}>
-				<ToggleButton className="itemButton" type="checkbox" onChange={handleItemDone} checked={itemDone}/>
+				<ToggleButton
+					className="itemButton"
+					type="checkbox"
+					onChange={handleItemDone}
+					checked={itemDone}
+				/>
 				<ListItemText primary={items} />
 			</ListItem>
 		</List>
 	));
 	return (
 		<div className="itemDiv">
-			<ToggleButton className="doneButton" type="checkbox" onChange={handleDoneClick} checked={requestDone}/>
+			<ToggleButton
+				className="doneButton"
+				type="checkbox"
+				onChange={handleDoneClick}
+				checked={requestDone}
+			/>
 			<List className="item">
 				<ListItem button onClick={handleItemClick}>
 					<ListItemText primary={items.length} />

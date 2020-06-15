@@ -89,9 +89,9 @@ module.exports = {
 			{ memberId: ( member).id, eid: member.eid },
 			"supercalifragilisticexpialidocious",
 			{ expiresIn: "1h" }
-        );
-        return {
-            memberID: member.id, token: token, tokenExpiration: 1
-        }
+		);
+		return {
+			memberID: member.id, token: token, tokenExpiration: 1
+		}
 	},
 };
