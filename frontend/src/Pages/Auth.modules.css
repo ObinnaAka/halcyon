@@ -1,0 +1,14 @@
+.page.auth-app{
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+}
+.form-control{
+    margin: 1vh;
+    width: 15vw;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
