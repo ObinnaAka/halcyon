@@ -31,7 +31,6 @@ type Member{
     lastName: String!
     password: String
     phone: String
-    joinDate: String
     signinStatus: Boolean
     email: String!
     trainings: [Training]
@@ -50,7 +49,6 @@ input MemberInput{
     lastName: String!
     password: String
     phone: String
-    joinDate: String
     signinStatus: Boolean
     email: String!
     trainings: [ID]
