@@ -1,0 +1,21 @@
+.page.auth-app{
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+}
+.form-control{
+    margin: 1vh;
+    width: 20rem;
+    /* display: flex;
+    justify-content: flex-end; */
+    align-items: center;
+}
+.form-control input{
+    float: right;
+    margin-left: 2vh;
+}
+.button{
+    margin: 2vh;
+}
