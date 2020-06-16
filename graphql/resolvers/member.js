@@ -86,12 +86,14 @@ module.exports = {
 			throw new Error("Password is incorrect");
 		}
 		const token = jwt.sign(
-			{ memberId: ( member).id, eid: member.eid },
+			{ memberID: member.id, eid: member.eid },
 			"supercalifragilisticexpialidocious",
 			{ expiresIn: "1h" }
 		);
 		return {
-			memberID: member.id, token: token, tokenExpiration: 1
-		}
+			memberID: member.id,
+			token: token,
+			tokenExpiration: 1,
+		};
 	},
 };

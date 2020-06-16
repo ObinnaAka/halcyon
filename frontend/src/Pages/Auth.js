@@ -5,7 +5,16 @@ import { useInput } from "../helpers/useInputChange";
 
 const AuthPage = () => {
 	const { value: eid, bind: bindEid, reset: resetEid } = useInput("");
-	const { value:password , bind:bindPassword, reset: resetPassword} = useInput("");
+	const {
+		value: password,
+		bind: bindPassword,
+		reset: resetPassword,
+	} = useInput("");
+
+	// For student portal login
+	// const [login, setLogin] = useState("false")
+
+	// contextType = AuthContext;
 
 	const submitHandler = (evt) => {
 		evt.preventDefault();
@@ -15,17 +24,32 @@ const AuthPage = () => {
 		}
 		const requestBody = {
 			query: `
-				mutation { createMember(memberInput: {eid: "${eid}", password: "${password}", firstName: "Test2", lastName: "Users", email: "test@test.edu", memberType: "Student"}){_id eid}}
-			`
+				query { login (eid: "${eid}", password: "${password}"){
+					memberID
+					token
+					tokenExpiration
+				}}
+			`,
 		};
 		fetch("http://localhost:8000/graphql", {
-			method: 'POST',
+			method: "POST",
 			body: JSON.stringify(requestBody),
 			headers: {
-				'Content-Type': 'application/json'
-			}
-		});
-		console.log(JSON.stringify(requestBody));
+				"Content-Type": "application/json",
+			},
+		})
+			.then((res) => {
+				if (res.status !== 200 && res.status !== 201) {
+					throw new Error("Failed");
+				}
+				return res.json();
+			})
+			.then((resData) => {
+				console.log(resData);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 		// resetEid()
 		// resetPassword()
 	};
@@ -34,7 +58,7 @@ const AuthPage = () => {
 			<div className="form-control">
 				<label htmlFor="eid">
 					EID:
-					<input type="string" value={eid} {...bindEid}/>
+					<input type="string" value={eid} {...bindEid} />
 				</label>
 			</div>
 			<div className="form-control">
@@ -44,7 +68,7 @@ const AuthPage = () => {
 				</label>
 			</div>
 			<div className="form-actions">
-				<input type="submit" value="Submit" />
+				<input type="submit" value="Login" />
 				{/* <Button type="submit" variant="primary">
 					Login
 				</Button> */}
