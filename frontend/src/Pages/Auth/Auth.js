@@ -1,17 +1,19 @@
 import React, { useContext, useState } from "react";
-import { Route, Redirect, Switch } from "react-router-dom";
+import { Redirect} from "react-router-dom";
 import AuthContext from "../../context/auth-context";
-import Button from "react-bootstrap/Button";
 import "./Auth.modules.css";
 import { useInput } from "../../helpers/useInputChange";
-import Register from "./Register"
+
 
 const AuthPage = () => {
-	const { value: eid, bind: bindEid, reset: resetEid } = useInput("");
+	const { value: eid,
+		bind: bindEid,
+		// reset: resetEid 
+	} = useInput("");
 	const {
 		value: password,
 		bind: bindPassword,
-		reset: resetPassword,
+		// reset: resetPassword,
 	} = useInput("");
 
 	// For student portal login
@@ -54,7 +56,6 @@ const AuthPage = () => {
 				if (resData.data.login.token) {
 					context.login(resData.data.login.token, resData.data.login.memberID);
 				}
-				console.log(context);
 			})
 			.catch((err) => {
 				console.log(err);

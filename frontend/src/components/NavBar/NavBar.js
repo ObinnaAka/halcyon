@@ -3,7 +3,7 @@ import Clock from "react-live-clock";
 import logo from "../../images/tiw_logo.png";
 import { NavLink } from "react-router-dom";
 import AuthContext from "../../context/auth-context";
-import styles from "./NavBar.modules.css";
+import "./NavBar.modules.css";
 
 const NavBar = () => {
 	const context = useContext(AuthContext);

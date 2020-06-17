@@ -8,8 +8,22 @@
 	max-height: 150px;
 	display: flex;
 	flex-direction: column;
-	align-content: center;
+	align-items: center;
 	justify-content: center;
+	font-family: Inter;
+}
+.info-bar h1{
+	margin: auto;
+}
+.info-bar .selector{
+	width: 15vw;
+}
+.info-bar .test{
+	width: 20vw;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: baseline;
 }
 
 .main-view {
@@ -22,10 +36,12 @@
 }
 
 .left-view {
+	max-width: 100%;
 	padding: 2vh;
 	display: flex;
+	flex-direction: column;
 	flex-wrap: wrap;
-	justify-content: space-around;
+	justify-content: center;
 }
 .right-scroll{
 	max-width: 500px;

@@ -17,7 +17,7 @@ type Transaction{
 input TransactionInput{
     transactionType: String!
     staffMember: ID
-    member: ID
+    member: ID!
     tool: ID
     training: ID
     status: String

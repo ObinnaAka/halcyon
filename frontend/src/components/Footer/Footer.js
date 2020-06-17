@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./Footer.modules.css";
+import "./Footer.modules.css";
 
 const NavBar = () => {
 	return (

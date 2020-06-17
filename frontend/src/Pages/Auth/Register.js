@@ -1,34 +1,37 @@
-import React, { useContext, useState } from "react";
-import { Route, Redirect } from "react-router-dom";
-import AuthContext from "../../context/auth-context";
-import Button from "react-bootstrap/Button";
+import React, { useState } from "react";
+import { Redirect } from "react-router-dom";
 import "./Auth.modules.css";
 import { useInput } from "../../helpers/useInputChange";
-import AuthPage from "./Auth";
+
+// import AuthContext from "../../context/auth-context";
 
 const RegisterPage = () => {
 	const {
 		value: firstName,
 		bind: bindFirstName,
-		reset: resetFirstName,
+		// reset: resetFirstName,
 	} = useInput("");
 	const {
 		value: lastName,
 		bind: bindLastName,
-		reset: resetLastName,
+		// reset: resetLastName,
 	} = useInput("");
-	const { value: email, bind: bindEmail, reset: resetEmail } = useInput("");
-	const { value: eid, bind: bindEid, reset: resetEid } = useInput("");
+	const { value: email,
+		bind: bindEmail,
+		// reset: resetEmail
+	} = useInput("");
+	const { value: eid,
+		bind: bindEid,
+		//reset: resetEid 
+	} = useInput("");
 	const {
 		value: password,
 		bind: bindPassword,
-		reset: resetPassword,
+		//reset: resetPassword,
 	} = useInput("");
 
 	// For student portal login
 	const [memberLogin, setMemberLogin] = useState(false);
-
-	const context = useContext(AuthContext);
 
 	const handleRegister = () => {
 		setMemberLogin(true);
