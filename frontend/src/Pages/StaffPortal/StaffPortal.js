@@ -4,8 +4,7 @@ import AuthContext from "../../context/auth-context";
 import "./StaffPortal.css";
 import { SectionButton } from "../../components";
 import { Scrollbars } from "react-custom-scrollbars";
-import StudentRequests from "./StudentRequests/StudentRequests";
-import SignedInStudents from "./SignedInStudents/SignedInStudents";
+import { StudentRequests, SignedInStudents, TestPage } from "../../Pages";
 
 function App() {
 	const context = useContext(AuthContext);
@@ -26,12 +25,17 @@ function App() {
 				<div className="page">
 					<div className="info-bar">
 						<h1>Staff Portal</h1>
+						<Route path="/staff" component={TestPage} />
 					</div>
 					<div className="main-view">
 						<Scrollbars className="right-scroll">
 							<nav className="right-view">
 								{Object.entries(sections).map(([section, route]) => (
-									<SectionButton sectionName={section} route={route} />
+									<SectionButton
+										key={section}
+										sectionName={section}
+										route={route}
+									/>
 								))}
 							</nav>
 						</Scrollbars>

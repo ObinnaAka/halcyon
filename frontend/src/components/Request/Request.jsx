@@ -1,14 +1,14 @@
-import React, { Component } from "react";
-import Button from "react-bootstrap/Button";
+import React from "react";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import styles from "./Request.modules.css";
+
+// import ListItemIcon from "@material-ui/core/ListItemIcon";
 
 const Request = ({ items, member, time, workstation }) => {
 	const [open, setOpen] = React.useState(false);

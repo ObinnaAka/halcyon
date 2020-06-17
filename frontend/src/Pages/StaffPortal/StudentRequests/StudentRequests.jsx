@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React from "react";
 import { Member } from "../../../Classes/Member";
-import { RequestItem, Request } from "../../../components";
-import style from "./StudentRequests.module.css";
+import { Request } from "../../../components";
+// import style from "./StudentRequests.module.css";
 
 const StudentRequests = () => {
 	// These are for testing
@@ -9,7 +9,7 @@ const StudentRequests = () => {
 	let member = new Member("Obinna", "Akahara");
 
 	return (
-		<div className={style.mainView}>
+		<div className="left-view">
 			<Request
 				items={items.slice(0)}
 				member={member}

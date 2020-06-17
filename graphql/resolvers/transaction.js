@@ -38,7 +38,6 @@ module.exports = {
 	//_____ Mutations _______
 	// Create a new transaction and add it to the transaction collection
 	createTransaction: async (args, req) => {
-		
 		// Authenticate user from is-auth
 		if (!req.isAuth) {
 			throw new Error("Not Authenticated");
@@ -47,7 +46,7 @@ module.exports = {
 			const transaction = new Transaction({
 				transactionType: args.transactionInput.transactionType,
 				staffMember: args.transactionInput.staffMember,
-				member: req.memberId,
+				member: args.transactionInput.member,
 				tool: args.transactionInput.tool,
 				training: args.transactionInput.training,
 				status: args.transactionInput.status,
