@@ -19,11 +19,13 @@ const transactionSchema = new Schema(
 			autopopulate: true,
 			required: true,
 		},
-		tool: {
-			type: Schema.Types.ObjectId,
-			ref: "Tool",
-			autopopulate: true,
-		},
+		tools: [
+			{
+				type: Schema.Types.ObjectId,
+				ref: "Tool",
+				autopopulate: true,
+			},
+		],
 		training: {
 			type: Schema.Types.ObjectId,
 			ref: "Training",

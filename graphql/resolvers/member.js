@@ -71,7 +71,8 @@ module.exports = {
 			result = await Member.findById(result.id);
 			result.transactionRecord.push(savedTransaction);
 			await result.save();
-			return transformMember(result);
+			return transform
+			Member(result);
 		} catch (err) {
 			throw err;
 		}

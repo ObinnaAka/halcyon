@@ -1,52 +1,49 @@
-.NavBar{
-    height: 10vh;
-    max-height: 100px;
-    width: 100vw;
+.NavBar {
+	height: 10vh;
+	max-height: 100px;
+	width: 100vw;
 	display: flex;
 	align-items: center;
 	justify-content: flex-start;
-	font-family: "Inter";
-    font-size: 3;
-    color: #333333;
+	font-size: 3;
+	color: #333333;
 }
-.logo-navigation{
-    width: 30vw;
-    display:flex;
-    justify-content: space-around;
-    align-items: center;
-    margin-left: 5vh;
+.logo-navigation {
+	width: 30vw;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	margin-left: 5vh;
 }
-.main-navigation{
-    min-width: 70vw;
-    display:flex;
-    justify-content: flex-end;
-    align-content: center;
-
+.main-navigation {
+	min-width: 70vw;
+	display: flex;
+	justify-content: flex-end;
+	align-content: center;
 }
-.nav-list{
-    display:flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    list-style: none;
-    color: #333333
+.nav-list {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	list-style: none;
+	color: #333333;
 }
-.nav-item{
-    margin-right: 5vw;
-    
+.nav-item {
+	margin-right: 5vw;
 }
-.nav-list a{
-    text-decoration: none;
-    color: #333333;
+.nav-list a {
+	text-decoration: none;
+	color: #333333;
 }
-.nav-list a:hover{
-    text-decoration: none;
-    color: #BF5700;
+.nav-list a:hover {
+	text-decoration: none;
+	color: #bf5700;
 }
-.nav-list a:active{
-    text-decoration: none;
-    color: green;
+.nav-list a:active {
+	text-decoration: none;
+	color: green;
 }
-.nav-list a.active{
-    text-decoration: none;
-    color: #BF5700;
+.nav-list a.active {
+	text-decoration: none;
+	color: #bf5700;
 }

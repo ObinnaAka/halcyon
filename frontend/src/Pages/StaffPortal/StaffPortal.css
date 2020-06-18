@@ -1,24 +1,18 @@
-@font-face {
-	font-family: 'Inter';
-	src: local('Inter'), url(../../Fonts/Inter.ttf) format('ttf');
-  }
-
-.info-bar{
-	height:10vh;
+.info-bar {
+	height: 10vh;
 	max-height: 150px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	font-family: Inter;
 }
-.info-bar h1{
+.info-bar h1 {
 	margin: auto;
 }
-.info-bar .selector{
+.info-bar .selector {
 	width: 15vw;
 }
-.info-bar .test{
+.info-bar .test {
 	width: 20vw;
 	display: flex;
 	flex-direction: row;
@@ -29,9 +23,9 @@
 .main-view {
 	display: flex;
 	flex-direction: row-reverse;
-	height:72vh;
+	height: 72vh;
 }
-.left-scroll{
+.left-scroll {
 	min-width: 70vw;
 }
 
@@ -43,7 +37,7 @@
 	flex-wrap: wrap;
 	justify-content: center;
 }
-.right-scroll{
+.right-scroll {
 	max-width: 500px;
 }
 

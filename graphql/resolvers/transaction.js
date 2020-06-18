@@ -47,7 +47,7 @@ module.exports = {
 				transactionType: args.transactionInput.transactionType,
 				staffMember: args.transactionInput.staffMember,
 				member: args.transactionInput.member,
-				tool: args.transactionInput.tool,
+				tools: args.transactionInput.tools,
 				training: args.transactionInput.training,
 				status: args.transactionInput.status,
 				comment: args.transactionInput.comment,
@@ -60,29 +60,69 @@ module.exports = {
 
 			// Here is where we build out the logic/routing for the transactions
 			if (transaction.transactionType === "Sign-in") {
-				// console.log("success")
-				member.signinStatus = true;
-
-				//await Member.findByIdAndUpdate(transaction.member, {signinStatus:true}, {new:true});
-
-				// The transaction fetches the member object attached to it before it has
-				// been updated. This is there to make sure the changes are reflected in the
-				// member query. It is not necessary since it is already changed in the database
-				// await member.save();
+				await Member.update(
+					{ _id: transaction.member },
+					{ $set: { signinStatus: true } }
+				);
 			} else if (transaction.transactionType === "Sign-out") {
-				member.signinStatus = false;
-				// await member.save();
+				await Member.update(
+					{ _id: transaction.member },
+					{ $set: { signinStatus: false } }
+				);
 			} else if (transaction.transactionType === "Tool Check-in") {
-				const tool = await Tool.findById(transaction.tool);
-				tool.currentHolder = null;
-				tool.status = 1;
-				await tool.save();
-			} else if (transaction.transactionType === "Tool Check-out") {
-				const tool = await Tool.findById(transaction.tool);
-				tool.currentHolder = member;
-				tool.status = 2;
-				await tool.save();
-			} else if (transaction.transactionType === "Advanced-3D-Print") {
+				let tools = JSON.stringify(transaction.tools);
+				console.log(tools);
+				await Tool.updateMany(
+					{ _id: { $in: transaction.tools } },
+					{
+						$set: {
+							// currentWorkspace: null,
+							currentUser: null,
+							status: 0,
+						},
+					},
+					{ upsert: true },
+					(err, doc) => {
+						if (err) console.log(err);
+						console.log(doc);
+					}
+				);
+				await Member.updateOne(
+					{ _id: { $in: transaction.member } },
+					{ $pull: { itemRecord: { $in: transaction.tools } } },
+					{ upsert: false },
+					(err, doc) => {
+						if (err) console.log(err);
+						console.log(doc);
+					}
+				);
+			} else if (transaction.transactionType === "Tool Checkout") {
+				let tools = JSON.stringify(transaction.tools);
+				await Tool.updateMany(
+					{ _id: { $in: transaction.tools } },
+					{
+						$set: {
+							// currentWorkspace: null,
+							currentUser: transaction.member,
+							status: 2,
+						},
+					},
+					{ upsert: true },
+					(err, doc) => {
+						if (err) console.log(err);
+						console.log(doc);
+					}
+				);
+				await Member.update(
+					{ _id: { $in: transaction.member } },
+					{ $push: { itemRecord: { $each: transaction.tools } } },
+					{ upsert: false },
+					(err, doc) => {
+						if (err) console.log(err);
+						console.log(doc);
+					}
+				);
+			} else if (transaction.transactionType === "Advanced 3D-Print") {
 			} else if (transaction.transactionType === "Training") {
 			} else if (transaction.transactionType === "Conduct-Update") {
 			}
@@ -93,7 +133,7 @@ module.exports = {
 			}
 
 			// We create "createdTransaction" so that we can simultaneously access the
-			// Transaction and its args (member, staffmember, tool)
+			// Transaction and its args (member, staffmember, tools)
 			let createdTransaction;
 			const result = await transaction.save();
 			createdTransaction = transfromTransaction(result);
