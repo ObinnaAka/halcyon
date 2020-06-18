@@ -5,8 +5,8 @@ type Transaction{
     _id: ID!
     transactionType: String!
     staffMember: Member
-    member: Member!
-    tool: Tool
+    member: Member
+    tools: Tool
     traning: Training
     status: String
     comment: String
@@ -18,7 +18,7 @@ input TransactionInput{
     transactionType: String!
     staffMember: ID
     member: ID!
-    tool: ID
+    tools: [ID]
     training: ID
     status: String
     comment: String
@@ -59,21 +59,20 @@ type Tool{
     _id: ID!
     name: String!
     location: String
-    barcode: String
     status: Int
     currentHolder: Member
     currentWorkstation: Tool
+    transactionRecord: [ID]
     toolType: String!
+    inService: Boolean
 }
 
 input ToolInput{
     name: String!
     location: String
-    barcode: String
-    status: Int!
-    currentUser: ID
-    currentWorkstation: ID
-    toolType: String!
+    status: Int
+    toolType: String
+    inService: Boolean
 }
 type Training{
     _id: ID!
@@ -99,6 +98,8 @@ type RootQuery{
     transactions: [Transaction!]!
     singleTransaction: Transaction!
     tools: [Tool!]!
+    singleTool: Tool!
+    outstandingRequests: [Transaction]!
     login(eid: String!, password: String!): AuthData!
 }
 

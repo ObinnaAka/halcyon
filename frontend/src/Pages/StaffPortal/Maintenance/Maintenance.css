@@ -1,0 +1,27 @@
+.left-view form {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	/* justify-content: space-between; */
+	padding: 2vh;
+	border: 1px solid #333333;
+}
+#checkbox {
+	margin-left: 5vh;
+	display: flex;
+	justify-content: flex-start;
+	width: 10vw;
+}
+.left-view .create-tool {
+	padding: 5vh;
+	border: 1px solid #333333;
+}
+.selector {
+	margin-left: 5vh;
+}
+.selector-label {
+	margin-left: 5vh;
+	width: 15vw;
+	display: flex;
+	justify-content: flex-start;
+}

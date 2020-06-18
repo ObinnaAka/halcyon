@@ -38,7 +38,11 @@ function App() {
 				>
 					<NavBar />
 					<Switch>
-						{context.token? <Redirect from="/" to="/staff" exact /> : <Redirect from="/" to="/auth" exact />}
+						{context.token ? (
+							<Redirect from="/" to="/staff" exact />
+						) : (
+							<Redirect from="/" to="/auth" exact />
+						)}
 						<Route path="/auth" component={AuthPage} />
 						<Route path="/staff" component={StaffPortal} />
 						<Route path="/register" component={RegisterPage} />
