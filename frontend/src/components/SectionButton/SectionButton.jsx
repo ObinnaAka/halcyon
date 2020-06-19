@@ -7,8 +7,8 @@ const ButtonSection = ({ sectionName, route }) => {
 		// Trying to create buttons for the sections for the home screen
 		// view in the staff portal.
 		<NavLink key={1} className="section" to={route}>
-				{sectionName}
-			</NavLink>
+			{sectionName}
+		</NavLink>
 	);
 };
 

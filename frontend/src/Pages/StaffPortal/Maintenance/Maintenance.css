@@ -3,6 +3,8 @@
 	flex-direction: row;
 	flex-wrap: wrap;
 	/* justify-content: space-between; */
+	align-items: center;
+	align-content: center;
 	padding: 2vh;
 	border: 1px solid #333333;
 }
@@ -24,4 +26,7 @@
 	width: 15vw;
 	display: flex;
 	justify-content: flex-start;
+}
+ToggleButton {
+	margin-left: 2vh;
 }
