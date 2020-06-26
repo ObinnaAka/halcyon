@@ -13,71 +13,76 @@ const transformTool = (tool) => {
 };
 
 module.exports = {
-	tools: async () => {
-		try {
-			const tools = await Tool.find();
-			return tools.map((tool) => {
-				return transformTool(tool);
-			});
-		} catch (err) {
-			throw err;
-		}
+	Query: {
+		tools: async () => {
+			try {
+				const tools = await Tool.find();
+				return tools.map((tool) => {
+					return transformTool(tool);
+				});
+			} catch (err) {
+				throw err;
+			}
+		},
+		singleTool: async (toolID) => {
+			// For coworking session
+		},
 	},
-	singleTool: async (toolID) => {
-		// For coworking session
-	},
-	createTool: async (args) => {
-		try {
-			const tool = new Tool({
-				name: args.toolInput.name,
-				location: args.toolInput.location,
-				status: args.toolInput.status,
-				toolType: args.toolInput.toolType,
-				group: args.toolInput.name,
-				inService: args.toolInput.inService,
-			});
+	Mutation: {
+		createTool: async (args) => {
+			try {
+				const tool = new Tool({
+					name: args.toolInput.name,
+					location: args.toolInput.location,
+					status: args.toolInput.status,
+					toolType: args.toolInput.toolType,
+					group: args.toolInput.name,
+					inService: args.toolInput.inService,
+				});
 
-			return await tool.save();
-			// At some point we might want to track when new tools are created
-			// by staff. We can add that in here --->
-		} catch (err) {
-			throw err;
-		}
-	},
-	toolRequest: async ({ group }, req) => {
-		if (!req.isAuth) {
-			throw new Error("Not authenticated. Please log in");
-		}
-	},
+				return await tool.save();
+				// At some point we might want to track when new tools are created
+				// by staff. We can add that in here --->
+			} catch (err) {
+				throw err;
+			}
+		},
 
-	//___ Mutations ____
-	toolCheckout: async (args, req) => {
-		if (!req.isAuth) {
-			throw new Error("Not authenticated. Please log in");
-		}
-		try {
-			let tool = await Tool.findOneAndUpdate(
-				{ _id: args.toolID },
-				{ currentUser: args.memberID },
-				{
-					new: true,
-				}
-			);
-			let member = await Member.findById(args.memberID);
+		// toolRequest: async ({ group }, req) => {
+		// 	if (!req.isAuth) {
+		// 		throw new Error("Not authenticated. Please log in");
+		// 	}
+		// },
 
-			let transactionInput = {
-				transactionType: "Tool Checkout",
-				staffMember: req.memberID,
-				member: args.memberID,
-				tool: args.toolID,
-				status: "Processing",
-				comment: args.comment,
-			};
-			let transaction = await Transaction.create(transactionInput);
-			await member.itemRecord.push(args.toolID).save();
-			return tool;
-		} catch (err) {
-			throw err;
-		}
+		//___ Mutations ____
+		toolCheckout: async (args, req) => {
+			if (!req.isAuth) {
+				throw new Error("Not authenticated. Please log in");
+			}
+			try {
+				let tool = await Tool.findOneAndUpdate(
+					{ _id: args.toolID },
+					{ currentUser: args.memberID },
+					{
+						new: true,
+					}
+				);
+				let member = await Member.findById(args.memberID);
+
+				let transactionInput = {
+					transactionType: "Tool Checkout",
+					staffMember: req.memberID,
+					member: args.memberID,
+					tool: args.toolID,
+					status: "Processing",
+					comment: args.comment,
+				};
+				let transaction = await Transaction.create(transactionInput);
+				await member.itemRecord.push(args.toolID).save();
+				return tool;
+			} catch (err) {
+				throw err;
+			}
+		},
 	},
 };

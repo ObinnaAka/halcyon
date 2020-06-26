@@ -1,14 +1,16 @@
 import React, { useContext, useState } from "react";
-import { Redirect} from "react-router-dom";
+// import { useApolloClient, useMutation } from "@apollo/react-hooks";
+// import gql from "graphql-tag";
+import { Redirect } from "react-router-dom";
 import AuthContext from "../../context/auth-context";
 import "./Auth.modules.css";
 import { useInput } from "../../helpers/useInputChange";
 
-
 const AuthPage = () => {
-	const { value: eid,
+	const {
+		value: eid,
 		bind: bindEid,
-		// reset: resetEid 
+		// reset: resetEid
 	} = useInput("");
 	const {
 		value: password,
@@ -22,7 +24,7 @@ const AuthPage = () => {
 	const context = useContext(AuthContext);
 
 	const handleRegister = () => {
-		setMemberLogin(false)
+		setMemberLogin(false);
 	};
 	const submitHandler = (evt) => {
 		evt.preventDefault();
@@ -33,7 +35,13 @@ const AuthPage = () => {
 		const requestBody = {
 			query: `
 				query { login (eid: "${eid}", password: "${password}"){
-					memberID
+					member {
+						_id
+						eid
+						firstName
+						lastName
+						memberType
+					}
 					token
 					tokenExpiration
 				}}
@@ -54,7 +62,7 @@ const AuthPage = () => {
 			})
 			.then((resData) => {
 				if (resData.data.login.token) {
-					context.login(resData.data.login.token, resData.data.login.memberID);
+					context.login(resData.data.login.token, resData.data.login.member);
 				}
 			})
 			.catch((err) => {
@@ -66,8 +74,12 @@ const AuthPage = () => {
 
 	return (
 		<div>
-			{!memberLogin && (<Redirect path="/auth" to="/register" />)}
-			{context.token? <Redirect from="/" to="/staff" exact /> : <Redirect from="/" to="/auth" exact />}
+			{!memberLogin && <Redirect path="/auth" to="/register" />}
+			{context.token ? (
+				<Redirect from="/" to="/staff" exact />
+			) : (
+				<Redirect from="/" to="/auth" exact />
+			)}
 			<form className="page auth-app" onSubmit={submitHandler}>
 				<div className="form-control">
 					<label htmlFor="eid">
@@ -83,7 +95,12 @@ const AuthPage = () => {
 				</div>
 				<div className="form-actions">
 					<input type="submit" className="button" value="Login" />
-					<input type="button" className="button" value="Register" onClick={handleRegister}/>
+					<input
+						type="button"
+						className="button"
+						value="Register"
+						onClick={handleRegister}
+					/>
 					{/* <Button type="submit" variant="primary">
 					Login
 				</Button> */}

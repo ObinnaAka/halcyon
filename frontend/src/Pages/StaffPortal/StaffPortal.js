@@ -30,6 +30,7 @@ function App() {
 				<div className="page">
 					<div className="info-bar">
 						<h1>Staff Portal</h1>
+						<p>{console.log(context.token)}</p>
 						{/* <Route path="/staff" component={TestPage} /> */}
 					</div>
 					<div className="main-view">

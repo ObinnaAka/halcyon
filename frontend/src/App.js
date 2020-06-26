@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 import AuthPage from "./Pages/Auth/Auth";
 import RegisterPage from "./Pages/Auth/Register";
@@ -10,19 +10,19 @@ import AuthContext from "./context/auth-context";
 import "./App.css";
 
 function App() {
-	const [login, setLogin] = useState({ token: null, memberID: null });
-	const context = AuthContext;
+	const [login, setLogin] = useState({ token: null, member: null });
+	const context = useContext(AuthContext);
 
-	const handleLogin = (token, memberID, tokenExpiration) => {
+	const handleLogin = (token, member, tokenExpiration) => {
 		setLogin({
 			token: token,
-			memberID: memberID,
+			member: member,
 		});
 	};
 	const handleLogout = () => {
 		setLogin({
 			token: null,
-			memberID: null,
+			member: null,
 		});
 	};
 	return (
@@ -31,7 +31,7 @@ function App() {
 				<AuthContext.Provider
 					value={{
 						token: login.token,
-						memberID: login.memberID,
+						member: login.member,
 						login: handleLogin,
 						logout: handleLogout,
 					}}
