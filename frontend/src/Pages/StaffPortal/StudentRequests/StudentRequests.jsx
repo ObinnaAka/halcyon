@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Member } from "../../../Classes/Member";
 import { Request } from "../../../components";
 // import style from "./StudentRequests.module.css";
 
 const StudentRequests = () => {
+	// ____ useEffect____
+	// useEffect(() => {
+	// 	const outstandingTransactions;
+	// 	return () => {
+	// 		cleanup;
+	// 	};
+	// }, [input]);
 	// These are for testing
 	let items = ["Chicken Salad", "Lemon Greens", "Chicken Fetters"];
 	let member = new Member("Obinna", "Akahara");
