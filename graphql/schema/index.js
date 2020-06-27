@@ -7,7 +7,7 @@ module.exports = gql`
 		staffMember: Member
 		member: Member
 		tools: Tool
-		traning: Training
+		training: Training
 		status: String
 		comment: String
 		createdAt: String!
