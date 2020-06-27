@@ -1,12 +1,34 @@
+// -----------------------------------------------
+// This document contains all of the resolvers needed
+// for the GraphQl server to put and retrieve data
+// from the database.
+// IMPORTANT: This document will need to be changed
+// when using a different database
+// -----------------------------------------------
+
+const DataLoader = require("dataloader");
 const Member = require("../../models/member");
 const Transaction = require("../../models/transaction");
 const Tool = require("../../models/tool");
 const Training = require("../../models/training");
-const { subscribe } = require("graphql");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { authenticated, validateRole } = require("../../middleware/is-auth");
 
+const transactionLoader = new DataLoader((transactionIDs) => {
+	return transactions(transactionIDs);
+});
+
+const memberLoader = new DataLoader((memberIDs) => {
+	return members(memberIDs);
+});
+
+// -----------------------------------------------
+// These convert the objects (Members, Transactions,
+// Tools, Trainings) gotten from the database and
+// converts the various fields to make readable by
+// the website
+// ------------------------------------------------
 const transformMember = (member) => {
 	return {
 		...member._doc,
@@ -16,24 +38,43 @@ const transformMember = (member) => {
 		updatedAt: new Date(member._doc.updatedAt).toISOString(),
 	};
 };
-const transfromTransaction = (transaction) => {
+const transformTransaction = (transaction) => {
 	return {
 		...transaction._doc,
 		_id: transaction.id,
+		tools: transaction.tools,
 		createdAt: new Date(transaction._doc.createdAt).toISOString(),
 		updatedAt: new Date(transaction._doc.updatedAt).toISOString(),
 	};
 };
+transformOutstandingTransaction = (transaction) => {
+	return transaction;
+};
 const transformTool = (tool) => {
 	return {
 		...tool._doc,
-		_id: member.id,
-		currentWorkstation: currentWorkstation._doc.name,
+		_id: tool.id,
 	};
 };
+
+// -----------------------------------------------
+// Resolvers
+// The functions that interact with the database
+// Grouped into "Query", "Mutation" and "Subscription"
+// -----------------------------------------------
+
 module.exports = {
+	// ------------------------------------------
+	// Query
+	// ------------------------------------------
+
 	Query: {
 		me: authenticated((root, args, context) => context.currentMember),
+
+		// ------------------------------------------
+		// Retrieve all members from database
+		// ------------------------------------------
+
 		members: async () => {
 			try {
 				const members = await Member.find();
@@ -44,7 +85,12 @@ module.exports = {
 				throw err;
 			}
 		},
-		// Fetch a single member from the collection
+
+		// ------------------------------------------
+		// Retrieve a single member from database
+		// by ID
+		// ------------------------------------------
+
 		singleMember: async (memberID) => {
 			try {
 				const member = await Member.findById(memberID);
@@ -53,6 +99,62 @@ module.exports = {
 				throw err;
 			}
 		},
+
+		// ------------------------------------------
+		// Retrieve all transactions from database
+		// ------------------------------------------
+
+		transactions: async () => {
+			try {
+				const transactions = await Transaction.find();
+				return transactions.map((transaction) => {
+					return transformTransaction(transaction);
+				});
+			} catch (err) {
+				throw err;
+			}
+		},
+
+		// ------------------------------------------
+		// Retrieve a single transaction from database
+		// ------------------------------------------
+
+		singleTransaction: async (transactionID) => {
+			try {
+				const transaction = await Transaction.findById(transactionID);
+				return transformTransaction(transaction);
+			} catch (err) {
+				throw err;
+			}
+		},
+
+		// ------------------------------------------
+		// Retrieve all tools from database
+		// ------------------------------------------
+
+		tools: async () => {
+			try {
+				const tools = await Tool.find();
+				return tools.map((tool) => {
+					return transformTool(tool);
+				});
+			} catch (err) {
+				throw err;
+			}
+		},
+
+		// ------------------------------------------
+		// Retrieve a single tool from database
+		// ------------------------------------------
+
+		singleTool: async (toolID) => {
+			// For coworking session
+		},
+		// ------------------------------------------
+		// Verify a user's password, authenticate their
+		// token and log them in
+		// ------------------------------------------
+
 		login: async (_, { eid, password }, context) => {
 			const member = await Member.findOne({ eid: eid });
 			if (!member) {
@@ -75,40 +177,30 @@ module.exports = {
 				tokenExpiration: 1,
 			};
 		},
-		transactions: async () => {
+
+		outstandingTransactions: async () => {
 			try {
-				const transactions = await Transaction.find();
+				const transactions = await Transaction.find({
+					status: "Processing",
+				}).sort({ createdAt: 1 });
 				return transactions.map((transaction) => {
-					return transfromTransaction(transaction);
+					return transformOutstandingTransaction(transaction);
 				});
 			} catch (err) {
 				throw err;
 			}
-		},
-		// Fetch a single transaction from the collection
-		singleTransaction: async (transactionID) => {
-			try {
-				const transaction = await Transaction.findById(transactionID);
-				return transfromTransaction(transaction);
-			} catch (err) {
-				throw err;
-			}
-		},
-		tools: async () => {
-			try {
-				const tools = await Tool.find();
-				return tools.map((tool) => {
-					return transformTool(tool);
-				});
-			} catch (err) {
-				throw err;
-			}
-		},
-		singleTool: async (toolID) => {
-			// For coworking session
 		},
 	},
+
+	// ------------------------------------------
+	// Mutations
+	// ------------------------------------------
+
 	Mutation: {
+		// ------------------------------------------
+		// Just a test
+		// ------------------------------------------
+
 		authTest: authenticated(
 			validateRole("Staff")(async (root, args, context) => {
 				try {
@@ -197,10 +289,10 @@ module.exports = {
 					}
 
 					// We create "createdTransaction" so that we can simultaneously access the
-					// Transaction and its args (member, staffmember, tools)
+					// Transaction and its args (member, staffMember, tools)
 					let createdTransaction;
 					const result = await transaction.save();
-					createdTransaction = transfromTransaction(result);
+					createdTransaction = transformTransaction(result);
 
 					// Add transaction to member transactionRecord
 					member.transactionRecord.push(createdTransaction);
@@ -212,6 +304,11 @@ module.exports = {
 				}
 			})
 		),
+
+		// ------------------------------------------
+		// Create a new Member in the database
+		// ------------------------------------------
+
 		createMember: async (root, args) => {
 			try {
 				console.log(args);
@@ -252,6 +349,14 @@ module.exports = {
 				throw err;
 			}
 		},
+
+		// ------------------------------------------
+		// Create a new Transaction in the database
+		// This resolver has a lot of logic in it to
+		// sort each transaction and execute the appropriate
+		// action on the server.
+		// ------------------------------------------
+
 		createTransaction: authenticated(
 			validateRole("Staff")(async (root, args, context) => {
 				console.log(args);
@@ -322,7 +427,7 @@ module.exports = {
 								if (err) console.log(err);
 							}
 						);
-						await Member.update(
+						await Member.updateOne(
 							{ _id: { $in: transaction.member } },
 							{ $push: { itemRecord: { $each: transaction.tools } } },
 							{ upsert: false },
@@ -344,7 +449,7 @@ module.exports = {
 					// Transaction and its args (member, staffmember, tools)
 					let createdTransaction;
 					const result = await transaction.save();
-					createdTransaction = transfromTransaction(result);
+					createdTransaction = transformTransaction(result);
 
 					// Add transaction to member transactionRecord
 					member.transactionRecord.push(createdTransaction);
@@ -356,24 +461,31 @@ module.exports = {
 				}
 			})
 		),
-		createTool: async (root, args) => {
-			try {
-				const tool = new Tool({
-					name: args.toolInput.name,
-					location: args.toolInput.location,
-					status: args.toolInput.status,
-					toolType: args.toolInput.toolType,
-					group: args.toolInput.name,
-					inService: args.toolInput.inService,
-				});
 
-				return await tool.save();
-				// At some point we might want to track when new tools are created
-				// by staff. We can add that in here --->
-			} catch (err) {
-				throw err;
-			}
-		},
+		// ------------------------------------------
+		// Create a new Tool in the database
+		// ------------------------------------------
+
+		createTool: authenticated(
+			validateRole("Staff")(async (root, args) => {
+				try {
+					const tool = new Tool({
+						name: args.toolInput.name,
+						location: args.toolInput.location,
+						status: args.toolInput.status,
+						toolType: args.toolInput.toolType,
+						group: args.toolInput.name,
+						inService: args.toolInput.inService,
+					});
+
+					return await tool.save();
+					// At some point we might want to track when new tools are created
+					// by staff. We can add that in here --->
+				} catch (err) {
+					throw err;
+				}
+			})
+		),
 
 		// toolRequest: async ({ group }, req) => {
 		// 	if (!req.isAuth) {
@@ -381,7 +493,9 @@ module.exports = {
 		// 	}
 		// },
 
-		//___ Mutations ____
+		// ------------------------------------------
+		// WIP: Meant to be a tool checkout resolver
+		// ------------------------------------------
 		toolCheckout: async (root, args, req) => {
 			if (!req.isAuth) {
 				throw new Error("Not authenticated. Please log in");

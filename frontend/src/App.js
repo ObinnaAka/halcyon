@@ -6,10 +6,12 @@ import StaffPortal from "./Pages/StaffPortal/StaffPortal";
 import NavBar from "./components/NavBar/NavBar";
 import Footer from "./components/Footer/Footer";
 import AuthContext from "./context/auth-context";
+// import ApolloContext from "./context/apollo-context";
 
 import "./App.css";
 
 function App() {
+	// ____ Context____
 	const [login, setLogin] = useState({ token: null, member: null });
 	const context = useContext(AuthContext);
 

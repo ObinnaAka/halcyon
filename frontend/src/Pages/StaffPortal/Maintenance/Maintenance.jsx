@@ -1,11 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import gql from "graphql-tag";
 import { ApolloClient } from "apollo-client";
-import { ApolloLink } from "apollo-link";
 import { HttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
-import { Query, Mutation } from "react-apollo";
-// import { setContext } from "apollo-link-create";
 import { useInput } from "../../../helpers/useInputChange";
 import AuthContext from "../../../context/auth-context";
 import ToggleButton from "react-bootstrap/ToggleButton";
@@ -53,6 +50,7 @@ const MaintenancePage = () => {
 	const [transactionType, setTransactionType] = useState("Tool Checkout");
 	const [member, setMember] = useState("5ee8998d45cd26109c6912ca");
 	const [inService, setInService] = useState(true);
+	const [status, setStatus] = useState("Finished");
 	const [tools, setTools] = useState([]);
 
 	//____ State Handlers____
@@ -64,10 +62,12 @@ const MaintenancePage = () => {
 	};
 	const toolHandler = (newTool) => {
 		setTools(newTool);
-		console.log(newTool);
 	};
 	const inServiceHandler = () => {
 		setInService(!inService);
+	};
+	const statusHandler = () => {
+		setStatus(status === "Processing" ? "Finished" : "Processing");
 	};
 
 	//__ Submission Handlers__
@@ -107,12 +107,14 @@ const MaintenancePage = () => {
 	};
 	const submitTransactionHandler = (evt) => {
 		evt.preventDefault();
-
 		const CREATE_TRANSACTION = gql`
 			    mutation {
-			        createTransaction(transactionInput: { transactionType: "${transactionType}", member: "${member}", staffMember: "${
-			context.memberID
-		}", comment: "${comment}", tools: ${JSON.stringify(tools)}}) {
+					createTransaction(transactionInput: { transactionType: "${transactionType}", member: "${member}", staffMember: "${
+			context.member._id
+		}"
+					, comment: "${comment}", status: "${status}", tools: ${JSON.stringify(
+			tools
+		)}}) {
 			          _id
 			          transactionType
 			        }
@@ -128,6 +130,7 @@ const MaintenancePage = () => {
 		// 		}
 		// 	`,
 		// });
+
 		client
 			.mutate({
 				mutation: CREATE_TRANSACTION,
@@ -154,7 +157,6 @@ const MaintenancePage = () => {
 		});
 
 		resetComment();
-		// resetInService()
 	};
 
 	return (
@@ -269,6 +271,17 @@ const MaintenancePage = () => {
 						Comment:
 						<input type="string" value={comment} {...bindComment} />
 					</label>
+				</div>
+				<div>
+					<ToggleButton
+						value="Processing"
+						checked={status === "Processing"}
+						onClick={statusHandler}
+						type="checkbox"
+						aria_label="Processing"
+					>
+						Processing
+					</ToggleButton>
 				</div>
 				<div className="form-actions">
 					<input
