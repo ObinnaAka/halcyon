@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -7,14 +7,16 @@ import Collapse from "@material-ui/core/Collapse";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import styles from "./Request.modules.css";
+import moment from "moment";
 
 // import ListItemIcon from "@material-ui/core/ListItemIcon";
 
-const Request = ({ items, member, time, workstation }) => {
+const Request = ({ items, member, date, type, workstation }) => {
 	const [open, setOpen] = React.useState(false);
 	const [done, setDone] = React.useState(false);
 	const [requestDone, setRequestDone] = React.useState(false);
 	const [itemDone, setItemDone] = React.useState(false);
+	const [tools, setTools] = useState(Object.values(items));
 
 	const handleItemClick = () => {
 		setOpen(!open);
@@ -26,23 +28,23 @@ const Request = ({ items, member, time, workstation }) => {
 			: setTimeout(function () {
 					setDone(!done);
 			  }, 3000);
+		console.log(tools);
 	};
 	const handleItemDone = () => {
 		setItemDone(!itemDone);
 	};
+	useEffect(() => {}, []);
 
-	const listItems = items.slice(1).map((items, index) => (
-		<List component="div" key={index} disablePadding>
-			<ListItem button className={styles.nested}>
-				<ToggleButton
-					className="itemButton"
-					type="checkbox"
-					onChange={handleItemDone}
-					checked={itemDone}
-				/>
-				<ListItemText primary={items} />
-			</ListItem>
-		</List>
+	const listItems = tools.map((item, index) => (
+		<ListItem button key={index} className={styles.nested}>
+			<ToggleButton
+				className="itemButton"
+				type="checkbox"
+				onChange={handleItemDone}
+				checked={itemDone}
+			/>
+			<ListItemText primary={item.name} />
+		</ListItem>
 	));
 	return (
 		<div className="itemDiv">
@@ -54,14 +56,31 @@ const Request = ({ items, member, time, workstation }) => {
 			/>
 			<List className="item">
 				<ListItem button onClick={handleItemClick}>
-					<ListItemText primary={items.length} />
-					<ListItemText primary={items[0]} />
-					<ListItemText primary={member.firstName + " " + member.lastName} />
-					<ListItemText primary={time.getHours() + ":" + time.getMinutes()} />
+					<ListItemText primary={tools.length} />
+					<ListItemText className="request-type" primary={type} />
+					<ListItemText
+						className="member-name"
+						primary={member.firstName + " " + member.lastName}
+					/>
+					<ListItemText className="workstation" primary={workstation} />
+					<ListItemText
+						className="time"
+						primary={moment.unix(date / 1000).fromNow()}
+					/>
 					{open ? <ExpandLess /> : <ExpandMore />}
 				</ListItem>
 				<Collapse in={open} timeout="auto" unmountOnExit>
-					{listItems}
+					<div className="expanded-view">
+						<div className="expanded-view-left">
+							<List disablePadding>{listItems}</List>
+						</div>
+						<div className="expanded-view-right">
+							<h3>Name</h3>
+							<div>{member.firstName + " " + member.lastName}</div>
+							<h3>Workstation</h3>
+							<div>{workstation}</div>
+						</div>
+					</div>
 					{/* <List component="div" disablePadding>
 					<ListItem button className={styles.nested}>
 						<ListItemIcon></ListItemIcon>
