@@ -1,4 +1,8 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import gql from "graphql-tag";
+import { ApolloClient } from "apollo-client";
+import { HttpLink } from "apollo-link-http";
+import { InMemoryCache } from "apollo-cache-inmemory";
 import { useInput } from "../../../helpers/useInputChange";
 import AuthContext from "../../../context/auth-context";
 import ToggleButton from "react-bootstrap/ToggleButton";
@@ -8,6 +12,25 @@ import "./Maintenance.css";
 // Warninig....This page is a mess
 
 const MaintenancePage = () => {
+	//____ Context____
+	const context = useContext(AuthContext);
+
+	//____ Apollo____
+	const SERVER_URL = "http://localhost:8000/graphql";
+
+	const httpLink = new HttpLink({
+		uri: SERVER_URL,
+		headers: { authorization: `Token ${context.token}` },
+	});
+
+	const cache = new InMemoryCache();
+
+	const client = new ApolloClient({
+		link: httpLink,
+		cache,
+	});
+
+	// ____ Input functions for forms ______
 	const { value: name, bind: bindName, reset: resetName } = useInput("");
 	const {
 		value: location,
@@ -23,15 +46,14 @@ const MaintenancePage = () => {
 		""
 	);
 
+	// ____ State management ____
 	const [transactionType, setTransactionType] = useState("Tool Checkout");
-	const [member, setMember] = useState("5ee97ef91aa37a2944f9134a");
+	const [member, setMember] = useState("5ee8998d45cd26109c6912ca");
 	const [inService, setInService] = useState(true);
+	const [status, setStatus] = useState("Finished");
 	const [tools, setTools] = useState([]);
 
-	//__ Context__
-	const context = useContext(AuthContext);
-
-	//__ State Handlers__
+	//____ State Handlers____
 	const transactionTypeChangeHandler = (event) => {
 		setTransactionType(event.target.value);
 	};
@@ -40,10 +62,12 @@ const MaintenancePage = () => {
 	};
 	const toolHandler = (newTool) => {
 		setTools(newTool);
-		console.log(newTool);
 	};
 	const inServiceHandler = () => {
 		setInService(!inService);
+	};
+	const statusHandler = () => {
+		setStatus(status === "Processing" ? "Finished" : "Processing");
 	};
 
 	//__ Submission Handlers__
@@ -53,8 +77,8 @@ const MaintenancePage = () => {
 			alert("Invalid information entered");
 			return;
 		}
-		const requestBody = {
-			query: `
+
+		const TOOL_INSERT = gql`
             mutation {
                 createTool(toolInput: { name: "${name}", location: "${location}", toolType: "${toolType}", inService: ${inService}, }) {
                   _id
@@ -62,18 +86,11 @@ const MaintenancePage = () => {
                 }
               }
               
-			`,
-		};
-		console.log(context.token);
-		let headers = { "Content-Type": "application/json" };
-		if (context.token) {
-			headers["Authorization"] = `Token ${context.token}`;
-		}
-		fetch("http://localhost:8000/graphql", {
-			method: "POST",
-			body: JSON.stringify(requestBody),
-			headers,
-		})
+			`;
+		client
+			.mutate({
+				mutation: TOOL_INSERT,
+			})
 			.then((res) => {
 				if (res.status !== 200 && res.status !== 201) {
 					throw new Error("Failed");
@@ -83,35 +100,41 @@ const MaintenancePage = () => {
 			.catch((err) => {
 				console.log(err);
 			});
+
 		resetName();
 		resetLocation();
 		resetToolType();
 	};
 	const submitTransactionHandler = (evt) => {
 		evt.preventDefault();
-		console.log(JSON.stringify(tools));
-		const requestBody = {
-			query: `
-            mutation {
-                createTransaction(transactionInput: { transactionType: "${transactionType}", member: "${member}", staffMember: "${
-				context.memberID
-			}", comment: "${comment}", tools: ${JSON.stringify(tools)}}) {
-                  _id
-                  transactionType
-                }
-              }
-              
-			`,
-		};
-		let headers = { "Content-Type": "application/json" };
-		if (context.token) {
-			headers["Authorization"] = `Token ${context.token}`;
-		}
-		fetch("http://localhost:8000/graphql", {
-			method: "POST",
-			body: JSON.stringify(requestBody),
-			headers,
-		})
+		const CREATE_TRANSACTION = gql`
+			    mutation {
+					createTransaction(transactionInput: { transactionType: "${transactionType}", member: "${member}", staffMember: "${
+			context.member._id
+		}"
+					, comment: "${comment}", status: "${status}", tools: ${JSON.stringify(
+			tools
+		)}}) {
+			          _id
+			          transactionType
+			        }
+			      }
+	
+				`;
+		// client.query({
+		// 	query: gql`
+		// 		query {
+		// 			members {
+		// 				firstName
+		// 			}
+		// 		}
+		// 	`,
+		// });
+
+		client
+			.mutate({
+				mutation: CREATE_TRANSACTION,
+			})
 			.then((res) => {
 				if (res.status !== 200 && res.status !== 201) {
 					throw new Error("Failed");
@@ -121,8 +144,19 @@ const MaintenancePage = () => {
 			.catch((err) => {
 				console.log(err);
 			});
-		// resetToolType()
-		// resetInService()
+		resetComment();
+
+		client.query({
+			query: gql`
+				query {
+					members {
+						firstName
+					}
+				}
+			`,
+		});
+
+		resetComment();
 	};
 
 	return (
@@ -161,7 +195,6 @@ const MaintenancePage = () => {
 					<input type="submit" className="button" value="Create New Tool" />
 				</div>
 			</form>
-
 			<form className="create-transaction" onSubmit={submitTransactionHandler}>
 				<div className="form-control">
 					<label className="selector-label" htmlFor="member">
@@ -238,6 +271,17 @@ const MaintenancePage = () => {
 						Comment:
 						<input type="string" value={comment} {...bindComment} />
 					</label>
+				</div>
+				<div>
+					<ToggleButton
+						value="Processing"
+						checked={status === "Processing"}
+						onClick={statusHandler}
+						type="checkbox"
+						aria_label="Processing"
+					>
+						Processing
+					</ToggleButton>
 				</div>
 				<div className="form-actions">
 					<input

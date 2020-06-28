@@ -30,6 +30,7 @@ function App() {
 				<div className="page">
 					<div className="info-bar">
 						<h1>Staff Portal</h1>
+
 						{/* <Route path="/staff" component={TestPage} /> */}
 					</div>
 					<div className="main-view">
