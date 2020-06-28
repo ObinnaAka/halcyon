@@ -6,7 +6,7 @@ module.exports = gql`
 		transactionType: String!
 		staffMember: Member
 		member: Member
-		tools: Tool
+		tools: [Tool]
 		training: Training
 		status: String
 		comment: String

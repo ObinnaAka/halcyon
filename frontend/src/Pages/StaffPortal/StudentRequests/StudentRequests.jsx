@@ -45,7 +45,7 @@ const StudentRequests = () => {
 								lastName
 							}
 							tools {
-								status
+								name
 							}
 							updatedAt
 						}
@@ -66,9 +66,13 @@ const StudentRequests = () => {
 			}
 			fetchOutstandingTransactions()
 				.then((res) => {
+					// ------------------------------------------------------------
+					// "res" is an object containing a list of transactions
+					// We need to convert the object into an array for processing
+					// in react. Each object in the array also contains an array of
+					// "Tool" objects
+					// ------------------------------------------------------------
 					const resArray = Object.values(res);
-					console.log(resArray[1].tools);
-					// results = resArray.map();
 					setRequests(resArray);
 				})
 				.catch((err) => {
@@ -76,6 +80,22 @@ const StudentRequests = () => {
 				});
 		}
 	});
+
+	const REQUESTS_SUBSCRIPTION = gql`
+		subscription onCommentAdded($repoFullName: String!) {
+			commentAdded(repoFullName: $repoFullName) {
+				id
+				content
+			}
+		}
+	`;
+
+	const {
+		data: { commentAdded },
+		loading,
+	} = useSubscription(REQUESTS_SUBSCRIPTION, { variables: { repoFullName } });
+
+	// return <h4>New comment: {!loading && commentAdded.content}</h4>;
 
 	// These are for testing
 	let items = ["Chicken Salad", "Lemon Greens", "Chicken Fetters"];
@@ -85,11 +105,7 @@ const StudentRequests = () => {
 		<div className="left-view">
 			{requests.map((request, index) => (
 				<Request
-					items={
-						["Test 1", "Test 2", "Test 3"]
-						// request.tools.map((tool) => {
-						// return tool.name;})
-					}
+					items={request.tools}
 					type={request.transactionType}
 					member={request.member}
 					date={request.updatedAt}
