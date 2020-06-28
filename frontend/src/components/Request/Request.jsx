@@ -16,18 +16,7 @@ const Request = ({ items, member, date, type, workstation }) => {
 	const [done, setDone] = React.useState(false);
 	const [requestDone, setRequestDone] = React.useState(false);
 	const [itemDone, setItemDone] = React.useState(false);
-
-	// const handleTime = (date) => {
-	// 	console.log(date);
-	// 	let newTime = new Date(date);
-	// 	console.log(newTime);
-	// 	var hours = newTime.getHours();
-	// 	hours = hours < 10 ? "0" + hours : hours;
-	// 	var minutes = newTime.getMinutes();
-	// 	minutes = minutes < 10 ? "0" + minutes : minutes;
-	// 	return hours + ":" + minutes;
-	// };
-	// const [time, setTime] = useState(handleTime(date));
+	const [tools, setTools] = useState(Object.values(items));
 
 	const handleItemClick = () => {
 		setOpen(!open);
@@ -39,13 +28,14 @@ const Request = ({ items, member, date, type, workstation }) => {
 			: setTimeout(function () {
 					setDone(!done);
 			  }, 3000);
+		console.log(tools);
 	};
 	const handleItemDone = () => {
 		setItemDone(!itemDone);
 	};
 	useEffect(() => {}, []);
 
-	const listItems = items.slice(1).map((items, index) => (
+	const listItems = tools.map((item, index) => (
 		<ListItem button key={index} className={styles.nested}>
 			<ToggleButton
 				className="itemButton"
@@ -53,7 +43,7 @@ const Request = ({ items, member, date, type, workstation }) => {
 				onChange={handleItemDone}
 				checked={itemDone}
 			/>
-			<ListItemText primary={items} />
+			<ListItemText primary={item.name} />
 		</ListItem>
 	));
 	return (
@@ -66,13 +56,13 @@ const Request = ({ items, member, date, type, workstation }) => {
 			/>
 			<List className="item">
 				<ListItem button onClick={handleItemClick}>
-					<ListItemText primary={items.length} />
+					<ListItemText primary={tools.length} />
 					<ListItemText className="request-type" primary={type} />
-					<ListItemText className="item-name" primary={items[0]} />
 					<ListItemText
 						className="member-name"
 						primary={member.firstName + " " + member.lastName}
 					/>
+					<ListItemText className="workstation" primary={workstation} />
 					<ListItemText
 						className="time"
 						primary={moment.unix(date / 1000).fromNow()}

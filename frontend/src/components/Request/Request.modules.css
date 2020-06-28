@@ -22,11 +22,12 @@
 .itemButton {
 	align-self: center;
 }
-.item-name {
+.workstation {
 	display: flex;
 	width: 10vw;
 	justify-content: left;
 	padding-left: 3vw;
+	font-weight: bold;
 }
 /* .itemDiv {
 	margin: 1vh;
