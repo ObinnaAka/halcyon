@@ -90,10 +90,10 @@ const StudentRequests = () => {
 		}
 	`;
 
-	const {
-		data: { commentAdded },
-		loading,
-	} = useSubscription(REQUESTS_SUBSCRIPTION, { variables: { repoFullName } });
+	// const {
+	// 	data: { commentAdded },
+	// 	loading,
+	// } = useSubscription(REQUESTS_SUBSCRIPTION, { variables: { repoFullName } });
 
 	// return <h4>New comment: {!loading && commentAdded.content}</h4>;
 

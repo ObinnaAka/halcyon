@@ -4,9 +4,36 @@ const graphQlHttp = require("express-graphql");
 const mongoose = require("mongoose");
 const { tradeTokenForMember, authenticated } = require("./middleware/is-auth");
 const { ApolloServer } = require("apollo-server-express");
+const fetch = require("node-fetch");
+const { createHttpLink } = require("apollo-link-http");
+const { split } = require("apollo-link");
+const http = require("http");
+const { WebSocketLink } = require("apollo-link-ws");
 
 const typeDefs = require("./graphql/schema/index");
 const resolvers = require("./graphql/resolvers/index");
+
+const httpLink = createHttpLink({
+	uri: "http://localhost:8000/graphql",
+});
+const wsLink = new WebSocketLink({
+	uri: `ws://localhost:5000/`,
+	options: {
+		reconnect: true,
+	},
+});
+const link = split(
+	// split based on operation type
+	({ query }) => {
+		const definition = getMainDefinition(query);
+		return (
+			definition.kind === "OperationDefinition" &&
+			definition.operation === "subscription"
+		);
+	},
+	wsLink,
+	httpLink
+);
 
 const server = new ApolloServer({
 	typeDefs,
@@ -35,8 +62,6 @@ const server = new ApolloServer({
 });
 
 const app = express();
-
-// app.use(authenticated);
 
 app.use(bodyParser.json());
 

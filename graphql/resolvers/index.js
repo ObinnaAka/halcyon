@@ -7,6 +7,7 @@
 // -----------------------------------------------
 
 const DataLoader = require("dataloader");
+const { PubSub } = require("apollo-server");
 const Member = require("../../models/member");
 const Transaction = require("../../models/transaction");
 const Tool = require("../../models/tool");
@@ -22,6 +23,14 @@ const transactionLoader = new DataLoader((transactionIDs) => {
 const memberLoader = new DataLoader((memberIDs) => {
 	return members(memberIDs);
 });
+
+const pubsub = new PubSub();
+
+const publish = (Transaction) => {
+	setTimeout((Transaction) => {
+		pubsub.publish(Transaction, { transaction });
+	}, 1000);
+};
 
 // -----------------------------------------------
 // These convert the objects (Members, Transactions,
@@ -47,7 +56,7 @@ const transformTransaction = (transaction) => {
 		updatedAt: new Date(transaction._doc.updatedAt).toISOString(),
 	};
 };
-transformOutstandingTransaction = (transaction) => {
+const transformOutstandingTransaction = (transaction) => {
 	return transaction;
 };
 const transformTool = (tool) => {
@@ -177,6 +186,11 @@ module.exports = {
 				tokenExpiration: 1,
 			};
 		},
+
+		// ------------------------------------------
+		// Retrieve all outstanding transactions from
+		// the database
+		// ------------------------------------------
 
 		outstandingTransactions: async () => {
 			try {
@@ -526,5 +540,15 @@ module.exports = {
 			}
 		},
 	},
-	Subscription: {},
+
+	// ------------------------------------------
+	// Subscriptions
+	// ------------------------------------------
+	Subscription: {
+		onNewRequest: {
+			subscribe: () => {
+				pubsub.asyncIterator([Transaction]);
+			},
+		},
+	},
 };
