@@ -182,7 +182,7 @@ module.exports = {
 			try {
 				const transactions = await Transaction.find({
 					status: "Processing",
-				}).sort({ createdAt: 1 });
+				}).sort({ createdAt: -1 });
 				return transactions.map((transaction) => {
 					return transformOutstandingTransaction(transaction);
 				});
