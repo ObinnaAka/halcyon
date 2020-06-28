@@ -67,7 +67,7 @@ const StudentRequests = () => {
 			fetchOutstandingTransactions()
 				.then((res) => {
 					const resArray = Object.values(res);
-					console.log(resArray[1].member.firstName);
+					console.log(resArray[1].tools);
 					// results = resArray.map();
 					setRequests(resArray);
 				})
@@ -83,15 +83,17 @@ const StudentRequests = () => {
 
 	return (
 		<div className="left-view">
-			{requests.map((request) => (
+			{requests.map((request, index) => (
 				<Request
 					items={
 						["Test 1", "Test 2", "Test 3"]
 						// request.tools.map((tool) => {
 						// return tool.name;})
 					}
+					type={request.transactionType}
 					member={request.member}
 					date={request.updatedAt}
+					key={index}
 					workstation="DB-12"
 				/>
 			))}
