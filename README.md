@@ -22,7 +22,7 @@
   <em>
  {<br>
 	"env": {</br>
-		        "MONGO_USER": "your_db_password",<br>
+		        "MONGO_USER": "your_db_username",<br>
 		        "MONGO_PASSWORD": "your_db_password",<br>
 		        "MONGO_DB": "database_name"<br>
 	       }<br>
