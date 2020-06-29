@@ -5,10 +5,17 @@ import { NavLink } from "react-router-dom";
 import AuthContext from "../../context/auth-context";
 import "./NavBar.modules.css";
 
+// -------------------------------------------------
+// Navbar with Login and Logout button. Renders the
+// logo, clock and navigation buttons
+// -------------------------------------------------
+
 const NavBar = () => {
-	const context = useContext(AuthContext);
+	const { auth, setAuth, login, logout } = useContext(AuthContext);
 	return (
 		<div className="NavBar">
+			{/* Left side of NavBar with Clock and Logo */}
+
 			<div className="logo-navigation">
 				<img src={logo} className="App-logo" alt="logo" />
 				<Clock
@@ -18,18 +25,26 @@ const NavBar = () => {
 					timezone={"US/Central"}
 				/>
 			</div>
+
+			{/* Right side of NavBar  */}
+
 			<nav className="main-navigation">
 				<ul className="nav-list">
-					{!context.token && (
+					{/* This ternary switches the state of the "Login/Logout" button */}
+					{!auth.token && (
 						<li>
 							<NavLink className="nav-item" to="/auth">
 								Login
 							</NavLink>
 						</li>
 					)}
-					{context.token && (
+					{auth.token && (
 						<li>
-							<NavLink className="nav-item" to="/auth" onClick={context.logout}>
+							<NavLink
+								className="nav-item"
+								to="/auth"
+								onClick={() => setAuth({ token: null, member: null })}
+							>
 								Logout
 							</NavLink>
 						</li>

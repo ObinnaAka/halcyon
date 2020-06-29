@@ -16,13 +16,15 @@ const RegisterPage = () => {
 		bind: bindLastName,
 		// reset: resetLastName,
 	} = useInput("");
-	const { value: email,
+	const {
+		value: email,
 		bind: bindEmail,
 		// reset: resetEmail
 	} = useInput("");
-	const { value: eid,
+	const {
+		value: eid,
 		bind: bindEid,
-		//reset: resetEid 
+		//reset: resetEid
 	} = useInput("");
 	const {
 		value: password,

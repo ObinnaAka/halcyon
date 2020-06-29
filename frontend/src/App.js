@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, createContext, useEffect } from "react";
 import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 import AuthPage from "./Pages/Auth/Auth";
 import RegisterPage from "./Pages/Auth/Register";
@@ -6,54 +6,58 @@ import StaffPortal from "./Pages/StaffPortal/StaffPortal";
 import NavBar from "./components/NavBar/NavBar";
 import Footer from "./components/Footer/Footer";
 import AuthContext from "./context/auth-context";
-// import ApolloContext from "./context/apollo-context";
+import { ApolloConsumer, withApollo } from "react-apollo";
 
 import "./App.css";
 
-function App() {
+const App = (client) => {
 	// ____ Context____
-	const [login, setLogin] = useState({ token: null, member: null });
-	const context = useContext(AuthContext);
+	const [auth, setAuth] = useState({ token: null, member: null });
 
-	const handleLogin = (token, member, tokenExpiration) => {
-		setLogin({
-			token: token,
-			member: member,
-		});
-	};
-	const handleLogout = () => {
-		setLogin({
-			token: null,
-			member: null,
-		});
-	};
+	const AuthPageWithClient = withApollo(AuthPage);
+	const StaffPortalWithClient = withApollo(StaffPortal);
+	const RegisterPageWithClient = withApollo(RegisterPage);
+
+	// useEffect(() => {
+	// 	if (auth) {
+	// 		setLoggedIn = true;
+	// 	}
+	// 	return () => {};
+	// });
+	// const handleLogin = (token, member, tokenExpiration) => {
+	// 	setAuth({
+	// 		token: token,
+	// 		member: member,
+	// 	});
+	// };
+	// const handleLogout = () => {
+	// 	setAuth({
+	// 		token: null,
+	// 		member: null,
+	// 	});
+	// };
+
+	const authValue = { auth, setAuth };
 	return (
-		<BrowserRouter>
-			<React.Fragment>
-				<AuthContext.Provider
-					value={{
-						token: login.token,
-						member: login.member,
-						login: handleLogin,
-						logout: handleLogout,
-					}}
-				>
+		<AuthContext.Provider value={authValue} client={client}>
+			<BrowserRouter>
+				<React.Fragment>
 					<NavBar />
 					<Switch>
-						{context.token ? (
+						{auth.token ? (
 							<Redirect from="/" to="/staff" exact />
 						) : (
 							<Redirect from="/" to="/auth" exact />
 						)}
-						<Route path="/auth" component={AuthPage} />
-						<Route path="/staff" component={StaffPortal} />
-						<Route path="/register" component={RegisterPage} />
+						<Route path="/auth" component={AuthPageWithClient} />
+						<Route path="/staff" component={StaffPortalWithClient} />
+						<Route path="/register" component={RegisterPageWithClient} />
 					</Switch>
 					<Footer />
-				</AuthContext.Provider>
-			</React.Fragment>
-		</BrowserRouter>
+				</React.Fragment>
+			</BrowserRouter>
+		</AuthContext.Provider>
 	);
-}
+};
 
 export default App;

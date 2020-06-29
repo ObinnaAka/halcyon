@@ -1,81 +1,110 @@
-import React, { useContext, useState } from "react";
-// import { useApolloClient, useMutation } from "@apollo/react-hooks";
-// import gql from "graphql-tag";
+import React, { useContext, useState, useEffect, useCallback } from "react";
+
 import { Redirect } from "react-router-dom";
 import AuthContext from "../../context/auth-context";
 import "./Auth.modules.css";
 import { useInput } from "../../helpers/useInputChange";
 
-const AuthPage = () => {
-	const {
-		value: eid,
-		bind: bindEid,
-		// reset: resetEid
-	} = useInput("");
+import { useLazyQuery } from "@apollo/react-hooks";
+import gql from "graphql-tag";
+
+// -------------------------------------------------
+// Login page.
+// Takes input from the text field and sends a query
+// (LOGIN) to authenticate them with the database
+// -------------------------------------------------
+
+const AuthPage = (Apollo) => {
+	// -------------------------------------------------
+	// This sets the state to the user's entered data
+	// -------------------------------------------------
+
+	const [memberLogin, setMemberLogin] = useState(true);
+
+	// -------------------------------------------------
+	// This is the context that we use throughout the site
+	// to make sure that the user is authenticated and
+	// authorized to perform actions
+	// -------------------------------------------------
+
+	const { auth, setAuth } = useContext(AuthContext);
+
+	// -------------------------------------------------
+	// These functions are for the inputs. There's one
+	// for each text field (eid, password)
+	// -------------------------------------------------
+
+	const { value: eid, bind: bindEid, reset: resetEid } = useInput("");
 	const {
 		value: password,
 		bind: bindPassword,
-		// reset: resetPassword,
+		reset: resetPassword,
 	} = useInput("");
 
-	// For student portal login
-	const [memberLogin, setMemberLogin] = useState(true);
-
-	const context = useContext(AuthContext);
-
+	// -------------------------------------------------
+	// This switches between the "Login" screen and the
+	// "Register" screen
+	// -------------------------------------------------
 	const handleRegister = () => {
 		setMemberLogin(false);
 	};
-	const submitHandler = (evt) => {
+
+	// -------------------------------------------------
+	// This is the GraphQL query used for the login.
+	// It passes the eid and password as varirables to the
+	// backend which returns the member's data
+	// -------------------------------------------------
+
+	const LOGIN = gql`{ login (eid: "${eid}", password: "${password}"){
+		member {
+			_id
+			eid
+			firstName
+			lastName
+			memberType
+		}
+		token
+		tokenExpiration
+	}}`;
+
+	// -------------------------------------------------
+	// We use "UseLazyQuery" to make sure that we don't
+	// send a query fetch to the databas when the page,
+	// and only when the submit button is clicked
+	// -------------------------------------------------
+
+	const [login, { loading, error, data, called }] = useLazyQuery(LOGIN, {
+		variables: { eid, password },
+		onCompleted: (data) => {
+			setAuth({ token: data.login.token, member: data.login.member });
+			console.log(data);
+		},
+	});
+
+	if (loading) return <div className="page">Loading ...</div>;
+	if (error) return `Error! ${error}`;
+
+	// -------------------------------------------------
+	// This submits the user's entered information and the
+	// query for authentication
+	// -------------------------------------------------
+
+	const submitHandler = async (evt) => {
 		evt.preventDefault();
+		// -------------------------------------------------
+		// Validate user's entries
+		// -------------------------------------------------
 		if (eid.trim().length === 0 || password.trim().length === 0) {
 			alert("Invalid credentials entered");
 			return;
 		}
-		const requestBody = {
-			query: `
-				query { login (eid: "${eid}", password: "${password}"){
-					member {
-						_id
-						eid
-						firstName
-						lastName
-						memberType
-					}
-					token
-					tokenExpiration
-				}}
-			`,
-		};
-		fetch("http://localhost:8000/graphql", {
-			method: "POST",
-			body: JSON.stringify(requestBody),
-			headers: {
-				"Content-Type": "application/json",
-			},
-		})
-			.then((res) => {
-				if (res.status !== 200 && res.status !== 201) {
-					throw new Error("Failed");
-				}
-				return res.json();
-			})
-			.then((resData) => {
-				if (resData.data.login.token) {
-					context.login(resData.data.login.token, resData.data.login.member);
-				}
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-		// resetEid()
-		// resetPassword()
+		login({ variables: { eid, password } });
 	};
 
 	return (
 		<div>
 			{!memberLogin && <Redirect path="/auth" to="/register" />}
-			{context.token ? (
+			{auth.token ? (
 				<Redirect from="/" to="/staff" exact />
 			) : (
 				<Redirect from="/" to="/auth" exact />

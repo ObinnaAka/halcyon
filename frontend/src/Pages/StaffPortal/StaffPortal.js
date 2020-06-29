@@ -12,7 +12,7 @@ import {
 } from "../../Pages";
 
 function App() {
-	const context = useContext(AuthContext);
+	const { auth, setAuth } = useContext(AuthContext);
 	const sections = {
 		"Student Requests": "/staff/requests",
 		"Signed-in Students": "/staff/students",
@@ -24,7 +24,7 @@ function App() {
 
 	return (
 		<div>
-			{!context.token ? (
+			{!auth.token ? (
 				<Redirect from="/" to="/auth" exact />
 			) : (
 				<div className="page">

@@ -13,27 +13,27 @@ const { WebSocketLink } = require("apollo-link-ws");
 const typeDefs = require("./graphql/schema/index");
 const resolvers = require("./graphql/resolvers/index");
 
-const httpLink = createHttpLink({
+const httpLink = graphQlHttp({
 	uri: "http://localhost:8000/graphql",
 });
-const wsLink = new WebSocketLink({
-	uri: `ws://localhost:5000/`,
-	options: {
-		reconnect: true,
-	},
-});
-const link = split(
-	// split based on operation type
-	({ query }) => {
-		const definition = getMainDefinition(query);
-		return (
-			definition.kind === "OperationDefinition" &&
-			definition.operation === "subscription"
-		);
-	},
-	wsLink,
-	httpLink
-);
+// const wsLink = new WebSocketLink({
+// 	uri: `ws://localhost:5000/`,
+// 	options: {
+// 		reconnect: true,
+// 	},
+// });
+// const link = split(
+// 	// split based on operation type
+// 	({ query }) => {
+// 		const definition = getMainDefinition(query);
+// 		return (
+// 			definition.kind === "OperationDefinition" &&
+// 			definition.operation === "subscription"
+// 		);
+// 	},
+// 	wsLink,
+// 	httpLink
+// );
 
 const server = new ApolloServer({
 	typeDefs,

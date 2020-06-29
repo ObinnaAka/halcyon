@@ -7,6 +7,7 @@ import { useInput } from "../../../helpers/useInputChange";
 import AuthContext from "../../../context/auth-context";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
+import { ApolloConsumer } from "react-apollo";
 import "./Maintenance.css";
 
 // Warninig....This page is a mess

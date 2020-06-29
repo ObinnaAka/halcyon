@@ -5,6 +5,7 @@ import AuthContext from "../../../context/auth-context";
 import RequestContext from "../../../context/request-context";
 import gql from "graphql-tag";
 
+import { ApolloConsumer } from "react-apollo";
 import { ApolloClient } from "apollo-client";
 import { HttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
