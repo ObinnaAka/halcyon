@@ -29,3 +29,5 @@
  }
   </em>
   </h4>
+
+<h3>A template in provided in nodemon-template.json. After filling in the information, rename the file to "nodemon.json" </h3>
