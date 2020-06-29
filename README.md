@@ -1,4 +1,4 @@
-# tiw
+# TIW
 <h1>Texas Inventionworks repository for student and equipment management</h1>
 <br>
 
