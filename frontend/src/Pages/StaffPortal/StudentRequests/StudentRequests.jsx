@@ -2,36 +2,25 @@ import React, { useState, useEffect, useContext } from "react";
 import { Member } from "../../../Classes/Member";
 import { Request } from "../../../components";
 import AuthContext from "../../../context/auth-context";
-import RequestContext from "../../../context/request-context";
 import gql from "graphql-tag";
 
 import { ApolloConsumer } from "react-apollo";
 import { ApolloClient } from "apollo-client";
 import { HttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
+
+import { useSubscription } from "@apollo/react-hooks";
 // import style from "./StudentRequests.module.css";
 
-const StudentRequests = () => {
-	const requestContext = useContext(RequestContext);
+const StudentRequests = (Apollo) => {
 	const [requests, setRequests] = useState([]);
 	//____ Context____
-	const context = useContext(AuthContext);
+	const { auth, setAuth } = useContext(AuthContext);
 
 	//____ Apollo____
-	const SERVER_URL = "http://localhost:8000/graphql";
+	const client = Apollo.client;
 
-	const httpLink = new HttpLink({
-		uri: SERVER_URL,
-		headers: { authorization: `Token ${context.token}` },
-	});
-
-	const cache = new InMemoryCache();
-
-	const client = new ApolloClient({
-		link: httpLink,
-		cache,
-	});
-
+	// TODO This should be replaced with "useQuery" to fetch data once the page loads
 	// ____ useEffect____
 	useEffect(() => {
 		if (requests.length === 0) {
@@ -83,18 +72,20 @@ const StudentRequests = () => {
 	});
 
 	const REQUESTS_SUBSCRIPTION = gql`
-		subscription onCommentAdded($repoFullName: String!) {
-			commentAdded(repoFullName: $repoFullName) {
+		subscription onNewRequest {
+			transactions {
 				id
 				content
 			}
 		}
 	`;
 
+	// client.subscribeToMore({});
+
 	// const {
 	// 	data: { commentAdded },
 	// 	loading,
-	// } = useSubscription(REQUESTS_SUBSCRIPTION, { variables: { repoFullName } });
+	// } = useSubscription(REQUESTS_SUBSCRIPTION);
 
 	// return <h4>New comment: {!loading && commentAdded.content}</h4>;
 

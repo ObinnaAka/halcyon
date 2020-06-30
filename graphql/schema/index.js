@@ -26,13 +26,13 @@ module.exports = gql`
 
 	type Member {
 		_id: ID!
-		eid: String!
-		firstName: String!
-		lastName: String!
-		password: String!
+		eid: String
+		firstName: String
+		lastName: String
+		password: String
 		phone: String
 		signinStatus: Boolean
-		email: String!
+		email: String
 		trainings: [Training]
 		itemRecord: [Tool]
 		conductRecord: [String]
@@ -40,8 +40,8 @@ module.exports = gql`
 		transactionRecord: [Transaction]
 		bevoCard: String
 		memberType: String!
-		createdAt: String!
-		updatedAt: String!
+		createdAt: String
+		updatedAt: String
 	}
 	input MemberInput {
 		eid: String!

@@ -9,31 +9,40 @@ const { createHttpLink } = require("apollo-link-http");
 const { split } = require("apollo-link");
 const http = require("http");
 const { WebSocketLink } = require("apollo-link-ws");
+const { SubscriptionClient } = require("subscriptions-transport-ws");
+const ws = require("ws");
+
+const GRAPHQL_ENDPOINT = "http://localhost:8000/graphql";
+
+const wsClient = new SubscriptionClient(
+	GRAPHQL_ENDPOINT,
+	{
+		reconnect: true,
+	},
+	ws
+);
+const wsLink = new WebSocketLink(wsClient);
 
 const typeDefs = require("./graphql/schema/index");
 const resolvers = require("./graphql/resolvers/index");
 
-const httpLink = graphQlHttp({
-	uri: "http://localhost:8000/graphql",
+const httpLink = createHttpLink({
+	uri: GRAPHQL_ENDPOINT,
+	fetch: fetch,
 });
-// const wsLink = new WebSocketLink({
-// 	uri: `ws://localhost:5000/`,
-// 	options: {
-// 		reconnect: true,
-// 	},
-// });
-// const link = split(
-// 	// split based on operation type
-// 	({ query }) => {
-// 		const definition = getMainDefinition(query);
-// 		return (
-// 			definition.kind === "OperationDefinition" &&
-// 			definition.operation === "subscription"
-// 		);
-// 	},
-// 	wsLink,
-// 	httpLink
-// );
+
+const link = split(
+	// split based on operation type
+	({ query }) => {
+		const definition = getMainDefinition(query);
+		return (
+			definition.kind === "OperationDefinition" &&
+			definition.operation === "subscription"
+		);
+	},
+	wsLink,
+	httpLink
+);
 
 const server = new ApolloServer({
 	typeDefs,

@@ -4,13 +4,14 @@
 	justify-content: flex-start;
 	align-content: center;
 	align-items: flex-start;
-	/* margin: 1vh; */
+	margin: 1vh;
 }
 .item {
 	min-width: 400px;
 	width: 100%;
 	border: 1px solid #eeeeee;
 	border-radius: 5px;
+	box-shadow: 10px 10px 5px #eeeeee;
 }
 .doneButton {
 	display: flex;
@@ -40,7 +41,7 @@
 .time {
 	display: flex;
 	justify-content: flex-end;
-	width: 7vw;
+	width: 10vw;
 	flex-wrap: wrap;
 	margin-right: 3vw;
 	margin-left: 1vw;

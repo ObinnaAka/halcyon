@@ -4,6 +4,8 @@ import AuthContext from "../../context/auth-context";
 import "./StaffPortal.css";
 import { SectionButton } from "../../components";
 import { Scrollbars } from "react-custom-scrollbars";
+import { withApollo } from "react-apollo";
+
 import {
 	StudentRequests,
 	SignedInStudents,
@@ -11,8 +13,13 @@ import {
 	Maintenance,
 } from "../../Pages";
 
-function App() {
+const StaffPortal = () => {
 	const { auth, setAuth } = useContext(AuthContext);
+
+	const StudentRequestsWithClient = withApollo(StudentRequests);
+	const SignedInStudentsWithClient = withApollo(SignedInStudents);
+	const MaintenanceWithClient = withApollo(Maintenance);
+
 	const sections = {
 		"Student Requests": "/staff/requests",
 		"Signed-in Students": "/staff/students",
@@ -50,9 +57,18 @@ function App() {
 							{/* This is where the different pages will be rendered, e.g.
 					Student Requests.*/}
 							<div className="left-view">
-								<Route path="/staff/requests" component={StudentRequests} />
-								<Route path="/staff/students" component={SignedInStudents} />
-								<Route path="/staff/maintenance" component={Maintenance} />
+								<Route
+									path="/staff/requests"
+									component={StudentRequestsWithClient}
+								/>
+								<Route
+									path="/staff/students"
+									component={SignedInStudentsWithClient}
+								/>
+								<Route
+									path="/staff/maintenance"
+									component={MaintenanceWithClient}
+								/>
 							</div>
 						</Scrollbars>
 					</div>
@@ -60,6 +76,6 @@ function App() {
 			)}
 		</div>
 	);
-}
+};
 
-export default App;
+export default StaffPortal;

@@ -7,7 +7,7 @@
 // -----------------------------------------------
 
 const DataLoader = require("dataloader");
-const { PubSub } = require("apollo-server");
+const { PubSub } = require("graphql-subscriptions");
 const Member = require("../../models/member");
 const Transaction = require("../../models/transaction");
 const Tool = require("../../models/tool");
@@ -24,11 +24,13 @@ const memberLoader = new DataLoader((memberIDs) => {
 	return members(memberIDs);
 });
 
+const TRANSACTION_SUBSCRIPTION = "transactions";
+
 const pubsub = new PubSub();
 
 const publish = (Transaction) => {
 	setTimeout((Transaction) => {
-		pubsub.publish(Transaction, { transaction });
+		pubsub.publish(TRANSACTION_SUBSCRIPTION, { onNewRequest });
 	}, 1000);
 };
 
@@ -164,24 +166,24 @@ module.exports = {
 		// token and log them in
 		// ------------------------------------------
 
-		login: async (_, { eid, password }, context) => {
+		login: async (_, { eid, password }, { cache }) => {
 			const member = await Member.findOne({ eid: eid });
 			if (!member) {
-				throw new Error("User not regsistered");
+				throw new Error("User not registered");
 			}
-
 			const isEqual = await bcrypt.compare(password, member.password);
 			if (!isEqual) {
 				throw new Error("Password is incorrect");
 			}
+
 			const token = jwt.sign(
-				{ member: member },
+				{ member: { _id: member.id, memberType: member.memberType } },
 				"supercalifragilisticexpialidocious",
 				{ expiresIn: "1h" }
 			);
-
+			// TODO Change member encoding for only critical information
 			return {
-				member: transformMember(member),
+				member: { _id: member.id, memberType: member.memberType },
 				token: token,
 				tokenExpiration: 1,
 			};
@@ -547,7 +549,7 @@ module.exports = {
 	Subscription: {
 		onNewRequest: {
 			subscribe: () => {
-				pubsub.asyncIterator([Transaction]);
+				pubsub.asyncIterator(TRANSACTION_SUBSCRIPTION);
 			},
 		},
 	},

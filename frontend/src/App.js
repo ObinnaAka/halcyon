@@ -6,11 +6,11 @@ import StaffPortal from "./Pages/StaffPortal/StaffPortal";
 import NavBar from "./components/NavBar/NavBar";
 import Footer from "./components/Footer/Footer";
 import AuthContext from "./context/auth-context";
-import { ApolloConsumer, withApollo } from "react-apollo";
+import { withApollo } from "react-apollo";
 
 import "./App.css";
 
-const App = (client) => {
+const App = (Apollo) => {
 	// ____ Context____
 	const [auth, setAuth] = useState({ token: null, member: null });
 
@@ -19,27 +19,14 @@ const App = (client) => {
 	const RegisterPageWithClient = withApollo(RegisterPage);
 
 	// useEffect(() => {
-	// 	if (auth) {
-	// 		setLoggedIn = true;
-	// 	}
-	// 	return () => {};
-	// });
-	// const handleLogin = (token, member, tokenExpiration) => {
-	// 	setAuth({
-	// 		token: token,
-	// 		member: member,
-	// 	});
-	// };
-	// const handleLogout = () => {
-	// 	setAuth({
-	// 		token: null,
-	// 		member: null,
-	// 	});
-	// };
+	// 	console.log(AuthContext);
+	// 	console.log(Apollo.client);
+	// }, [auth]);
 
 	const authValue = { auth, setAuth };
 	return (
-		<AuthContext.Provider value={authValue} client={client}>
+		// TODO Replace "AuthContext" with Apollo context because it already stores the auth stuff
+		<AuthContext.Provider value={authValue} client={Apollo.client}>
 			<BrowserRouter>
 				<React.Fragment>
 					<NavBar />

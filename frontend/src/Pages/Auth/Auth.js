@@ -28,6 +28,7 @@ const AuthPage = (Apollo) => {
 	// -------------------------------------------------
 
 	const { auth, setAuth } = useContext(AuthContext);
+	const client = Apollo.client;
 
 	// -------------------------------------------------
 	// These functions are for the inputs. There's one
@@ -51,7 +52,7 @@ const AuthPage = (Apollo) => {
 
 	// -------------------------------------------------
 	// This is the GraphQL query used for the login.
-	// It passes the eid and password as varirables to the
+	// It passes the eid and password as variables to the
 	// backend which returns the member's data
 	// -------------------------------------------------
 
@@ -69,20 +70,24 @@ const AuthPage = (Apollo) => {
 
 	// -------------------------------------------------
 	// We use "UseLazyQuery" to make sure that we don't
-	// send a query fetch to the databas when the page,
+	// send a query fetch to the database when the page,
 	// and only when the submit button is clicked
 	// -------------------------------------------------
 
 	const [login, { loading, error, data, called }] = useLazyQuery(LOGIN, {
 		variables: { eid, password },
 		onCompleted: (data) => {
+			client.cache.writeData({
+				data,
+			});
+			window.localStorage.setItem("token", data.login.token);
+			window.localStorage.setItem("member", data.login.member);
 			setAuth({ token: data.login.token, member: data.login.member });
-			console.log(data);
 		},
 	});
 
 	if (loading) return <div className="page">Loading ...</div>;
-	if (error) return `Error! ${error}`;
+	if (error) return <div className="page">{`Error! ${error}`}</div>;
 
 	// -------------------------------------------------
 	// This submits the user's entered information and the
