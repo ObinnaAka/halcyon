@@ -7,7 +7,7 @@
 // -----------------------------------------------
 
 const DataLoader = require("dataloader");
-const { PubSub } = require("graphql-subscriptions");
+const { PubSub, withFilter } = require("graphql-subscriptions");
 const Member = require("../../models/member");
 const Transaction = require("../../models/transaction");
 const Tool = require("../../models/tool");
@@ -24,13 +24,13 @@ const memberLoader = new DataLoader((memberIDs) => {
 	return members(memberIDs);
 });
 
-const TRANSACTION_SUBSCRIPTION = "transactions";
+const TRANSACTION_SUBSCRIPTION = "newTransaction";
 
 const pubsub = new PubSub();
 
-const publish = (Transaction) => {
-	setTimeout((Transaction) => {
-		pubsub.publish(TRANSACTION_SUBSCRIPTION, { onNewRequest });
+const publish = (transaction) => {
+	setTimeout((transaction) => {
+		pubsub.publish(TRANSACTION_SUBSCRIPTION, transaction);
 	}, 1000);
 };
 
@@ -314,6 +314,7 @@ module.exports = {
 					member.transactionRecord.push(createdTransaction);
 					//At the end of this, save the member to the database
 					await member.save();
+					publish(createdTransaction);
 					return createdTransaction;
 				} catch (err) {
 					throw err;
@@ -372,10 +373,9 @@ module.exports = {
 		// sort each transaction and execute the appropriate
 		// action on the server.
 		// ------------------------------------------
-
+		//! Validating Staff might lead to a bug when trying to create a transaction as a student
 		createTransaction: authenticated(
 			validateRole("Staff")(async (root, args, context) => {
-				console.log(args);
 				try {
 					const transaction = new Transaction({
 						transactionType: args.transactionInput.transactionType,
@@ -467,6 +467,10 @@ module.exports = {
 					const result = await transaction.save();
 					createdTransaction = transformTransaction(result);
 
+					// publish(createdTransaction);
+
+					pubsub.publish(TRANSACTION_SUBSCRIPTION, createdTransaction);
+
 					// Add transaction to member transactionRecord
 					member.transactionRecord.push(createdTransaction);
 					//At the end of this, save the member to the database
@@ -548,9 +552,22 @@ module.exports = {
 	// ------------------------------------------
 	Subscription: {
 		onNewRequest: {
-			subscribe: () => {
-				pubsub.asyncIterator(TRANSACTION_SUBSCRIPTION);
+			//! Will need WithFilter here to filter for only "Processing transactions"
+			subscribe: () => pubsub.asyncIterator([TRANSACTION_SUBSCRIPTION]),
+			resolve: (transaction) => {
+				return transaction;
 			},
+
+			// subscribe: withFilter(
+			// 	() => pubsub.asyncIterator([TRANSACTION_SUBSCRIPTION]),
+			// 	(payload, args) => {
+			// 		return payload;
+			// 	}
+			// ),
+			// resolve: (payload) => {
+			// 	console.log(payload);
+			// 	return transformTransaction(payload);
+			// },
 		},
 	},
 };

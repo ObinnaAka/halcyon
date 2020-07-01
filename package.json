@@ -28,6 +28,7 @@
 		"apollo-link-http": "^1.5.17",
 		"apollo-link-ws": "^1.0.20",
 		"apollo-server": "^2.15.0",
+		"apollo-server-express": "^2.15.1",
 		"bcryptjs": "^2.4.3",
 		"body-parser": "^1.19.0",
 		"dataloader": "^2.0.0",

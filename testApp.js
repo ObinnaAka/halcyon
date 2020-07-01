@@ -1,70 +1,40 @@
 const express = require("express");
-const bodyParser = require("body-parser");
-const graphQlHttp = require("express-graphql");
 const mongoose = require("mongoose");
 const { tradeTokenForMember, authenticated } = require("./middleware/is-auth");
-const { ApolloServer } = require("apollo-server-express");
-const fetch = require("node-fetch");
-const { createHttpLink } = require("apollo-link-http");
-const { split } = require("apollo-link");
+const { ApolloServer, gql } = require("apollo-server-express");
+
 const http = require("http");
-const { WebSocketLink } = require("apollo-link-ws");
-const { SubscriptionClient } = require("subscriptions-transport-ws");
-const ws = require("ws");
 
-const GRAPHQL_ENDPOINT = "http://localhost:8000/graphql";
-
-const wsClient = new SubscriptionClient(
-	GRAPHQL_ENDPOINT,
-	{
-		reconnect: true,
-	},
-	ws
-);
-const wsLink = new WebSocketLink(wsClient);
+// const GRAPHQL_ENDPOINT = "http://localhost:8000/graphql";
 
 const typeDefs = require("./graphql/schema/index");
 const resolvers = require("./graphql/resolvers/index");
 
-const httpLink = createHttpLink({
-	uri: GRAPHQL_ENDPOINT,
-	fetch: fetch,
-});
-
-const link = split(
-	// split based on operation type
-	({ query }) => {
-		const definition = getMainDefinition(query);
-		return (
-			definition.kind === "OperationDefinition" &&
-			definition.operation === "subscription"
-		);
-	},
-	wsLink,
-	httpLink
-);
-
 const server = new ApolloServer({
 	typeDefs,
 	resolvers,
+	subscriptions: {
+		path: "/graphql",
+	},
 	context: async ({ req }) => {
-		let authToken = null;
+		let token = null;
 		let currentMember = null;
 
 		try {
-			authToken = req.headers.authorization;
+			token = req.headers.authorization;
 
-			if (authToken) {
+			if (token) {
 				// I'm not sure but according to the tutorial I think
 				// we pass in the token to authenticated helper module
 				// https://medium.com/the-guild/authentication-and-authorization-in-graphql-and-how-graphql-modules-can-help-fadc1ee5b0c2
-				currentMember = await tradeTokenForMember(authToken);
+				currentMember = await tradeTokenForMember(token);
 			}
 		} catch (err) {
-			console.warn(`Unable to authenticate using auth token: ${authToken}`);
+			// console.log(err);
+			console.warn(`Unable to authenticate using auth token: ${token}`);
 		}
 		return {
-			authToken,
+			token,
 			currentMember,
 		};
 	},
@@ -72,18 +42,8 @@ const server = new ApolloServer({
 
 const app = express();
 
-app.use(bodyParser.json());
-
-app.use((req, res, next) => {
-	res.setHeader("Access-Control-Allow-Origin", "*");
-	res.setHeader("Access-Control-Allow-Methods", "POST,GET,OPTIONS");
-	res.setHeader("Access-Control-Allow-Headers", "Content-type, Authorization");
-	if (req.method === "OPTIONS") {
-		return res.sendStatus(200);
-	}
-	next();
-});
-
+const httpServer = http.createServer(app);
+server.installSubscriptionHandlers(httpServer);
 server.applyMiddleware({ app });
 
 mongoose.Promise = global.Promise;
@@ -92,12 +52,19 @@ mongoose
 		`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0-k13rp.azure.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`,
 		{ useNewUrlParser: true, useUnifiedTopology: true }
 	)
+	// .connect(
+	// 	`mongodb://tiw:BvA3ffXo4t5fHfqA31OrOYg3evykHJj0ULCOCJrufnobGo8IHwysQFb7t5hM1UagigZKIUrSyQxLGuGvE0dKUQ%3D%3D@tiw.mongo.cosmos.azure.com:10255/?ssl=true&appName=@tiw@`,
+	// 	{ useNewUrlParser: true, useUnifiedTopology: true }
+	// )
 	.then(() => console.log("DB connected"))
 	.catch((error) => console.log(error));
 
-const port = 8000;
-app.listen(port, () => {
+const PORT = 8000;
+httpServer.listen(PORT, () => {
 	console.log(
-		`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`
+		`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`
+	);
+	console.log(
+		`Subscriptions ready at ws://localhost:${PORT}${server.subscriptionsPath}`
 	);
 });

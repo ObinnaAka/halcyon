@@ -11,7 +11,7 @@ import moment from "moment";
 
 // import ListItemIcon from "@material-ui/core/ListItemIcon";
 
-const Request = ({ items, member, date, type, workstation }) => {
+const Request = ({ items, member, date, type, workstation, comment }) => {
 	const [open, setOpen] = React.useState(false);
 	const [done, setDone] = React.useState(false);
 	const [requestDone, setRequestDone] = React.useState(false);
@@ -79,6 +79,8 @@ const Request = ({ items, member, date, type, workstation }) => {
 							<div>{member.firstName + " " + member.lastName}</div>
 							<h3>Workstation</h3>
 							<div>{workstation}</div>
+							<h3>Comment</h3>
+							<div>{comment}</div>
 						</div>
 					</div>
 					{/* <List component="div" disablePadding>

@@ -25,9 +25,9 @@
 }
 .workstation {
 	display: flex;
-	width: 10vw;
+	width: 5vw;
 	justify-content: left;
-	padding-left: 3vw;
+	padding-left: 1vw;
 	font-weight: bold;
 }
 /* .itemDiv {

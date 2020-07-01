@@ -4,11 +4,6 @@ import { Request } from "../../../components";
 import AuthContext from "../../../context/auth-context";
 import gql from "graphql-tag";
 
-import { ApolloConsumer } from "react-apollo";
-import { ApolloClient } from "apollo-client";
-import { HttpLink } from "apollo-link-http";
-import { InMemoryCache } from "apollo-cache-inmemory";
-
 import { useSubscription } from "@apollo/react-hooks";
 // import style from "./StudentRequests.module.css";
 
@@ -37,6 +32,7 @@ const StudentRequests = (Apollo) => {
 							tools {
 								name
 							}
+							comment
 							updatedAt
 						}
 					}
@@ -73,19 +69,17 @@ const StudentRequests = (Apollo) => {
 
 	const REQUESTS_SUBSCRIPTION = gql`
 		subscription onNewRequest {
-			transactions {
-				id
-				content
+			newTransaction {
+				_id
+				transactionType
+				comment
 			}
 		}
 	`;
 
 	// client.subscribeToMore({});
 
-	// const {
-	// 	data: { commentAdded },
-	// 	loading,
-	// } = useSubscription(REQUESTS_SUBSCRIPTION);
+	const { data, loading } = useSubscription(REQUESTS_SUBSCRIPTION);
 
 	// return <h4>New comment: {!loading && commentAdded.content}</h4>;
 
@@ -103,6 +97,7 @@ const StudentRequests = (Apollo) => {
 					date={request.updatedAt}
 					key={index}
 					workstation="DB-12"
+					comment={request.comment}
 				/>
 			))}
 		</div>

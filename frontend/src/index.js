@@ -7,11 +7,18 @@ import * as serviceWorker from "./serviceWorker";
 import AuthContext from "./context/auth-context";
 
 import gql from "graphql-tag";
+
+import { HttpLink } from "apollo-link-http";
+import { WebSocketLink } from "apollo-link-ws";
+import { getMainDefinition } from "apollo-utilities";
+
+import { ApolloLink, split } from "apollo-link";
 import { ApolloClient } from "apollo-client";
 import { createHttpLink } from "apollo-link-http";
 import { setContext } from "apollo-link-context";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { ApolloProvider, withApollo } from "react-apollo";
+import { SubscriptionClient } from "subscriptions-transport-ws";
 
 const authLink = setContext((_, { headers }) => {
 	// get the authentication token from local storage if it exists
@@ -29,8 +36,27 @@ const httpLink = createHttpLink({
 	uri: "http://localhost:8000/graphql",
 });
 
+const wsLink = new WebSocketLink({
+	uri: `ws://localhost:8000/graphql`,
+	options: {
+		reconnect: true,
+		connectionParams: {
+			authToken: localStorage.getItem("token"),
+		},
+	},
+});
+
+const link = split(
+	({ query }) => {
+		const { kind, operation } = getMainDefinition(query);
+		return kind === "OperationDefinition" && operation === "subscription";
+	},
+	wsLink,
+	httpLink
+);
+
 const client = new ApolloClient({
-	link: authLink.concat(httpLink),
+	link: authLink.concat(link),
 	credentials: "same-origin",
 	cache: new InMemoryCache(),
 });
