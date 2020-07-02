@@ -4,8 +4,44 @@ import { Request } from "../../../components";
 import AuthContext from "../../../context/auth-context";
 import gql from "graphql-tag";
 
-import { useSubscription } from "@apollo/react-hooks";
+import { useSubscription, useQuery } from "@apollo/react-hooks";
 // import style from "./StudentRequests.module.css";
+
+const OUTSTANDING_TRANSACTION = gql`
+	query {
+		outstandingTransactions {
+			_id
+			transactionType
+			member {
+				firstName
+				lastName
+			}
+			tools {
+				name
+			}
+			comment
+			updatedAt
+		}
+	}
+`;
+
+const REQUESTS_SUBSCRIPTION = gql`
+	subscription {
+		onNewRequest {
+			_id
+			transactionType
+			member {
+				firstName
+				lastName
+			}
+			tools {
+				name
+			}
+			comment
+			updatedAt
+		}
+	}
+`;
 
 const StudentRequests = (Apollo) => {
 	const [requests, setRequests] = useState([]);
@@ -15,77 +51,37 @@ const StudentRequests = (Apollo) => {
 	//____ Apollo____
 	const client = Apollo.client;
 
-	// TODO This should be replaced with "useQuery" to fetch data once the page loads
-	// ____ useEffect____
-	useEffect(() => {
-		if (requests.length === 0) {
-			async function fetchOutstandingTransactions() {
-				const OUTSTANDING_TRANSACTION = gql`
-					query {
-						outstandingTransactions {
-							_id
-							transactionType
-							member {
-								firstName
-								lastName
-							}
-							tools {
-								name
-							}
-							comment
-							updatedAt
-						}
-					}
-				`;
-
-				const results = await client
-					.query({
-						query: OUTSTANDING_TRANSACTION,
-					})
-					.then((res) => {
-						return res.data.outstandingTransactions;
-					})
-					.catch((err) => {
-						console.log(err);
-					});
-				return results;
+	const { loading, subscriptionData } = useSubscription(REQUESTS_SUBSCRIPTION, {
+		onSubscriptionData: ({ subscriptionData }) => {
+			console.log(subscriptionData);
+			if (subscriptionData) {
+				let newRequest = [subscriptionData.data.onNewRequest];
+				let newRequests = newRequest.concat(requests);
+				setRequests(newRequests);
+			} else {
+				return <div className="page">No new requests</div>;
 			}
-			fetchOutstandingTransactions()
-				.then((res) => {
-					// ------------------------------------------------------------
-					// "res" is an object containing a list of transactions
-					// We need to convert the object into an array for processing
-					// in react. Each object in the array also contains an array of
-					// "Tool" objects
-					// ------------------------------------------------------------
-					const resArray = Object.values(res);
-					setRequests(resArray);
-				})
-				.catch((err) => {
-					throw err;
-				});
-		}
+		},
 	});
 
-	const REQUESTS_SUBSCRIPTION = gql`
-		subscription onNewRequest {
-			newTransaction {
-				_id
-				transactionType
-				comment
-			}
+	const { data, loading: queryLoading, error: queryError } = useQuery(
+		OUTSTANDING_TRANSACTION,
+		{
+			variables: {},
+			onCompleted: (data) => {
+				console.log(data);
+				if (data) {
+					const resArray = Object.values(data.outstandingTransactions);
+					setRequests(resArray);
+				} else {
+					return <div className="page">No new requests</div>;
+				}
+			},
 		}
-	`;
+	);
 
-	// client.subscribeToMore({});
-
-	const { data, loading } = useSubscription(REQUESTS_SUBSCRIPTION);
-
-	// return <h4>New comment: {!loading && commentAdded.content}</h4>;
-
-	// These are for testing
-	let items = ["Chicken Salad", "Lemon Greens", "Chicken Fetters"];
-	let member = new Member("Obinna", "Akahara");
+	if (queryLoading) return <div className="page">Loading ...</div>;
+	if (queryError) return <div className="page">{`Error! ${queryError}`}</div>;
 
 	return (
 		<div className="left-view">

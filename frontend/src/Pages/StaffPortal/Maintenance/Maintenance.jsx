@@ -37,7 +37,7 @@ const MaintenancePage = (Apollo) => {
 
 	// ____ State management ____
 	const [transactionType, setTransactionType] = useState("Tool Checkout");
-	const [member, setMember] = useState("5ee8998d45cd26109c6912ca");
+	const [member, setMember] = useState("5efcc51cf9eba03f046435c3");
 	const [inService, setInService] = useState(true);
 	const [status, setStatus] = useState("Finished");
 	const [tools, setTools] = useState([]);
@@ -167,13 +167,13 @@ const MaintenancePage = (Apollo) => {
 					<label className="selector-label" htmlFor="member">
 						Member:
 						<select className="selector" onChange={memberChangeHandler}>
-							<option key={1} value="5ee8998d45cd26109c6912ca">
+							<option key={1} value="5efcc51cf9eba03f046435c3">
 								Obinna
 							</option>
-							<option key={2} value="5ee97ef91aa37a2944f9134a">
+							<option key={2} value="5efcce293b30cc0d10bde95c">
 								Hayley
 							</option>
-							<option key={3} value="5ee9b35fcd24192d54fb7cf2">
+							<option key={3} value="5efcce5a3b30cc0d10bde95f">
 								Test
 							</option>
 						</select>

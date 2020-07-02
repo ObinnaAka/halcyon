@@ -45,8 +45,6 @@ const transformMember = (member) => {
 		...member._doc,
 		_id: member.id,
 		password: null,
-		createdAt: new Date(member._doc.createdAt).toISOString(),
-		updatedAt: new Date(member._doc.updatedAt).toISOString(),
 	};
 };
 const transformTransaction = (transaction) => {
@@ -54,12 +52,7 @@ const transformTransaction = (transaction) => {
 		...transaction._doc,
 		_id: transaction.id,
 		tools: transaction.tools,
-		createdAt: new Date(transaction._doc.createdAt).toISOString(),
-		updatedAt: new Date(transaction._doc.updatedAt).toISOString(),
 	};
-};
-const transformOutstandingTransaction = (transaction) => {
-	return transaction;
 };
 const transformTool = (tool) => {
 	return {
@@ -198,11 +191,23 @@ module.exports = {
 			try {
 				const transactions = await Transaction.find({
 					status: "Processing",
-				}).sort({ createdAt: -1 });
-				return transactions.map((transaction) => {
-					return transformOutstandingTransaction(transaction);
 				});
+				// !------------------------------------------
+				// ! The Sort function at the end is a temporary solution for Cosmos DB\
+				// ! THe native sort function from Mongoose/MongoDB didn't work. It returned GraphQLError
+				// !.sort("createdAt desc");
+				// ! ------------------------------------------
+				if (transactions) {
+					console.log("oof");
+					return transactions
+						.map((transaction) => {
+							return transformTransaction(transaction);
+						})
+						.sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1));
+				}
+				console.log("oof");
 			} catch (err) {
+				console.log(err);
 				throw err;
 			}
 		},

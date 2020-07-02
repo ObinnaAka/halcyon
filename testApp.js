@@ -49,15 +49,15 @@ server.applyMiddleware({ app });
 mongoose.Promise = global.Promise;
 mongoose
 	.connect(
-		`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0-k13rp.azure.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`,
+		`mongodb://tiw:BvA3ffXo4t5fHfqA31OrOYg3evykHJj0ULCOCJrufnobGo8IHwysQFb7t5hM1UagigZKIUrSyQxLGuGvE0dKUQ%3D%3D@tiw.mongo.cosmos.azure.com:10255/?ssl=true&appName=@tiw@`,
 		{ useNewUrlParser: true, useUnifiedTopology: true }
 	)
-	// .connect(
-	// 	`mongodb://tiw:BvA3ffXo4t5fHfqA31OrOYg3evykHJj0ULCOCJrufnobGo8IHwysQFb7t5hM1UagigZKIUrSyQxLGuGvE0dKUQ%3D%3D@tiw.mongo.cosmos.azure.com:10255/?ssl=true&appName=@tiw@`,
-	// 	{ useNewUrlParser: true, useUnifiedTopology: true }
-	// )
 	.then(() => console.log("DB connected"))
 	.catch((error) => console.log(error));
+// 	.connect(
+// 		`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0-k13rp.azure.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`,
+// 		{ useNewUrlParser: true, useUnifiedTopology: true }
+// )
 
 const PORT = 8000;
 httpServer.listen(PORT, () => {
