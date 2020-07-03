@@ -1,10 +1,11 @@
-// -----------------------------------------------
-// This document contains all of the resolvers needed
-// for the GraphQl server to put and retrieve data
-// from the database.
-// IMPORTANT: This document will need to be changed
-// when using a different database
-// -----------------------------------------------
+/* -----------------------------------------------
+This document contains all of the resolvers 
+(functions) needed for the GraphQl server to put 
+and retrieve data from the database.
+
+IMPORTANT: This document will need to be changed
+when using a different database
+-----------------------------------------------*/
 
 const DataLoader = require("dataloader");
 const { PubSub, withFilter } = require("graphql-subscriptions");
@@ -16,18 +17,13 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { authenticated, validateRole } = require("../../middleware/is-auth");
 
-const transactionLoader = new DataLoader((transactionIDs) => {
-	return transactions(transactionIDs);
-});
 
-const memberLoader = new DataLoader((memberIDs) => {
-	return members(memberIDs);
-});
 
 const TRANSACTION_SUBSCRIPTION = "newTransaction";
 
-const pubsub = new PubSub();
 
+
+const pubsub = new PubSub();
 const publish = (transaction) => {
 	setTimeout((transaction) => {
 		pubsub.publish(TRANSACTION_SUBSCRIPTION, transaction);
@@ -40,6 +36,7 @@ const publish = (transaction) => {
 // converts the various fields to make readable by
 // the website
 // ------------------------------------------------
+
 const transformMember = (member) => {
 	return {
 		...member._doc,
@@ -154,6 +151,7 @@ module.exports = {
 		singleTool: async (toolID) => {
 			// For coworking session
 		},
+		
 		// ------------------------------------------
 		// Verify a user's password, authenticate their
 		// token and log them in
@@ -334,6 +332,8 @@ module.exports = {
 		createMember: async (root, args) => {
 			try {
 				console.log(args);
+
+				// Check to see if the user is already registered
 				const existingMember = await Member.findOne({
 					eid: args.memberInput.eid,
 				});
@@ -555,6 +555,7 @@ module.exports = {
 	// ------------------------------------------
 	// Subscriptions
 	// ------------------------------------------
+	
 	Subscription: {
 		onNewRequest: {
 			//! Will need WithFilter here to filter for only "Processing transactions"

@@ -17,6 +17,9 @@ const memberSchema = new Schema(
 			type: String,
 			required: true,
 		},
+		//------------------------------------------------------------------
+		// TODO I don't know why the password isn't required but review later
+		//------------------------------------------------------------------
 		password: {
 			type: String,
 		},
@@ -35,7 +38,7 @@ const memberSchema = new Schema(
 		trainingRecord: [
 			{
 				type: Schema.Types.ObjectId,
-				ref: "Tool",
+				ref: "Training",
 				autopopulate: true,
 			},
 		],
@@ -44,17 +47,15 @@ const memberSchema = new Schema(
 				type: Schema.Types.ObjectId,
 				ref: "Tool",
 				autopopulate: true,
-				// default: [],
 			},
 		],
 		conductRecord: [
 			{
 				type: String,
-				// default: [],
 			},
 		],
-		// either 0, 1, 2, 3
-		// default value is 1.
+		//* either 0, 1, 2, 3
+		//* default value is 1.
 		// 0 : Member is outstanding (has been a positive member of the community)
 		// 1 : Normal
 		// 2 : Probation (Member has strikes on their account)
