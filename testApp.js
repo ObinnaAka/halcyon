@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const { tradeTokenForMember, authenticated } = require("./middleware/is-auth");
 const { ApolloServer, gql } = require("apollo-server-express");
+require("dotenv").config();
 
 const http = require("http");
 
@@ -48,18 +49,17 @@ server.applyMiddleware({ app });
 
 mongoose.Promise = global.Promise;
 mongoose
-	.connect(
-		`mongodb://tiw:A31OrOYg3evykHJj0ULCOCJrufnobGo8IHwysQFb7t5hM1UagigZKIUrSyQxLGuGvE0dKUQ%3D%3D@tiw.mongo.cosmos.azure.com:10255/?ssl=true&appName=@tiw@`,
-		{ useNewUrlParser: true, useUnifiedTopology: true }
-	)
+	.connect(`${process.env.AZURE}`, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+	})
 	.then(() => {
 		console.log("DB connected");
 	})
-	.catch((error) => console.log(error));
-// 	.connect(
-// `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0-k13rp.azure.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`,
-// 		{ useNewUrlParser: true, useUnifiedTopology: true }
-// )
+	.catch((error) => {
+		console.log(`${process.env.AZURE}`);
+		console.log(error);
+	});
 
 const PORT = 8000;
 httpServer.listen(PORT, () => {
