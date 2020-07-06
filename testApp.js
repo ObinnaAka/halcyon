@@ -49,10 +49,7 @@ server.applyMiddleware({ app });
 
 mongoose.Promise = global.Promise;
 mongoose
-	.connect(`${process.env.AZURE}`, {
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-	})
+	.connect(`${process.env.AZURE}`)
 	.then(() => {
 		console.log("DB connected");
 	})
