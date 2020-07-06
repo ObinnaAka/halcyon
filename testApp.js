@@ -54,7 +54,6 @@ mongoose
 		console.log("DB connected");
 	})
 	.catch((error) => {
-		console.log(`${process.env.AZURE}`);
 		console.log(error);
 	});
 
