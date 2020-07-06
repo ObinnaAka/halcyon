@@ -8,7 +8,7 @@
 		"server": "cd server && npm start",
 		"frontend": "cd frontend && npm start",
 		"start": "run-p frontend server",
-		"first_start": "run-s node_ins pkg_start",
+		"first_start": "run-s install_all start",
 		"install_all": "run-p install_server install_frontend",
 		"install_frontend": "cd frontend && npm install",
 		"install_server": "cd server && npm install"
