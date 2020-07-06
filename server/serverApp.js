@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const { tradeTokenForMember, authenticated } = require("./middleware/is-auth");
 const { ApolloServer, gql } = require("apollo-server-express");
-require("dotenv").config();
+require("dotenv").config({ path: __dirname + "/./../.env" });
 
 const http = require("http");
 
@@ -14,9 +14,6 @@ const resolvers = require("./graphql/resolvers/index");
 const server = new ApolloServer({
 	typeDefs,
 	resolvers,
-	// subscriptions: {
-	// 	path: "/graphql",
-	// },
 	context: async ({ req }) => {
 		let token = null;
 		let currentMember = null;
@@ -49,12 +46,12 @@ server.applyMiddleware({ app });
 
 mongoose.Promise = global.Promise;
 mongoose
-	.connect(`${process.env.AZURE}`)
+	.connect(`${process.env.AZURE}`, { useNewUrlParser: true })
 	.then(() => {
 		console.log("DB connected");
 	})
 	.catch((error) => {
-		console.log(error);
+		console.trace(error);
 	});
 
 const PORT = 8000;

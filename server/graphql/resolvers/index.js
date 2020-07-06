@@ -7,7 +7,6 @@ IMPORTANT: This document will need to be changed
 when using a different database
 -----------------------------------------------*/
 
-const DataLoader = require("dataloader");
 const { PubSub, withFilter } = require("graphql-subscriptions");
 const Member = require("../../models/member");
 const Transaction = require("../../models/transaction");
@@ -17,11 +16,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { authenticated, validateRole } = require("../../middleware/is-auth");
 
-
-
 const TRANSACTION_SUBSCRIPTION = "newTransaction";
-
-
 
 const pubsub = new PubSub();
 const publish = (transaction) => {
@@ -151,7 +146,7 @@ module.exports = {
 		singleTool: async (toolID) => {
 			// For coworking session
 		},
-		
+
 		// ------------------------------------------
 		// Verify a user's password, authenticate their
 		// token and log them in
@@ -555,7 +550,7 @@ module.exports = {
 	// ------------------------------------------
 	// Subscriptions
 	// ------------------------------------------
-	
+
 	Subscription: {
 		onNewRequest: {
 			//! Will need WithFilter here to filter for only "Processing transactions"
