@@ -1,6 +1,2 @@
-# dependencies
-/node_modules
-
-# env files
-.env
-package-lock.json
+# Keys
+/server/.env
