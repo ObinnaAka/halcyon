@@ -4,7 +4,7 @@
 
 <h2>You will need a <ins>".env"</ins> file to access the database using this application. Please request for one from the admin</h2>
 
-<h2>After cloning the repository, open your terminal and run '<ins>npm install</ins>' <br> then run '<ins>npm run first_start</ins>' to downoload all core dependancies and launch application</h2>
+<h2>After cloning the repository, open your terminal and run '<ins>npm install</ins>' <br> <br> Then run '<ins>npm run first_start</ins>' to downoload all core dependancies and launch application</h2>
 <br>
 
 <h3>Afterwards, run <ins>"npm start"</ins> to to launch both the Frontend and Server simultaneously</h3>
