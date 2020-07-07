@@ -9,12 +9,12 @@
 
 <h3>Afterwards, run <ins>"npm start"</ins> to to launch both the Frontend and Server simultaneously</h3>
 
-<h3>Run "npm run frontend" to run just the website</h3>
+<h3>Run '<ins>npm run frontend</ins>' to run just the website</h3>
 
-<h3>Run "npm run server" to run just the server</h3>
+<h3>Run '<ins>npm run server</ins>' to run just the server</h3>
 
-<h3>Run "npm run install_all" to reinstall all dependencies for the frontend and server</h3>
+<h3>Run '<ins>npm run install</ins>' to reinstall all dependencies for the frontend and server</h3>
 
-<h3>Run "npm run install_frontend" to reinstall all dependencies for only the frontend</h3>
+<h3>Run '<ins>npm run install_frontend</ins>' to reinstall all dependencies for only the frontend</h3>
 
-<h3>Run "npm run install_server" to reinstall all dependencies for only the server</h3>
+<h3>Run '<ins>npm run install_server</ins>' to reinstall all dependencies for only the server</h3>
