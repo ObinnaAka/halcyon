@@ -2,7 +2,7 @@
 <h1>Texas Inventionworks repository for student and equipment management</h1>
 <br>
 
-<h2>You will need a '<ins>.env</ins>' file to access the database using this application. Please request for one from the admin</h2>
+<h2>You will need a '<ins>tiw.env</ins>' file to access the database using this application. Please request for one from the admin</h2>
 
 <h2>You will need to install '<a href="https://nodejs.org/en/"><ins>Node.js</ins></a>' to run these files</h2>
 
