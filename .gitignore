@@ -3,3 +3,6 @@
 
 # Keys
 .env
+
+# Node
+package-lock.json
