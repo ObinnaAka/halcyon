@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const { tradeTokenForMember, authenticated } = require("./middleware/is-auth");
 const { ApolloServer, gql } = require("apollo-server-express");
-require("dotenv").config({ path: __dirname + "/./../.env" });
+require("dotenv").config({ path: __dirname + "/./../env.env" });
 
 const http = require("http");
 
