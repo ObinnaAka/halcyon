@@ -25,5 +25,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-package-lock.json
+# dependancies
 /node_modules
+
+# node
+package-lock.json

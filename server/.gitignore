@@ -3,4 +3,6 @@
 
 # env files
 .env
+
+# node
 package-lock.json

@@ -27,6 +27,8 @@ const StaffPortal = () => {
 		"Transaction History": "/staff/transactions",
 		"Maintenance Request": "/staff/maintenance",
 		"TIW Wiki and Help": "/staff/wiki",
+		Trainings: "/staff/training",
+		Scheduling: "/staff/scheduling",
 	};
 
 	return (

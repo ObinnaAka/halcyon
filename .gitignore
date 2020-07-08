@@ -2,7 +2,7 @@
 /node_modules
 
 # Keys
-.env
+tiw.env
 
 # Node
 package-lock.json
