@@ -14,7 +14,7 @@
 <br>
 <br>
 <br>
-<h3>On subsequent launches, use 'npm start' to to launch both the Frontend and Server simultaneously</h3>
+<h3>On subsequent launches, use '<ins>npm start</ins>' to to launch both the Frontend and Server simultaneously</h3>
 
 <h3>Run 'npm run frontend' to run just the website</h3>
 
