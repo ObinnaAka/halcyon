@@ -2,9 +2,13 @@
 <h1>Texas Inventionworks repository for student and equipment management</h1>
 <br>
 
-<h2>You will need a '<ins>tiw.env</ins>' file to access the database using this application. Please request for one from the admin</h2>
+<h2>You will need a '<ins>tiw.env</ins>' file to access the database using this application. Please request for one from the admin and place it in the root folder of the cloned repository</h2>
+
+<br>
 
 <h2>You will need to install '<a href="https://nodejs.org/en/"><ins>Node.js</ins></a>' to run these files</h2>
+
+<br>
 
 <h2>After cloning the repository, open your terminal and run '<ins>npm install</ins>' <br> <br> Then run 'npm run first_start' to downoload all core dependancies and launch application</h2>
 <br>
