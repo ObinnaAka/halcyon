@@ -1,4 +1,4 @@
-import React, { useState, useContext, createContext, useEffect } from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 import AuthPage from "./Pages/Auth/Auth";
 import RegisterPage from "./Pages/Auth/Register";
@@ -17,11 +17,6 @@ const App = (Apollo) => {
 	const AuthPageWithClient = withApollo(AuthPage);
 	const StaffPortalWithClient = withApollo(StaffPortal);
 	const RegisterPageWithClient = withApollo(RegisterPage);
-
-	// useEffect(() => {
-	// 	console.log(AuthContext);
-	// 	console.log(Apollo.client);
-	// }, [auth]);
 
 	const authValue = { auth, setAuth };
 	return (

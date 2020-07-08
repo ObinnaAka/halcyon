@@ -1,24 +1,18 @@
-import React, { useContext } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
-import AuthContext from "./context/auth-context";
-
-import gql from "graphql-tag";
-
-import { HttpLink } from "apollo-link-http";
 import { WebSocketLink } from "apollo-link-ws";
 import { getMainDefinition } from "apollo-utilities";
 
-import { ApolloLink, split } from "apollo-link";
+import { split } from "apollo-link";
 import { ApolloClient } from "apollo-client";
 import { createHttpLink } from "apollo-link-http";
 import { setContext } from "apollo-link-context";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { ApolloProvider, withApollo } from "react-apollo";
-import { SubscriptionClient } from "subscriptions-transport-ws";
 
 const authLink = setContext((_, { headers }) => {
 	// get the authentication token from local storage if it exists

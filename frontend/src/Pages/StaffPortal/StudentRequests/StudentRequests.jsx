@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Member } from "../../../Classes/Member";
+import React, { useState } from "react";
 import { Request } from "../../../components";
-import AuthContext from "../../../context/auth-context";
+// import AuthContext from "../../../context/auth-context";
 import gql from "graphql-tag";
 
 import { useSubscription, useQuery } from "@apollo/react-hooks";
@@ -46,12 +45,16 @@ const REQUESTS_SUBSCRIPTION = gql`
 const StudentRequests = (Apollo) => {
 	const [requests, setRequests] = useState([]);
 	//____ Context____
-	const { auth, setAuth } = useContext(AuthContext);
+	// const { auth, setAuth } = useContext(AuthContext);
 
 	//____ Apollo____
-	const client = Apollo.client;
+	// const client = Apollo.client;
 
-	const { loading, subscriptionData } = useSubscription(REQUESTS_SUBSCRIPTION, {
+	// const {
+	// loading,
+	// subscriptionData
+	// } =
+	useSubscription(REQUESTS_SUBSCRIPTION, {
 		onSubscriptionData: ({ subscriptionData }) => {
 			console.log(subscriptionData);
 			if (subscriptionData) {
@@ -64,7 +67,7 @@ const StudentRequests = (Apollo) => {
 		},
 	});
 
-	const { data, loading: queryLoading, error: queryError } = useQuery(
+	const { loading: queryLoading, error: queryError } = useQuery(
 		OUTSTANDING_TRANSACTION,
 		{
 			variables: {},

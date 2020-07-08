@@ -6,15 +6,10 @@ import { SectionButton } from "../../components";
 import { Scrollbars } from "react-custom-scrollbars";
 import { withApollo } from "react-apollo";
 
-import {
-	StudentRequests,
-	SignedInStudents,
-	TestPage,
-	Maintenance,
-} from "../../Pages";
+import { StudentRequests, SignedInStudents, Maintenance } from "../../Pages";
 
 const StaffPortal = () => {
-	const { auth, setAuth } = useContext(AuthContext);
+	const { auth } = useContext(AuthContext);
 
 	const StudentRequestsWithClient = withApollo(StudentRequests);
 	const SignedInStudentsWithClient = withApollo(SignedInStudents);

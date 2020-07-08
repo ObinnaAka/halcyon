@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import gql from "graphql-tag";
 
 import { useInput } from "../../../helpers/useInputChange";
@@ -17,7 +17,7 @@ const MaintenancePage = (Apollo) => {
 	const { auth } = useContext(AuthContext);
 
 	//____ Apollo____
-	const client = Apollo.client;
+	// const client = Apollo.client;
 
 	// ____ Input functions for forms ______
 	const { value: name, bind: bindName, reset: resetName } = useInput("");
@@ -86,8 +86,8 @@ const MaintenancePage = (Apollo) => {
 		createTransaction,
 		{
 			loading: transactionLoading,
-			data: transactionData,
-			error: transactionError,
+			// data: transactionData,
+			// error: transactionError,
 		},
 	] = useMutation(CREATE_TRANSACTION, {
 		variables: { transactionType, member, comment, status, tools, staffID },
@@ -95,7 +95,11 @@ const MaintenancePage = (Apollo) => {
 
 	const [
 		createTool,
-		{ loading: toolLoading, data: toolData, error: toolError },
+		{
+			loading: toolLoading,
+			// data: toolData,
+			// error: toolError
+		},
 	] = useMutation(TOOL_INSERT, {
 		variables: { name, location, toolType, inService },
 	});

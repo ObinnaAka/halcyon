@@ -11,7 +11,7 @@ import "./NavBar.modules.css";
 // -------------------------------------------------
 
 const NavBar = () => {
-	const { auth, setAuth, login, logout } = useContext(AuthContext);
+	const { auth, setAuth } = useContext(AuthContext);
 	return (
 		<div className="NavBar">
 			{/* Left side of NavBar with Clock and Logo */}

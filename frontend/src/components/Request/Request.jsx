@@ -16,7 +16,9 @@ const Request = ({ items, member, date, type, workstation, comment }) => {
 	const [done, setDone] = React.useState(false);
 	const [requestDone, setRequestDone] = React.useState(false);
 	const [itemDone, setItemDone] = React.useState(false);
-	const [tools, setTools] = useState(Object.values(items));
+
+	// TODO Add setTools to this useState function
+	const [tools] = useState(Object.values(items));
 
 	const handleItemClick = () => {
 		setOpen(!open);

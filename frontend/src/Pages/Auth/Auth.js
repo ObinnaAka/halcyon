@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useCallback } from "react";
+import React, { useContext, useState } from "react";
 
 import { Redirect } from "react-router-dom";
 import AuthContext from "../../context/auth-context";
@@ -35,12 +35,8 @@ const AuthPage = (Apollo) => {
 	// for each text field (eid, password)
 	// -------------------------------------------------
 
-	const { value: eid, bind: bindEid, reset: resetEid } = useInput("");
-	const {
-		value: password,
-		bind: bindPassword,
-		reset: resetPassword,
-	} = useInput("");
+	const { value: eid, bind: bindEid } = useInput("");
+	const { value: password, bind: bindPassword } = useInput("");
 
 	// -------------------------------------------------
 	// This switches between the "Login" screen and the
@@ -74,7 +70,7 @@ const AuthPage = (Apollo) => {
 	// and only when the submit button is clicked
 	// -------------------------------------------------
 
-	const [login, { loading, error, data, called }] = useLazyQuery(LOGIN, {
+	const [login, { loading, error }] = useLazyQuery(LOGIN, {
 		variables: { eid, password },
 		onCompleted: (data) => {
 			client.cache.writeData({

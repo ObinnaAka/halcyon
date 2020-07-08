@@ -1,11 +1,4 @@
 import React, { useState, useContext } from "react";
-import {
-	FormControl,
-	InputLabel,
-	Select,
-	MenuItem,
-	Button,
-} from "@material-ui/core";
 import AuthContext from "../../../context/auth-context";
 
 const TestPage = () => {
