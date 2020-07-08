@@ -8,7 +8,8 @@
 
 <h2>After cloning the repository, open your terminal and run '<ins>npm install</ins>' <br> <br> Then run 'npm run first_start' to downoload all core dependancies and launch application</h2>
 <br>
-
+<br>
+<br>
 <h3>Afterwards, run 'npm start' to to launch both the Frontend and Server simultaneously</h3>
 
 <h3>Run 'npm run frontend' to run just the website</h3>
