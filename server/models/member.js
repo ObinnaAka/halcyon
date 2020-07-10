@@ -49,6 +49,10 @@ const memberSchema = new Schema(
 				autopopulate: true,
 			},
 		],
+		workstation: {
+			type: Schema.Types.ObjectId,
+			default: null,
+		},
 		conductRecord: [
 			{
 				type: String,

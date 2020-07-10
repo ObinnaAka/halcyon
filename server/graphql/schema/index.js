@@ -30,11 +30,13 @@ module.exports = gql`
 		firstName: String
 		lastName: String
 		password: String
+		# Prune anything that isn't necessary!
 		phone: String
 		signinStatus: Boolean
 		email: String
 		trainings: [Training]
 		itemRecord: [Tool]
+		workstation: Tool
 		conductRecord: [String]
 		conductStatus: Int
 		transactionRecord: [Transaction]
@@ -94,6 +96,7 @@ module.exports = gql`
 	}
 	type Subscription {
 		onNewRequest: Transaction
+		onNewStudent: Transaction
 	}
 	type Query {
 		me: Member
@@ -103,7 +106,8 @@ module.exports = gql`
 		singleTransaction: Transaction!
 		tools: [Tool!]!
 		singleTool: Tool!
-		outstandingTransactions: [Transaction]!
+		outstandingTransactions: [Transaction]
+		signedInStudents: [Member]
 		login(eid: String!, password: String!): AuthData!
 	}
 

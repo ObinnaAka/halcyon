@@ -17,6 +17,7 @@ const jwt = require("jsonwebtoken");
 const { authenticated, validateRole } = require("../../middleware/is-auth");
 
 const TRANSACTION_SUBSCRIPTION = "newTransaction";
+const STUDENT_SUBSCRIPTION = "newStudent";
 
 const pubsub = new PubSub();
 const publish = (transaction) => {
@@ -70,7 +71,7 @@ module.exports = {
 		// ------------------------------------------
 		// Retrieve all members from database
 		// ------------------------------------------
-
+		// TODO Require authentication to retrieve all members in the database
 		members: async () => {
 			try {
 				const members = await Member.find();
@@ -188,7 +189,7 @@ module.exports = {
 				// !------------------------------------------
 				// ! The Sort function at the end is a temporary solution for Cosmos DB\
 				// ! THe native sort function from Mongoose/MongoDB didn't work. It returned GraphQLError
-				// !.sort("createdAt desc");
+				// ! .sort("createdAt desc");
 				// ! ------------------------------------------
 				if (transactions) {
 					console.log("oof");
@@ -198,14 +199,40 @@ module.exports = {
 						})
 						.sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1));
 				}
-				console.log("oof");
+				// console.log("oof");
+			} catch (err) {
+				console.log(err);
+				throw err;
+			}
+		},
+
+		signedInStudents: async () => {
+			try {
+				const signedInStudents = await Member.find({
+					signinStatus: true,
+				});
+				// !------------------------------------------
+				// ! The Sort function at the end is a temporary solution for Cosmos DB\
+				// ! THe native sort function from Mongoose/MongoDB didn't work. It returned GraphQLError
+				// ! .sort("workstation desc");
+				// ! ------------------------------------------
+				if (signedInStudents) {
+					return signedInStudents.map((transaction) => {
+						return transformTransaction(transaction);
+					});
+					// .sort((a, b) =>
+					// 	a.member.workstation > b.member.workstation ? -1 : 1
+					// );
+				} else {
+					console.log("No Signed In Students");
+					return null;
+				}
 			} catch (err) {
 				console.log(err);
 				throw err;
 			}
 		},
 	},
-
 	// ------------------------------------------
 	// Mutations
 	// ------------------------------------------
@@ -312,7 +339,7 @@ module.exports = {
 					member.transactionRecord.push(createdTransaction);
 					//At the end of this, save the member to the database
 					await member.save();
-					publish(createdTransaction);
+					publishTransaction(createdTransaction);
 					return createdTransaction;
 				} catch (err) {
 					throw err;
@@ -569,6 +596,13 @@ module.exports = {
 			// 	console.log(payload);
 			// 	return transformTransaction(payload);
 			// },
+		},
+		onNewStudent: {
+			//! Will need WithFilter here to filter for only "Processing transactions"
+			subscribe: () => pubsub.asyncIterator([TRANSACTION_SUBSCRIPTION]),
+			resolve: (transaction) => {
+				return transaction.member;
+			},
 		},
 	},
 };

@@ -40,7 +40,7 @@ const Request = ({ items, member, date, type, workstation, comment }) => {
 	const listItems = tools.map((item, index) => (
 		<ListItem button key={index} className={styles.nested}>
 			<ToggleButton
-				className="itemButton"
+				className="request_item_button"
 				type="checkbox"
 				onChange={handleItemDone}
 				checked={itemDone}
@@ -49,34 +49,37 @@ const Request = ({ items, member, date, type, workstation, comment }) => {
 		</ListItem>
 	));
 	return (
-		<div className="itemDiv">
+		<div className="request_item_div">
 			<ToggleButton
-				className="doneButton"
+				className="request_done"
 				type="checkbox"
 				onChange={handleDoneClick}
 				checked={requestDone}
 			/>
-			<List className="item">
+			<List className="request_item">
 				<ListItem button onClick={handleItemClick}>
-					<ListItemText primary={tools.length} />
-					<ListItemText className="request-type" primary={type} />
 					<ListItemText
-						className="member-name"
+						className="request_item_number"
+						primary={tools.length}
+					/>
+					<ListItemText className="request_type" primary={type} />
+					<ListItemText
+						className="request_member_name"
 						primary={member.firstName + " " + member.lastName}
 					/>
-					<ListItemText className="workstation" primary={workstation} />
+					<ListItemText className="request_workstation" primary={workstation} />
 					<ListItemText
-						className="time"
+						className="request_time"
 						primary={moment.unix(date / 1000).fromNow()}
 					/>
 					{open ? <ExpandLess /> : <ExpandMore />}
 				</ListItem>
 				<Collapse in={open} timeout="auto" unmountOnExit>
-					<div className="expanded-view">
-						<div className="expanded-view-left">
+					<div className="request_expanded_view">
+						<div className="expanded_view_left">
 							<List disablePadding>{listItems}</List>
 						</div>
-						<div className="expanded-view-right">
+						<div className="request_expanded_view_right">
 							<h3>Name</h3>
 							<div>{member.firstName + " " + member.lastName}</div>
 							<h3>Workstation</h3>
