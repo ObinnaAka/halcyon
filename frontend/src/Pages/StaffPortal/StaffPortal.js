@@ -18,7 +18,7 @@ const StaffPortal = () => {
 	const sections = {
 		"Student Requests": "/staff/requests",
 		"Signed-in Students": "/staff/students",
-		"Checked-out Tools": "/staff/toolcheckout",
+		"Checked-out Tools": "/staff/checkout",
 		"Transaction History": "/staff/transactions",
 		"Maintenance Request": "/staff/maintenance",
 		"TIW Wiki and Help": "/staff/wiki",

@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import ToggleButton from "react-bootstrap/ToggleButton";
+import React, { useState } from "react";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -11,7 +10,7 @@ import moment from "moment";
 
 // import ListItemIcon from "@material-ui/core/ListItemIcon";
 
-const Request = ({
+const Student = ({
 	firstName,
 	lastName,
 	date,
@@ -20,9 +19,6 @@ const Request = ({
 	workstation,
 }) => {
 	const [open, setOpen] = React.useState(false);
-	const [done, setDone] = React.useState(false);
-	// const [requestDone, setRequestDone] = React.useState(false);
-	// const [itemDone, setItemDone] = React.useState(false);
 
 	// TODO Add setTools to this useState function
 	const [tools] = useState(Object.values(itemRecord));
@@ -30,18 +26,8 @@ const Request = ({
 	const handleItemClick = () => {
 		setOpen(!open);
 	};
-	// const handleDoneClick = () => {
-	// 	setRequestDone(!requestDone);
-	// 	requestDone
-	// 		? setDone(!done)
-	// 		: setTimeout(function () {
-	// 				setDone(!done);
-	// 		  }, 3000);
-	// 	console.log(tools);
-	// };
-	// const handleItemDone = () => {
-	// 	setItemDone(!itemDone);
-	// };
+
+	// TODO We should add the ability to send a message to a student that's checked in.
 
 	const listItems = tools.map((item, index) => (
 		<ListItem button key={index} className={styles.nested}>
@@ -83,4 +69,4 @@ const Request = ({
 	);
 };
 
-export default Request;
+export default Student;

@@ -11,11 +11,6 @@ const toolSchema = new Schema({
 	location: {
 		type: String,
 	},
-	// This will replaced with the object ID
-	// barcode: {
-	//     type: String,
-	// },
-
 	// Tool Status: either 0, 1, 2
 	// default value is .
 	// 0 : Cleaned and checked in
@@ -23,11 +18,12 @@ const toolSchema = new Schema({
 	// 2 : Checked out
 	// 3 : In Repair
 	status: {
-		type: Number,
-		default: 0,
+		type: String,
+		default: "Cleaned and checked in",
 	},
 	currentUser: {
 		type: Schema.Types.ObjectId,
+		default: null,
 		autopopulate: true,
 	},
 	currentWorkstation: {
@@ -53,6 +49,10 @@ const toolSchema = new Schema({
 	inService: {
 		type: Boolean,
 		default: true,
+	},
+	isWorkstation: {
+		type: Boolean,
+		default: false,
 	},
 });
 
