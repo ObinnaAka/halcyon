@@ -83,8 +83,7 @@ const AuthPage = (Apollo) => {
 	});
 
 	if (loading) return <div className="page">Loading ...</div>;
-	if (error)
-		return <div className="page">{console.trace(error)`Error! ${error}`}</div>;
+	if (error) return <div className="page">{`Error! ${error}`}</div>;
 
 	// -------------------------------------------------
 	// This submits the user's entered information and the
