@@ -1,3 +1,5 @@
+org: akaharao
+app: apollo-lambda-app
 # serverless.yml
 
 service: apollo-lambda

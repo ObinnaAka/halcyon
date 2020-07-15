@@ -153,6 +153,52 @@
               }
             }
           },
+          "EnterpriseLogAccessIamRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+              "AssumeRolePolicyDocument": {
+                "Version": "2012-10-17",
+                "Statement": [
+                  {
+                    "Effect": "Allow",
+                    "Principal": {
+                      "AWS": "arn:aws:iam::802587217904:root"
+                    },
+                    "Action": "sts:AssumeRole",
+                    "Condition": {
+                      "StringEquals": {
+                        "sts:ExternalId": "ServerlessEnterprise-sTFjCmglNlCfrNCgps"
+                      }
+                    }
+                  }
+                ]
+              },
+              "Policies": [
+                {
+                  "PolicyName": "LogFilterAccess",
+                  "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "logs:FilterLogEvents"
+                        ],
+                        "Resource": [
+                          {
+                            "Fn::GetAtt": [
+                              "GraphqlLogGroup",
+                              "Arn"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
           "GraphqlLambdaFunction": {
             "Type": "AWS::Lambda::Function",
             "Properties": {
@@ -160,10 +206,10 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/apollo-lambda/dev/1594769718831-2020-07-14T23:35:18.831Z/apollo-lambda.zip"
+                "S3Key": "serverless/apollo-lambda/dev/1594831443483-2020-07-15T16:44:03.483Z/apollo-lambda.zip"
               },
               "FunctionName": "apollo-lambda-dev-graphql",
-              "Handler": "graphql.graphqlHandler",
+              "Handler": "s_graphql.handler",
               "MemorySize": 1024,
               "Role": {
                 "Fn::GetAtt": [
@@ -178,14 +224,14 @@
               "GraphqlLogGroup"
             ]
           },
-          "GraphqlLambdaVersionZ6hYKHW43KlVKmmxjnj7f260fYP6AbL86QsAKDmEQ": {
+          "GraphqlLambdaVersionL24gAFUEOS42YxmXCmPbKy1jrHfG6ochzD2cS7fFsWs": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GraphqlLambdaFunction"
               },
-              "CodeSha256": "qsEwoaoZM7UlGjDUbFKOS4YaY+wUo7SV0d2A6hfM+jk="
+              "CodeSha256": "8cBxT3D9YP5uZqv+E7xmH1RJSzzFqnLcrOQksozdTE4="
             }
           },
           "ApiGatewayRestApi": {
@@ -303,7 +349,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1594769708811": {
+          "ApiGatewayDeployment1594831431500": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -352,6 +398,153 @@
                 ]
               }
             }
+          },
+          "ApiGatewayLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/api-gateway/apollo-lambda-dev"
+            }
+          },
+          "CustomApiGatewayAccountCloudWatchRole": {
+            "Type": "Custom::ApiGatewayAccountRole",
+            "Version": 1,
+            "Properties": {
+              "ServiceToken": {
+                "Fn::GetAtt": [
+                  "CustomDashresourceDashapigwDashcwDashroleLambdaFunction",
+                  "Arn"
+                ]
+              }
+            }
+          },
+          "IamRoleCustomResourcesLambdaExecution": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+              "AssumeRolePolicyDocument": {
+                "Version": "2012-10-17",
+                "Statement": [
+                  {
+                    "Effect": "Allow",
+                    "Principal": {
+                      "Service": [
+                        "lambda.amazonaws.com"
+                      ]
+                    },
+                    "Action": [
+                      "sts:AssumeRole"
+                    ]
+                  }
+                ]
+              },
+              "Policies": [
+                {
+                  "PolicyName": {
+                    "Fn::Join": [
+                      "-",
+                      [
+                        "dev",
+                        "apollo-lambda",
+                        "custom-resources-lambda"
+                      ]
+                    ]
+                  },
+                  "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                      {
+                        "Effect": "Allow",
+                        "Resource": {
+                          "Fn::Join": [
+                            ":",
+                            [
+                              "arn",
+                              {
+                                "Ref": "AWS::Partition"
+                              },
+                              "iam:",
+                              {
+                                "Ref": "AWS::AccountId"
+                              },
+                              "role/*"
+                            ]
+                          ]
+                        },
+                        "Action": [
+                          "iam:AttachRolePolicy",
+                          "iam:CreateRole",
+                          "iam:ListAttachedRolePolicies",
+                          "iam:PassRole"
+                        ]
+                      },
+                      {
+                        "Effect": "Allow",
+                        "Resource": {
+                          "Fn::Join": [
+                            ":",
+                            [
+                              "arn",
+                              {
+                                "Ref": "AWS::Partition"
+                              },
+                              "apigateway:*::/account"
+                            ]
+                          ]
+                        },
+                        "Action": [
+                          "apigateway:GET",
+                          "apigateway:PATCH"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          "CustomDashresourceDashapigwDashcwDashroleLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": {
+                  "Ref": "ServerlessDeploymentBucket"
+                },
+                "S3Key": "serverless/apollo-lambda/dev/1594831443483-2020-07-15T16:44:03.483Z/custom-resources.zip"
+              },
+              "FunctionName": "apollo-lambda-dev-custom-resource-apigw-cw-role",
+              "Handler": "apiGatewayCloudWatchRole/handler.handler",
+              "MemorySize": 1024,
+              "Runtime": "nodejs12.x",
+              "Timeout": 180,
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleCustomResourcesLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "IamRoleCustomResourcesLambdaExecution"
+            ]
+          },
+          "CloudWatchLogsSubscriptionFilterGraphqlLogGroup": {
+            "Type": "AWS::Logs::SubscriptionFilter",
+            "Properties": {
+              "DestinationArn": "arn:aws:logs:us-east-1:802587217904:destination:sTFjCmglNlCfrNCgps#nJBf6JMnHcp6tqswRf#apollo-lambda#dev",
+              "FilterPattern": "?\"REPORT RequestId: \" ?\"SERVERLESS_ENTERPRISE\"",
+              "LogGroupName": {
+                "Ref": "GraphqlLogGroup"
+              }
+            }
+          },
+          "CloudWatchLogsSubscriptionFilterApiGatewayLogGroup": {
+            "Type": "AWS::Logs::SubscriptionFilter",
+            "Properties": {
+              "DestinationArn": "arn:aws:logs:us-east-1:802587217904:destination:sTFjCmglNlCfrNCgps#nJBf6JMnHcp6tqswRf#apollo-lambda#dev",
+              "FilterPattern": "\"SLS_ACCESS_LOG\"",
+              "LogGroupName": {
+                "Ref": "ApiGatewayLogGroup"
+              }
+            }
           }
         },
         "Outputs": {
@@ -360,10 +553,18 @@
               "Ref": "ServerlessDeploymentBucket"
             }
           },
+          "EnterpriseLogAccessIamRole": {
+            "Value": {
+              "Fn::GetAtt": [
+                "EnterpriseLogAccessIamRole",
+                "Arn"
+              ]
+            }
+          },
           "GraphqlLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GraphqlLambdaVersionZ6hYKHW43KlVKmmxjnj7f260fYP6AbL86QsAKDmEQ"
+              "Ref": "GraphqlLambdaVersionL24gAFUEOS42YxmXCmPbKy1jrHfG6ochzD2cS7fFsWs"
             }
           },
           "ServiceEndpoint": {
@@ -458,12 +659,17 @@
           }
         }
       },
+      "logs": {
+        "restApi": {
+          "format": "{\"requestTime\":\"$context.requestTime\",\"requestId\":\"$context.requestId\",\"apiId\":\"$context.apiId\",\"resourceId\":\"$context.resourceId\",\"resourcePath\":\"$context.resourcePath\",\"path\":\"$context.path\",\"httpMethod\":\"$context.httpMethod\",\"status\":\"$context.status\",\"authLatency\":\"$context.authorizer.integrationLatency\",\"integrationLatency\":\"$context.integrationLatency\",\"integrationStatus\":\"$context.integrationStatus\",\"responseLatency\":\"$context.responseLatency\",\"responseLength\":\"$context.responseLength\",\"errorMessage\":\"$context.error.message\",\"format\":\"SLS_ACCESS_LOG\",\"version\":\"1.0.0\"}"
+        }
+      },
       "vpc": {}
     },
     "pluginsData": {},
     "functions": {
       "graphql": {
-        "handler": "graphql.graphqlHandler",
+        "handler": "s_graphql.handler",
         "events": [
           {
             "http": {
@@ -503,16 +709,21 @@
         "timeout": 6,
         "runtime": "nodejs12.x",
         "vpc": {},
-        "versionLogicalId": "GraphqlLambdaVersionZ6hYKHW43KlVKmmxjnj7f260fYP6AbL86QsAKDmEQ"
+        "versionLogicalId": "GraphqlLambdaVersionL24gAFUEOS42YxmXCmPbKy1jrHfG6ochzD2cS7fFsWs"
       }
     },
     "serviceFilename": "serverless.yml",
+    "app": "apollo-lambda-app",
+    "org": "akaharao",
     "layers": {},
-    "isDashboardMonitoringPreconfigured": false,
+    "isDashboardMonitoringPreconfigured": true,
+    "isDashboardAppPreconfigured": true,
+    "appUid": "nJBf6JMnHcp6tqswRf",
+    "orgUid": "sTFjCmglNlCfrNCgps",
     "artifact": "C:\\Users\\akaha\\Documents\\TIW\\tiw\\server\\.serverless\\apollo-lambda.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/apollo-lambda/dev/1594769718831-2020-07-14T23:35:18.831Z",
+    "artifactDirectoryName": "serverless/apollo-lambda/dev/1594831443483-2020-07-15T16:44:03.483Z",
     "artifact": "apollo-lambda.zip"
   }
 }
