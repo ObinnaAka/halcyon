@@ -28,7 +28,7 @@ const authLink = setContext((_, { headers }) => {
 
 const httpLink = createHttpLink({
 	// uri: "http://localhost:8000/graphql",
-	uri: "https://ctv3i3s9pk.execute-api.us-east-1.amazonaws.com/test/graphql",
+	uri: "https://ctv3i3s9pk.execute-api.us-east-1.amazonaws.com/dev/graphql",
 });
 
 const wsLink = new WebSocketLink({
