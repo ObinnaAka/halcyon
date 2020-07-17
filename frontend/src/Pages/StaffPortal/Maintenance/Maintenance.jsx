@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import gql from "graphql-tag";
 
-import { useInput } from "../../../helpers/useInputChange";
+import { useInput } from "../../../helpers/helpers";
 import AuthContext from "../../../context/auth-context";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";

@@ -6,8 +6,6 @@ require("dotenv").config({ path: __dirname + "/./../tiw.env" });
 
 const http = require("http");
 
-// const GRAPHQL_ENDPOINT = "http://localhost:8000/graphql";
-
 const typeDefs = require("./graphql/schema/index");
 const resolvers = require("./graphql/resolvers/index");
 
@@ -43,8 +41,7 @@ const server = new ApolloServer({
 
 exports.graphqlHandler = server.createHandler({
 	cors: {
-		origin: true,
-		credentials: true,
+		origin: "*",
 	},
 });
 

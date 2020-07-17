@@ -35,7 +35,6 @@ const Request = ({ items, member, date, type, workstation, comment }) => {
 	const handleItemDone = () => {
 		setItemDone(!itemDone);
 	};
-	useEffect(() => {}, []);
 
 	const listItems = tools.map((item, index) => (
 		<ListItem button key={index} className={styles.nested}>

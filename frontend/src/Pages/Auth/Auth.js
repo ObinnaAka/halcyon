@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import { Redirect } from "react-router-dom";
 import AuthContext from "../../context/auth-context";
 import "./Auth.modules.css";
-import { useInput } from "../../helpers/useInputChange";
+import { useInput } from "../../helpers/helpers";
 
 import { useLazyQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";

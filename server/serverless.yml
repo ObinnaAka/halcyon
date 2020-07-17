@@ -1,21 +1,27 @@
 org: akaharao
-app: apollo-lambda-app
-# serverless.yml
+app: tiw-test
 
 service: apollo-lambda
 provider:
-    name: aws
-    runtime: nodejs12.x
+  name: aws
+  runtime: nodejs12.x
 functions:
-    graphql:
-        # This is sorted as <FILENAME>,<HANDLER>
-        handler: graphql.graphqlHandler
-        events:
-        - http:
-            path: graphql
-            method: post
-            cors: true
-        -http:
-            path: graphql
-            method: get
-            cors: true
+  graphql:
+    handler: graphql.graphqlHandler
+    events:
+      - http:
+          path: graphql
+          method: post
+          cors: true
+      - http:
+          path: graphql
+          method: get
+          cors: true
+
+  ide:
+    handler: server.graphiqlHandler
+    events:
+      - http:
+          path: graphiql
+          method: get
+          cors: true

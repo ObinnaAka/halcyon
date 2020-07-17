@@ -1,7 +1,12 @@
 import React, { useState } from "react";
+import gql from "graphql-tag";
+
 import { Redirect } from "react-router-dom";
 import "./Auth.modules.css";
-import { useInput } from "../../helpers/useInputChange";
+
+import { createMember } from "../../graphql/mutations";
+import { useInput, generateID } from "../../helpers/helpers";
+import { useMutation } from "react-apollo";
 
 // import AuthContext from "../../context/auth-context";
 
@@ -44,40 +49,37 @@ const RegisterPage = () => {
 			alert("Invalid credentials entered");
 			return;
 		}
-		const requestBody = {
-			query: `
-            mutation {
-                createMember(memberInput: {firstName: "${firstName}", lastName: "${lastName}", email: "${email}", eid: "${eid}", password: "${password}", memberType:"Staff"}) {
-                  _id
-                  eid
-                }
-              }
-              
-			`,
-		};
-		fetch("http://localhost:8000/graphql", {
-			method: "POST",
-			body: JSON.stringify(requestBody),
-			headers: {
-				"Content-Type": "application/json",
+		let id = generateID("Member");
+		let memberType = "Staff";
+		createNewMember({
+			variables: {
+				input: {
+					id,
+					firstName,
+					lastName,
+					email,
+					eid,
+					password,
+					memberType,
+				},
 			},
-		})
-			.then((res) => {
-				if (res.status !== 200 && res.status !== 201) {
-					throw new Error("Failed");
-				}
-				return res.json();
-			})
-			.then((resData) => {
-				return <Redirect from="/register" to="/auth" />;
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-		// resetEid()
-		// resetPassword()
+		});
 	};
+	const [
+		createNewMember,
+		{
+			loading: transactionLoading,
+			data: transactionData,
+			error: transactionError,
+		},
+	] = useMutation(gql(createMember), {
+		variables: { firstName, lastName, email, eid, password },
+		onCompleted: (transactionData) => console.log(transactionData),
+	});
 
+	if (transactionLoading) return <div className="page">Loading ...</div>;
+	if (transactionError)
+		return <div className="page">{`Error! ${transactionError}`}</div>;
 	return (
 		<div>
 			{memberLogin && <Redirect from="/register" to="/auth" />}
