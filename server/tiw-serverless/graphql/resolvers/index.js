@@ -258,7 +258,9 @@ module.exports = {
 
 	Mutation: {
 		// ------------------------------------------
-		// Just a test
+		// Just a transaction testing function. Can
+		// create transactions without being authenticated
+		// with a token
 		// ------------------------------------------
 
 		noAuthTest: validateRole("Staff")(async (root, args, context) => {

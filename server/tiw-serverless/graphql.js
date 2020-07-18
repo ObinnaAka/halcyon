@@ -38,22 +38,18 @@ const server = new ApolloServer({
 	},
 });
 
+const app = express();
+
+const httpServer = http.createServer(app);
+server.installSubscriptionHandlers(httpServer);
+server.applyMiddleware({ app });
+
 exports.graphqlHandler = server.createHandler({
 	cors: {
 		origin: "*",
 		credentials: false,
 	},
 });
-
-// exports.graphiqlHandler = server.createHandler({
-// 	endpointURL: "/dev/graphiql",
-// });
-
-// const app = express();
-
-// const httpServer = http.createServer(app);
-// server.installSubscriptionHandlers(httpServer);
-// server.applyMiddleware({ app });
 
 mongoose.Promise = global.Promise;
 mongoose
