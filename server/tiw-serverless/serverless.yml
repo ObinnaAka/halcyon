@@ -1,0 +1,31 @@
+service: tiw-serverless
+# app and org for use with dashboard.serverless.com
+app: tiw-serverless
+org: akaharao
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+
+# plugins:
+#   - serverless-plugin-include-dependencies
+
+functions:
+  graphql:
+    # this is formatted as <FILENAME>.<HANDLER>
+    handler: graphql.graphqlHandler
+    events:
+      - http:
+          path: graphql
+          method: post
+          cors: true
+      - http:
+          path: graphiql
+          method: get
+          cors: true
+  # graphiql:
+  #   handler: graphql.graphiqlHandler
+  #   events:
+  #     - http:
+  #         path: graphiql
+  #         method: get
