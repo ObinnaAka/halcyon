@@ -263,7 +263,7 @@ module.exports = {
 		// with a token
 		// ------------------------------------------
 
-		noAuthTest: validateRole("Staff")(async (root, args, context) => {
+		noAuthTest: async (root, args, context) => {
 			try {
 				const transaction = new Transaction({
 					transactionType: args.transactionInput.transactionType,
@@ -331,7 +331,7 @@ module.exports = {
 							if (err) console.log(err);
 						}
 					);
-					await Member.update(
+					await Member.updateOne(
 						{ _id: { $in: transaction.member } },
 						{ $push: { itemRecord: { $each: transaction.tools } } },
 						{ upsert: false },
@@ -350,21 +350,24 @@ module.exports = {
 				}
 
 				// We create "createdTransaction" so that we can simultaneously access the
-				// Transaction and its args (member, staffMember, tools)
+				// Transaction and its args (member, staffmember, tools)
 				let createdTransaction;
 				const result = await transaction.save();
 				createdTransaction = transformTransaction(result);
+
+				// publish(createdTransaction);
+
+				pubsub.publish(TRANSACTION_SUBSCRIPTION, createdTransaction);
 
 				// Add transaction to member transactionRecord
 				member.transactionRecord.push(createdTransaction);
 				//At the end of this, save the member to the database
 				await member.save();
-				publishTransaction(createdTransaction);
 				return createdTransaction;
 			} catch (err) {
 				throw err;
 			}
-		}),
+		},
 		// ------------------------------------------
 		// Create a new Member in the database
 		// ------------------------------------------
