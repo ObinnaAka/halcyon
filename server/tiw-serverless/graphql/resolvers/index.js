@@ -17,8 +17,10 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { authenticated, validateRole } = require("../../middleware/is-auth");
 
-const express = require("express");
-const mongoose = require("mongoose");
+// const express = require("express");
+// const mongoose = require("mongoose");
+
+const connectToDatabase = require("../../database");
 
 const TRANSACTION_SUBSCRIPTION = "newTransaction";
 const STUDENT_SUBSCRIPTION = "newStudent";
@@ -69,22 +71,12 @@ module.exports = {
 
 	Query: {
 		test: async () => {
-			let connected = "This has not been processed";
-			mongoose.Promise = global.Promise;
-			connected = await mongoose
-				.connect(`${process.env.AZURE}`, { useNewUrlParser: true })
-				.then(() => {
-					console.log("DB connected");
-					return "This is true";
-				})
-				.catch((error) => {
-					let connected = error;
-					console.log(error);
-					return "This is an error";
-				});
+			let connected = await connectToDatabase();
 			return "We made it || " + connected + " || " + process.env.AZURE;
 		},
-		me: authenticated((root, args, context) => context.currentMember),
+		me: authenticated((root, args, context) =>
+			console.log(context.currentMember)
+		),
 
 		// ------------------------------------------
 		// Retrieve all members from database
@@ -92,6 +84,7 @@ module.exports = {
 		// TODO Require authentication to retrieve all members in the database
 		members: async () => {
 			try {
+				await connectToDatabase();
 				const members = await Member.find();
 				return members.map((member) => {
 					return transformMember(member);
@@ -108,6 +101,7 @@ module.exports = {
 
 		singleMember: async (memberID) => {
 			try {
+				await connectToDatabase();
 				const member = await Member.findById(memberID);
 				return transformMember(member);
 			} catch (err) {
@@ -121,6 +115,7 @@ module.exports = {
 
 		transactions: async () => {
 			try {
+				await connectToDatabase();
 				const transactions = await Transaction.find();
 				return transactions.map((transaction) => {
 					return transformTransaction(transaction);
@@ -136,6 +131,7 @@ module.exports = {
 
 		singleTransaction: async (transactionID) => {
 			try {
+				await connectToDatabase();
 				const transaction = await Transaction.findById(transactionID);
 				return transformTransaction(transaction);
 			} catch (err) {
@@ -149,6 +145,7 @@ module.exports = {
 
 		tools: async () => {
 			try {
+				await connectToDatabase();
 				const tools = await Tool.find();
 				return tools.map((tool) => {
 					return transformTool(tool);
@@ -172,6 +169,7 @@ module.exports = {
 		// ------------------------------------------
 
 		login: async (_, { eid, password }, { cache }) => {
+			await connectToDatabase();
 			const member = await Member.findOne({ eid: eid });
 			if (!member) {
 				throw new Error("User not registered");
@@ -201,6 +199,7 @@ module.exports = {
 
 		outstandingTransactions: async () => {
 			try {
+				await connectToDatabase();
 				const transactions = await Transaction.find({
 					status: "Processing",
 				});
@@ -226,6 +225,7 @@ module.exports = {
 
 		signedInStudents: async () => {
 			try {
+				await connectToDatabase();
 				const signedInStudents = await Member.find({
 					signinStatus: true,
 				});
@@ -264,6 +264,7 @@ module.exports = {
 
 		noAuthTest: async (root, args, context) => {
 			try {
+				await connectToDatabase();
 				const transaction = new Transaction({
 					transactionType: args.transactionInput.transactionType,
 					staffMember: args.transactionInput.staffMember,
@@ -371,6 +372,7 @@ module.exports = {
 
 		createMember: async (root, args) => {
 			try {
+				await connectToDatabase();
 				console.log(args);
 
 				// Check to see if the user is already registered
@@ -422,6 +424,7 @@ module.exports = {
 		createTransaction: authenticated(
 			validateRole("Staff")(async (root, args, context) => {
 				try {
+					await connectToDatabase();
 					const transaction = new Transaction({
 						transactionType: args.transactionInput.transactionType,
 						staffMember: args.transactionInput.staffMember,
@@ -562,6 +565,7 @@ module.exports = {
 		// WIP: Meant to be a tool checkout resolver
 		// ------------------------------------------
 		toolCheckout: async (root, args, req) => {
+			await connectToDatabase();
 			if (!req.isAuth) {
 				throw new Error("Not authenticated. Please log in");
 			}
