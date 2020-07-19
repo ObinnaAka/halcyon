@@ -73,7 +73,7 @@ functions:
     events:
       - http:
           path: graphql
-          method: POST
+          method: ANY
           cors: true
       - http:
           path: graphiql

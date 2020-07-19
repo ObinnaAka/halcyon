@@ -18,13 +18,17 @@ import { SubscriptionClient } from "subscriptions-transport-ws";
 // https://stackoverflow.com/questions/61690378/aws-amplify-react-app-deploy-error-too-many-redirect-or-aws-build-settings
 
 const wsClient = new SubscriptionClient(
-	"wss://s6rbb7i554.execute-api.us-east-1.amazonaws.com/dev/graphql", // please provide the uri of the api gateway v2 endpoint
+	"wss://skaq2dxiil.execute-api.us-east-1.amazonaws.com/dev/", // please provide the uri of the api gateway v2 endpoint
 	{ lazy: true, reconnect: true },
 	null,
 	[]
 );
 
-const link = new WebSocketLink(wsClient);
+const httpLink = createHttpLink({
+	uri: "https://s6rbb7i554.execute-api.us-east-1.amazonaws.com/dev/graphql",
+});
+
+const wsLink = new WebSocketLink(wsClient);
 
 const authLink = setContext((_, { headers }) => {
 	// get the authentication token from local storage if it exists
@@ -38,9 +42,18 @@ const authLink = setContext((_, { headers }) => {
 	};
 });
 
+const link = split(
+	({ query }) => {
+		const { kind, operation } = getMainDefinition(query);
+		return kind === "OperationDefinition" && operation === "subscription";
+	},
+	wsLink,
+	httpLink
+);
+
 const client = new ApolloClient({
 	link: authLink.concat(link),
-	// credentials: "same-origin",
+	credentials: "same-origin",
 	cache: new InMemoryCache(),
 });
 
