@@ -35,7 +35,7 @@ const httpLink = createHttpLink({
 });
 
 const wsLink = new WebSocketLink({
-	uri: `ws://s6rbb7i554.execute-api.us-east-1.amazonaws.com/dev/graphql`,
+	uri: `wss://s6rbb7i554.execute-api.us-east-1.amazonaws.com/dev/graphql`,
 	options: {
 		reconnect: true,
 		connectionParams: {

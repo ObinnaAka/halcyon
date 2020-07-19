@@ -38,11 +38,11 @@ const server = new ApolloServer({
 	},
 });
 
-const app = express();
+// const app = express();
 
-const httpServer = http.createServer(app);
-server.installSubscriptionHandlers(httpServer);
-server.applyMiddleware({ app });
+// const httpServer = http.createServer(app);
+// server.installSubscriptionHandlers(httpServer);
+// server.applyMiddleware({ app });
 
 exports.graphqlHandler = server.createHandler({
 	cors: {

@@ -120,7 +120,7 @@ module.exports = gql`
 		updateTool(toolID: ID!): Tool
 		toolCheckout: Tool!
 		updateTransaction(transactionID: ID!): Transaction
-		authTest(transactionInput: TransactionInput): Transaction
+		noAuthTest(transactionInput: TransactionInput): Transaction
 	}
 
 	schema {
