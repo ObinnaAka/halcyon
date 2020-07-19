@@ -7,7 +7,8 @@ IMPORTANT: This document will need to be changed
 when using a different database
 -----------------------------------------------*/
 
-const { PubSub, withFilter } = require("graphql-subscriptions");
+const { withFilter } = require("graphql-subscriptions");
+
 const Member = require("../../models/member");
 const Transaction = require("../../models/transaction");
 const Tool = require("../../models/tool");
@@ -22,12 +23,10 @@ const mongoose = require("mongoose");
 const TRANSACTION_SUBSCRIPTION = "newTransaction";
 const STUDENT_SUBSCRIPTION = "newStudent";
 
-const pubsub = new PubSub();
-const publish = (transaction) => {
-	setTimeout((transaction) => {
-		pubsub.publish(TRANSACTION_SUBSCRIPTION, transaction);
-	}, 1000);
-};
+// -----------------------------------------------
+// We use this to store the events for the subscriptions
+// on our GraphQL Lambda Server
+// -----------------------------------------------
 
 // -----------------------------------------------
 // These convert the objects (Members, Transactions,
@@ -83,7 +82,7 @@ module.exports = {
 					console.log(error);
 					return "This is an error";
 				});
-			return "We made it || \n" + connected + " || \n";
+			return "We made it || " + connected + " || " + process.env.AZURE;
 		},
 		me: authenticated((root, args, context) => context.currentMember),
 
@@ -342,22 +341,20 @@ module.exports = {
 				} else if (transaction.transactionType === "Advanced 3D-Print") {
 				} else if (transaction.transactionType === "Training") {
 				} else if (transaction.transactionType === "Conduct-Update") {
-				}
-				// Not sure of this last one
-				else if (transaction.transactionType === "Cleaning") {
+				} else if (transaction.transactionType === "Cleaning") {
 				} else {
 					console.log("test");
 				}
 
 				// We create "createdTransaction" so that we can simultaneously access the
-				// Transaction and its args (member, staffmember, tools)
+				// Transaction and its args (member, staffMember, tools)
 				let createdTransaction;
 				const result = await transaction.save();
 				createdTransaction = transformTransaction(result);
 
 				// publish(createdTransaction);
 
-				pubsub.publish(TRANSACTION_SUBSCRIPTION, createdTransaction);
+				await context.pubSub.publish(TRANSACTION_SUBSCRIPTION, transaction);
 
 				// Add transaction to member transactionRecord
 				member.transactionRecord.push(createdTransaction);
@@ -517,7 +514,7 @@ module.exports = {
 
 					// publish(createdTransaction);
 
-					pubsub.publish(TRANSACTION_SUBSCRIPTION, createdTransaction);
+					await context.pubSub.publish(TRANSACTION_SUBSCRIPTION, transaction);
 
 					// Add transaction to member transactionRecord
 					member.transactionRecord.push(createdTransaction);
@@ -602,7 +599,8 @@ module.exports = {
 	Subscription: {
 		onNewRequest: {
 			//! Will need WithFilter here to filter for only "Processing transactions"
-			subscribe: () => pubsub.asyncIterator([TRANSACTION_SUBSCRIPTION]),
+			// subscribe: () => pubsub.asyncIterator([TRANSACTION_SUBSCRIPTION]),
+			subscribe: () => pubsub.subscribe(TRANSACTION_SUBSCRIPTION),
 			resolve: (transaction) => {
 				return transaction;
 			},
@@ -620,7 +618,7 @@ module.exports = {
 		},
 		onNewStudent: {
 			//! Will need WithFilter here to filter for only "Processing transactions"
-			subscribe: () => pubsub.asyncIterator([TRANSACTION_SUBSCRIPTION]),
+			subscribe: () => pubsub.subscribe(TRANSACTION_SUBSCRIPTION),
 			resolve: (transaction) => {
 				return transaction.member;
 			},

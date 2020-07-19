@@ -4,18 +4,27 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
-import { WebSocketLink } from "apollo-link-ws";
-import { getMainDefinition } from "apollo-utilities";
-
 import { split } from "apollo-link";
 import { ApolloClient } from "apollo-client";
 import { createHttpLink } from "apollo-link-http";
 import { setContext } from "apollo-link-context";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { ApolloProvider, withApollo } from "react-apollo";
+import { WebSocketLink } from "apollo-link-ws";
+import { getMainDefinition } from "apollo-utilities";
+import { SubscriptionClient } from "subscriptions-transport-ws";
 
 // * For Deployment help
 // https://stackoverflow.com/questions/61690378/aws-amplify-react-app-deploy-error-too-many-redirect-or-aws-build-settings
+
+const wsClient = new SubscriptionClient(
+	"https://s6rbb7i554.execute-api.us-east-1.amazonaws.com/dev/graphql", // please provide the uri of the api gateway v2 endpoint
+	{ lazy: true, reconnect: true },
+	null,
+	[]
+);
+
+const link = new WebSocketLink(wsClient);
 
 const authLink = setContext((_, { headers }) => {
 	// get the authentication token from local storage if it exists
@@ -29,33 +38,9 @@ const authLink = setContext((_, { headers }) => {
 	};
 });
 
-const httpLink = createHttpLink({
-	// uri: "http://localhost:8000/graphql",
-	uri: "https://s6rbb7i554.execute-api.us-east-1.amazonaws.com/dev/graphql",
-});
-
-const wsLink = new WebSocketLink({
-	uri: `wss://s6rbb7i554.execute-api.us-east-1.amazonaws.com/dev/graphql`,
-	options: {
-		reconnect: true,
-		connectionParams: {
-			authToken: localStorage.getItem("token"),
-		},
-	},
-});
-
-const link = split(
-	({ query }) => {
-		const { kind, operation } = getMainDefinition(query);
-		return kind === "OperationDefinition" && operation === "subscription";
-	},
-	wsLink,
-	httpLink
-);
-
 const client = new ApolloClient({
 	link: authLink.concat(link),
-	credentials: "same-origin",
+	// credentials: "same-origin",
 	cache: new InMemoryCache(),
 });
 
