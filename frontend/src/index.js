@@ -18,7 +18,7 @@ import { SubscriptionClient } from "subscriptions-transport-ws";
 // https://stackoverflow.com/questions/61690378/aws-amplify-react-app-deploy-error-too-many-redirect-or-aws-build-settings
 
 const wsClient = new SubscriptionClient(
-	"https://s6rbb7i554.execute-api.us-east-1.amazonaws.com/dev/graphql", // please provide the uri of the api gateway v2 endpoint
+	"wss://s6rbb7i554.execute-api.us-east-1.amazonaws.com/dev/graphql", // please provide the uri of the api gateway v2 endpoint
 	{ lazy: true, reconnect: true },
 	null,
 	[]
