@@ -353,9 +353,7 @@ module.exports = {
 				const result = await transaction.save();
 				createdTransaction = transformTransaction(result);
 
-				// publish(createdTransaction);
-
-				await context.pubSub.publish(TRANSACTION_SUBSCRIPTION, transaction);
+				await context.pubsub.publish(TRANSACTION_SUBSCRIPTION, transaction);
 
 				// Add transaction to member transactionRecord
 				member.transactionRecord.push(createdTransaction);
@@ -517,7 +515,7 @@ module.exports = {
 
 					// publish(createdTransaction);
 
-					await context.pubSub.publish(TRANSACTION_SUBSCRIPTION, transaction);
+					await context.pubsub.publish(TRANSACTION_SUBSCRIPTION, transaction);
 
 					// Add transaction to member transactionRecord
 					member.transactionRecord.push(createdTransaction);
@@ -604,9 +602,14 @@ module.exports = {
 		onNewRequest: {
 			//! Will need WithFilter here to filter for only "Processing transactions"
 			// subscribe: () => pubsub.asyncIterator([TRANSACTION_SUBSCRIPTION]),
-			subscribe: () => pubsub.subscribe(TRANSACTION_SUBSCRIPTION),
-			resolve: (transaction) => {
-				return transaction;
+			subscribe: (rootValue, args, context, info) => {
+				context.pubsub.subscribe(TRANSACTION_SUBSCRIPTION);
+			},
+
+			resolve: (rootValue) => {
+				console.log("this is the rootValue: " + rootValue);
+				console.log(rootValue.transaction);
+				return rootValue;
 			},
 
 			// subscribe: withFilter(
@@ -622,10 +625,9 @@ module.exports = {
 		},
 		onNewStudent: {
 			//! Will need WithFilter here to filter for only "Processing transactions"
-			subscribe: () => pubsub.subscribe(TRANSACTION_SUBSCRIPTION),
-			resolve: (transaction) => {
-				return transaction.member;
-			},
+			subscribe: (rootValue, args, context, info) =>
+				context.pubsub.subscribe(STUDENT_SUBSCRIPTION),
+			resolve: (transaction) => transaction.member,
 		},
 	},
 };

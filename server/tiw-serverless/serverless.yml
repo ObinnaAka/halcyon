@@ -4,28 +4,29 @@ service: tiw-serverless
 app: tiw-serverless
 org: akaharao
 
-custom:
-  dynamodb:
-    stages:
-      - dev
-    start:
-      inMemory: true
-      migrate: true
-      noStart: false
-  dynamodbStream:
-    host: localhost
-    port: 8000
-    # this fixes the problem with missing region
-    region: us-east-1
-    pollForever: true
-    streams:
-      - table: Events
-        functions:
-          - eventsHandler
+# custom:
+#   dynamodb:
+#     stages:
+#       - dev
+#     start:
+#       inMemory: true
+#       migrate: true
+#       noStart: false
+#   dynamodbStream:
+#     host: localhost
+#     port: 8000
+#     # this fixes the problem with missing region
+#     region: us-east-1
+#     pollForever: true
+#     streams:
+#       - table: Events
+#         functions:
+#           - eventsHandler
 
 provider:
   name: aws
   runtime: nodejs12.x
+  region: us-east-1
 
   iamRoleStatements:
     - Effect: Allow
@@ -174,8 +175,3 @@ resources:
         TimeToLiveSpecification:
           AttributeName: ttl
           Enabled: true
-# plugins:
-#   - serverless-webpack
-#   - serverless-dynamodb-local
-#   - serverless-plugin-offline-dynamodb-stream
-#   - serverless-offline

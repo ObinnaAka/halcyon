@@ -14,8 +14,11 @@ import { WebSocketLink } from "apollo-link-ws";
 import { getMainDefinition } from "apollo-utilities";
 import { SubscriptionClient } from "subscriptions-transport-ws";
 
-// * For Deployment help
+// ------------------------------------------------------------------
+// * References
+// https://github.com/michalkvasnicak/aws-lambda-graphql
 // https://stackoverflow.com/questions/61690378/aws-amplify-react-app-deploy-error-too-many-redirect-or-aws-build-settings
+// ------------------------------------------------------------------
 
 const wsClient = new SubscriptionClient(
 	"wss://skaq2dxiil.execute-api.us-east-1.amazonaws.com/dev/", // please provide the uri of the api gateway v2 endpoint

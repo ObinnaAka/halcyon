@@ -54,18 +54,21 @@ const StudentRequests = (Apollo) => {
 	// loading,
 	// subscriptionData
 	// } =
-	useSubscription(REQUESTS_SUBSCRIPTION, {
-		onSubscriptionData: ({ subscriptionData }) => {
-			console.log(subscriptionData);
-			if (subscriptionData) {
-				let newRequest = [subscriptionData.data.onNewRequest];
-				let newRequests = newRequest.concat(requests);
-				setRequests(newRequests);
-			} else {
-				return <div className="page">No new requests</div>;
-			}
-		},
-	});
+	const { loading: subscriptionLoading } = useSubscription(
+		REQUESTS_SUBSCRIPTION,
+		{
+			onSubscriptionData: ({ subscriptionData }) => {
+				console.log(subscriptionData);
+				if (subscriptionData) {
+					let newRequest = [subscriptionData.data.onNewRequest];
+					let newRequests = newRequest.concat(requests);
+					setRequests(newRequests);
+				} else {
+					return <div className="page">No new requests</div>;
+				}
+			},
+		}
+	);
 
 	const { loading: queryLoading, error: queryError } = useQuery(
 		OUTSTANDING_TRANSACTION,
@@ -83,6 +86,8 @@ const StudentRequests = (Apollo) => {
 		}
 	);
 
+	if (subscriptionLoading)
+		return <div className="page">Subscriptions Loading ...</div>;
 	if (queryLoading) return <div className="page">Loading ...</div>;
 	if (queryError) return <div className="page">{`Error! ${queryError}`}</div>;
 

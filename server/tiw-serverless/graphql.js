@@ -29,7 +29,7 @@ const subscriptionManager = new DynamoDBSubscriptionManager();
 const connectionManager = new DynamoDBConnectionManager({
 	subscriptionManager,
 });
-const pubSub = new PubSub({ eventStore });
+const pubsub = new PubSub({ eventStore });
 
 const server = new Server({
 	// accepts all the apollo-server-lambda options and adds few extra options
@@ -42,33 +42,7 @@ const server = new Server({
 	playground: {
 		endpoint: "/graphiql",
 	},
-	context: async ({ req }) => {
-		let token = null;
-		let currentMember = null;
-		console.log("Set token for context");
-		try {
-			token = req.headers.authorization;
-			if (token) {
-				// I'm not sure but according to the tutorial I think
-				// we pass in the token to authenticated helper module
-				// https://medium.com/the-guild/authentication-and-authorization-in-graphql-and-how-graphql-modules-can-help-fadc1ee5b0c2
-				currentMember = await tradeTokenForMember(token);
-			}
-		} catch (err) {
-			console.warn(
-				`Unable to authenticate using auth token: ${token} req: ${JSON.stringify(
-					req
-				)}`
-			);
-		}
-		return {
-			token,
-			currentMember,
-			pubSub,
-		};
-	},
-
-	context: async ({ event, context }) => {
+	context: async ({ event, lambdaContext }) => {
 		let token = null;
 		let currentMember = null;
 		console.log("Set token for context");
@@ -82,15 +56,16 @@ const server = new Server({
 			}
 		} catch (err) {
 			console.warn(
-				`Unable to authenticate using auth token: ${token} req: ${event}`
+				`Unable to authenticate using auth token: ${token} event: ${event}`
 			);
 		}
 		return {
 			token,
 			currentMember,
-			pubSub,
+			pubsub,
 			headers: event.headers,
 			event,
+			lambdaContext,
 		};
 	},
 });
