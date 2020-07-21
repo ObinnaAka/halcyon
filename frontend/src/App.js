@@ -6,39 +6,38 @@ import StaffPortal from "./Pages/StaffPortal/StaffPortal";
 import NavBar from "./components/NavBar/NavBar";
 import Footer from "./components/Footer/Footer";
 import AuthContext from "./context/auth-context";
-import { withApollo } from "react-apollo";
+
+import Amplify, { API, graphqlOperation } from "aws-amplify";
+import awsExports from "./aws-exports";
+import { createMember } from "./graphql/mutations";
+import { listMembers } from "./graphql/queries";
 
 import "./App.css";
+Amplify.configure(awsExports);
 
 const App = (Apollo) => {
 	// ____ Context____
 	const [auth, setAuth] = useState({ token: null, member: null });
 
-	const AuthPageWithClient = withApollo(AuthPage);
-	const StaffPortalWithClient = withApollo(StaffPortal);
-	const RegisterPageWithClient = withApollo(RegisterPage);
-
 	const authValue = { auth, setAuth };
 	return (
 		// TODO Replace "AuthContext" with Apollo context because it already stores the auth stuff
-		<AuthContext.Provider value={authValue} client={Apollo.client}>
-			<BrowserRouter>
-				<React.Fragment>
-					<NavBar />
-					<Switch>
-						{auth.token ? (
-							<Redirect from="/" to="/staff" exact />
-						) : (
-							<Redirect from="/" to="/auth" exact />
-						)}
-						<Route path="/auth" component={AuthPageWithClient} />
-						<Route path="/staff" component={StaffPortalWithClient} />
-						<Route path="/register" component={RegisterPageWithClient} />
-					</Switch>
-					<Footer />
-				</React.Fragment>
-			</BrowserRouter>
-		</AuthContext.Provider>
+		<BrowserRouter>
+			<React.Fragment>
+				<NavBar />
+				<Switch>
+					{auth.token ? (
+						<Redirect from="/" to="/staff" exact />
+					) : (
+						<Redirect from="/" to="/auth" exact />
+					)}
+					<Route path="/auth" component={AuthPage} />
+					<Route path="/staff" component={StaffPortal} />
+					<Route path="/register" component={RegisterPage} />
+				</Switch>
+				<Footer />
+			</React.Fragment>
+		</BrowserRouter>
 	);
 };
 

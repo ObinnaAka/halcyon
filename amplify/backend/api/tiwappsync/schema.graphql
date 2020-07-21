@@ -1,0 +1,51 @@
+type Transaction @model @key(name: "ByStatus", fields: ["id", "status", "updatedAt"]) {
+	id: ID!
+	transactionType: String!
+	staffMember: Member @connection
+	member: Member @connection
+	tools: [Tool] @connection
+	training: Training @connection
+	status: String!
+	comment: String
+	createdAt: AWSDateTime!
+	updatedAt: AWSDateTime!
+}
+
+type Member @model @key(name: "ByRecent", fields: ["id", "eid", "updatedAt"]) {
+	id:ID!
+	eid: String!
+	firstName: String
+	lastName: String
+	password: String
+	phone: AWSPhone
+	signinStatus: Boolean
+	email: AWSEmail
+	trainings: [Training] 
+	itemRecord: [Tool] 
+	workstation: Tool 
+	conductRecord: [String]
+	conductStatus: Int
+	transactionRecord: [Transaction] 
+	bevoCard: String
+	memberType: String!
+	createdAt: AWSDateTime!
+	updatedAt: AWSDateTime!
+}
+
+type Tool @model @key(name: "ByToolStatus", fields: ["id", "name", "status"]) {
+	id: ID!
+	name: String!
+	location: String
+	status: Int!
+	currentHolder: Member @connection
+	currentWorkstation: Tool @connection
+	transactionRecord: [Transaction] @connection
+	toolType: String!
+	inService: Boolean
+	updatedAt: AWSDateTime!
+}
+
+type Training @model {
+	id: ID!
+	name: String!
+}

@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import { Redirect } from "react-router-dom";
 import AuthContext from "../../context/auth-context";
 import "./Auth.modules.css";
-import { useInput } from "../../helpers/useInputChange";
+import { useInput } from "../../helpers/helpers";
 
 import { useLazyQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
@@ -83,8 +83,7 @@ const AuthPage = (Apollo) => {
 	});
 
 	if (loading) return <div className="page">Loading ...</div>;
-	if (error)
-		return <div className="page">{console.trace(error)`Error! ${error}`}</div>;
+	if (error) return <div className="page">{console.trace(error)`Error! ${error}`}</div>;
 
 	// -------------------------------------------------
 	// This submits the user's entered information and the
@@ -126,12 +125,7 @@ const AuthPage = (Apollo) => {
 				</div>
 				<div className="form-actions">
 					<input type="submit" className="button" value="Login" />
-					<input
-						type="button"
-						className="button"
-						value="Register"
-						onClick={handleRegister}
-					/>
+					<input type="button" className="button" value="Register" onClick={handleRegister} />
 					{/* <Button type="submit" variant="primary">
 					Login
 				</Button> */}

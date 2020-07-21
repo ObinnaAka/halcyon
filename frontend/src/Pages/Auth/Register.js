@@ -1,116 +1,124 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import "./Auth.modules.css";
-import { useInput } from "../../helpers/useInputChange";
+import { generateID } from "../../helpers/helpers";
+
+import { createMember } from "../../graphql/mutations";
+import { listMembers } from "../../graphql/queries";
+import { API, graphqlOperation } from "aws-amplify";
 
 // import AuthContext from "../../context/auth-context";
 
+const initialState = {
+	memberID: "",
+	firstName: "",
+	lastName: "",
+	email: "",
+	eid: "",
+	password: "",
+	memberType: "Staff",
+};
+
 const RegisterPage = () => {
-	const {
-		value: firstName,
-		bind: bindFirstName,
-		// reset: resetFirstName,
-	} = useInput("");
-	const {
-		value: lastName,
-		bind: bindLastName,
-		// reset: resetLastName,
-	} = useInput("");
-	const {
-		value: email,
-		bind: bindEmail,
-		// reset: resetEmail
-	} = useInput("");
-	const {
-		value: eid,
-		bind: bindEid,
-		//reset: resetEid
-	} = useInput("");
-	const {
-		value: password,
-		bind: bindPassword,
-		//reset: resetPassword,
-	} = useInput("");
+	const [formState, setFormState] = useState(initialState);
+	// const { value: firstName, bind: bindFirstName, reset: resetFirstName } = useInput("");
+	// const { value: lastName, bind: bindLastName, reset: resetLastName } = useInput("");
+	// const { value: email, bind: bindEmail, reset: resetEmail } = useInput("");
+	// const { value: eid, bind: bindEid, reset: resetEid } = useInput("");
+	// const { value: password, bind: bindPassword, reset: resetPassword } = useInput("");
 
 	// For student portal login
 	const [memberLogin, setMemberLogin] = useState(false);
 
+	const setInput = (key, value) => {
+		setFormState({ ...formState, [key]: value });
+		console.log(formState);
+	};
+
 	const handleRegister = () => {
 		setMemberLogin(true);
 	};
-	const submitHandler = (evt) => {
-		evt.preventDefault();
-		if (eid.trim().length === 0 || password.trim().length === 0) {
-			alert("Invalid credentials entered");
-			return;
-		}
-		const requestBody = {
-			query: `
-            mutation {
-                createMember(memberInput: {firstName: "${firstName}", lastName: "${lastName}", email: "${email}", eid: "${eid}", password: "${password}", memberType:"Staff"}) {
-                  _id
-                  eid
-                }
-              }
-              
-			`,
-		};
-		fetch("http://localhost:8000/graphql", {
-			method: "POST",
-			body: JSON.stringify(requestBody),
-			headers: {
-				"Content-Type": "application/json",
-			},
-		})
-			.then((res) => {
-				if (res.status !== 200 && res.status !== 201) {
-					throw new Error("Failed");
-				}
-				return res.json();
-			})
-			.then((resData) => {
-				return <Redirect from="/register" to="/auth" />;
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-		// resetEid()
-		// resetPassword()
-	};
 
+	const addMember = async () => {
+		console.log(formState);
+		try {
+			if (
+				!formState.firstName ||
+				!formState.lastName ||
+				!formState.email ||
+				!formState.eid ||
+				!formState.password
+			) {
+				alert("Invalid credentials entered");
+				return;
+			}
+
+			const member = { ...formState };
+			member.memberID = await generateID("Member");
+			console.log(member);
+			await API.graphql(graphqlOperation(createMember, { input: member }));
+			setFormState(initialState);
+		} catch (err) {
+			console.log(formState);
+			// console.log(memberID);
+			console.log("Error creating member: ", err);
+		}
+	};
 	return (
 		<div>
 			{memberLogin && <Redirect from="/register" to="/auth" />}
 			{/* {context.token? <Redirect from="/" to="/staff" exact /> : <Redirect from="/" to="/auth" exact />} */}
-			<form className="page auth-app" onSubmit={submitHandler}>
+			<form className="page auth-app">
 				<div className="form-control">
 					<label htmlFor="firstName">
-						First Name:
-						<input type="string" value={firstName} {...bindFirstName} />
+						First Name
+						<input
+							onChange={(event) => setInput("firstName", event.target.value)}
+							value={formState.firstName}
+							placeholder="First Name"
+						/>
 					</label>
 				</div>
 				<div className="form-control">
 					<label htmlFor="lastName">
 						Last Name:
-						<input type="string" value={lastName} {...bindLastName} />
+						<input
+							onChange={(event) => setInput("lastName", event.target.value)}
+							value={formState.lastName}
+							placeholder="Last Name"
+						/>
 					</label>
 				</div>
 				<div className="form-control">
 					<label htmlFor="eid">
 						EID:
-						<input type="string" value={eid} {...bindEid} />
+						<input
+							onChange={(event) => setInput("eid", event.target.value)}
+							value={formState.eid}
+							placeholder="EID"
+						/>
 					</label>
 				</div>
 				<div className="form-control">
 					<label htmlFor="email">
 						Email:
-						<input type="email" value={email} {...bindEmail} />
+						<input
+							type="email"
+							onChange={(event) => setInput("email", event.target.value)}
+							value={formState.email}
+							placeholder="Email"
+						/>
 					</label>
 				</div>
 				<div className="form-control">
 					<label htmlFor="password">
 						Password:
-						<input type="password" value={password} {...bindPassword} />
+						<input
+							type="password"
+							onChange={(event) => setInput("password", event.target.value)}
+							value={formState.password}
+							placeholder="Password"
+						/>
 					</label>
 				</div>
 
@@ -118,13 +126,10 @@ const RegisterPage = () => {
 					<input
 						type="button"
 						className="button"
-						value="Login"
+						value="Switch to Login"
 						onClick={handleRegister}
 					/>
-					<input type="submit" className="button" value="Register" />
-					{/* <Button type="submit" variant="primary">
-					Login
-				</Button> */}
+					<input type="button" className="button" value="Register" onClick={addMember} />
 				</div>
 			</form>
 		</div>

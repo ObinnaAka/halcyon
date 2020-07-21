@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import gql from "graphql-tag";
 
-import { useInput } from "../../../helpers/useInputChange";
+import { useInput } from "../../../helpers/helpers";
 import AuthContext from "../../../context/auth-context";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
@@ -21,19 +21,9 @@ const MaintenancePage = (Apollo) => {
 
 	// ____ Input functions for forms ______
 	const { value: name, bind: bindName, reset: resetName } = useInput("");
-	const {
-		value: location,
-		bind: bindLocation,
-		reset: resetLocation,
-	} = useInput("");
-	const {
-		value: toolType,
-		bind: bindToolType,
-		reset: resetToolType,
-	} = useInput("");
-	const { value: comment, bind: bindComment, reset: resetComment } = useInput(
-		""
-	);
+	const { value: location, bind: bindLocation, reset: resetLocation } = useInput("");
+	const { value: toolType, bind: bindToolType, reset: resetToolType } = useInput("");
+	const { value: comment, bind: bindComment, reset: resetComment } = useInput("");
 
 	// ____ State management ____
 	const [transactionType, setTransactionType] = useState("Tool Checkout");
@@ -62,9 +52,7 @@ const MaintenancePage = (Apollo) => {
 	const CREATE_TRANSACTION = gql`
 			    mutation {
 					createTransaction(transactionInput: { transactionType: "${transactionType}", member: "${member}", staffMember: "${staffID}"
-					, comment: "${comment}", status: "${status}", tools: ${JSON.stringify(
-		tools
-	)}}) {
+					, comment: "${comment}", status: "${status}", tools: ${JSON.stringify(tools)}}) {
 			          _id
 			          transactionType
 			        }
@@ -186,10 +174,7 @@ const MaintenancePage = (Apollo) => {
 				<div className="form-control">
 					<label className="selector-label" htmlFor="transactionType">
 						Type:
-						<select
-							className="selector"
-							onChange={transactionTypeChangeHandler}
-						>
+						<select className="selector" onChange={transactionTypeChangeHandler}>
 							<option key={1} value="Tool Checkout">
 								Tool Checkout
 							</option>
@@ -225,15 +210,11 @@ const MaintenancePage = (Apollo) => {
 					onChange={toolHandler}
 					type="checkbox"
 					aria-label="Tools"
-					className="toggle-label"
-				>
+					className="toggle-label">
 					<ToggleButton value="5eeb31b77884fa41402f074d" aria-label="Hammer">
 						Hammer
 					</ToggleButton>
-					<ToggleButton
-						value="5eeb31377884fa41402f074c"
-						aria-label="Wire Cutter"
-					>
+					<ToggleButton value="5eeb31377884fa41402f074c" aria-label="Wire Cutter">
 						Wire Cutter
 					</ToggleButton>
 					<ToggleButton value="5eeb31d87884fa41402f074e" aria_label="DFAB-12">
@@ -252,17 +233,12 @@ const MaintenancePage = (Apollo) => {
 						checked={status === "Processing"}
 						onClick={statusHandler}
 						type="checkbox"
-						aria_label="Processing"
-					>
+						aria_label="Processing">
 						Processing
 					</ToggleButton>
 				</div>
 				<div className="form-actions">
-					<input
-						type="submit"
-						className="button"
-						value="Create New Transaction"
-					/>
+					<input type="submit" className="button" value="Create New Transaction" />
 				</div>
 				{transactionLoading ? <div>Processing...</div> : null}
 			</form>
