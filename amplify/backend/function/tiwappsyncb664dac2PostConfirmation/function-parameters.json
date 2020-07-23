@@ -1,0 +1,16 @@
+{
+  "trigger": true,
+  "modules": [
+    "add-to-group"
+  ],
+  "parentResource": "tiwappsyncb664dac2",
+  "functionName": "tiwappsyncb664dac2PostConfirmation",
+  "resourceName": "tiwappsyncb664dac2PostConfirmation",
+  "parentStack": "auth",
+  "triggerEnvs": [],
+  "triggerDir": "C:\\Users\\akaha\\AppData\\Roaming\\npm\\node_modules\\@aws-amplify\\cli\\node_modules\\amplify-category-auth\\provider-utils\\awscloudformation\\utils/../triggers/PostConfirmation",
+  "triggerTemplate": "PostConfirmation.json.ejs",
+  "roleName": "tiwappsyncb664dac2PostConfirmation",
+  "skipEdit": true,
+  "GROUP": "Members"
+}

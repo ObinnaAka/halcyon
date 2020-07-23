@@ -11,7 +11,7 @@ import moment from "moment";
 
 // import ListItemIcon from "@material-ui/core/ListItemIcon";
 
-const Request = ({ items, member, date, type, workstation, comment }) => {
+const Request = ({ items, member, date, requestType, workstation = "-", comment }) => {
 	const [open, setOpen] = React.useState(false);
 	const [done, setDone] = React.useState(false);
 	const [requestDone, setRequestDone] = React.useState(false);
@@ -58,20 +58,14 @@ const Request = ({ items, member, date, type, workstation, comment }) => {
 			/>
 			<List className="request_item">
 				<ListItem button onClick={handleItemClick}>
-					<ListItemText
-						className="request_item_number"
-						primary={tools.length}
-					/>
-					<ListItemText className="request_type" primary={type} />
+					<ListItemText className="request_item_number" primary={tools.length} />
+					<ListItemText className="request_type" primary={requestType} />
 					<ListItemText
 						className="request_member_name"
 						primary={member.firstName + " " + member.lastName}
 					/>
 					<ListItemText className="request_workstation" primary={workstation} />
-					<ListItemText
-						className="request_time"
-						primary={moment.unix(date / 1000).fromNow()}
-					/>
+					<ListItemText className="request_time" primary={moment.unix(date / 1000).fromNow()} />
 					{open ? <ExpandLess /> : <ExpandMore />}
 				</ListItem>
 				<Collapse in={open} timeout="auto" unmountOnExit>

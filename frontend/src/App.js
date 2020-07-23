@@ -7,15 +7,14 @@ import NavBar from "./components/NavBar/NavBar";
 import Footer from "./components/Footer/Footer";
 import AuthContext from "./context/auth-context";
 
-import Amplify, { API, graphqlOperation } from "aws-amplify";
+import Amplify, { API, graphqlOperation, Auth } from "aws-amplify";
 import awsExports from "./aws-exports";
-import { createMember } from "./graphql/mutations";
-import { listMembers } from "./graphql/queries";
+import { withAuthenticator } from "@aws-amplify/ui-react";
 
 import "./App.css";
 Amplify.configure(awsExports);
 
-const App = (Apollo) => {
+const App = () => {
 	// ____ Context____
 	const [auth, setAuth] = useState({ token: null, member: null });
 
@@ -26,14 +25,8 @@ const App = (Apollo) => {
 			<React.Fragment>
 				<NavBar />
 				<Switch>
-					{auth.token ? (
-						<Redirect from="/" to="/staff" exact />
-					) : (
-						<Redirect from="/" to="/auth" exact />
-					)}
-					<Route path="/auth" component={AuthPage} />
+					<Redirect from="/" to="/staff" exact />
 					<Route path="/staff" component={StaffPortal} />
-					<Route path="/register" component={RegisterPage} />
 				</Switch>
 				<Footer />
 			</React.Fragment>
@@ -41,4 +34,4 @@ const App = (Apollo) => {
 	);
 };
 
-export default App;
+export default withAuthenticator(App);

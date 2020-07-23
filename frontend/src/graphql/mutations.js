@@ -7,10 +7,10 @@ export const createTransaction = /* GraphQL */ `
     $condition: ModelTransactionConditionInput
   ) {
     createTransaction(input: $input, condition: $condition) {
-      transactionID
+      transactionId
       transactionType
       staffMember {
-        memberID
+        id
         eid
         firstName
         lastName
@@ -19,26 +19,28 @@ export const createTransaction = /* GraphQL */ `
         signinStatus
         email
         trainings {
-          id
+          trainingId
           name
           createdAt
           updatedAt
         }
         itemRecord {
-          toolID
+          toolId
           name
           location
           status
+          currentHolderId
           toolType
           inService
           updatedAt
           createdAt
         }
         workstation {
-          toolID
+          toolId
           name
           location
           status
+          currentHolderId
           toolType
           inService
           updatedAt
@@ -47,20 +49,16 @@ export const createTransaction = /* GraphQL */ `
         conductRecord
         conductStatus
         transactionRecord {
-          transactionID
-          transactionType
-          status
-          comment
-          createdAt
-          updatedAt
+          nextToken
         }
         bevoCard
         memberType
         createdAt
         updatedAt
       }
+      staffMemberId
       member {
-        memberID
+        id
         eid
         firstName
         lastName
@@ -69,26 +67,28 @@ export const createTransaction = /* GraphQL */ `
         signinStatus
         email
         trainings {
-          id
+          trainingId
           name
           createdAt
           updatedAt
         }
         itemRecord {
-          toolID
+          toolId
           name
           location
           status
+          currentHolderId
           toolType
           inService
           updatedAt
           createdAt
         }
         workstation {
-          toolID
+          toolId
           name
           location
           status
+          currentHolderId
           toolType
           inService
           updatedAt
@@ -97,24 +97,21 @@ export const createTransaction = /* GraphQL */ `
         conductRecord
         conductStatus
         transactionRecord {
-          transactionID
-          transactionType
-          status
-          comment
-          createdAt
-          updatedAt
+          nextToken
         }
         bevoCard
         memberType
         createdAt
         updatedAt
       }
+      memberId
       tools {
         items {
-          toolID
+          toolId
           name
           location
           status
+          currentHolderId
           toolType
           inService
           updatedAt
@@ -123,7 +120,7 @@ export const createTransaction = /* GraphQL */ `
         nextToken
       }
       training {
-        id
+        trainingId
         name
         createdAt
         updatedAt
@@ -132,6 +129,7 @@ export const createTransaction = /* GraphQL */ `
       comment
       createdAt
       updatedAt
+      version
     }
   }
 `;
@@ -141,10 +139,10 @@ export const updateTransaction = /* GraphQL */ `
     $condition: ModelTransactionConditionInput
   ) {
     updateTransaction(input: $input, condition: $condition) {
-      transactionID
+      transactionId
       transactionType
       staffMember {
-        memberID
+        id
         eid
         firstName
         lastName
@@ -153,26 +151,28 @@ export const updateTransaction = /* GraphQL */ `
         signinStatus
         email
         trainings {
-          id
+          trainingId
           name
           createdAt
           updatedAt
         }
         itemRecord {
-          toolID
+          toolId
           name
           location
           status
+          currentHolderId
           toolType
           inService
           updatedAt
           createdAt
         }
         workstation {
-          toolID
+          toolId
           name
           location
           status
+          currentHolderId
           toolType
           inService
           updatedAt
@@ -181,20 +181,16 @@ export const updateTransaction = /* GraphQL */ `
         conductRecord
         conductStatus
         transactionRecord {
-          transactionID
-          transactionType
-          status
-          comment
-          createdAt
-          updatedAt
+          nextToken
         }
         bevoCard
         memberType
         createdAt
         updatedAt
       }
+      staffMemberId
       member {
-        memberID
+        id
         eid
         firstName
         lastName
@@ -203,26 +199,28 @@ export const updateTransaction = /* GraphQL */ `
         signinStatus
         email
         trainings {
-          id
+          trainingId
           name
           createdAt
           updatedAt
         }
         itemRecord {
-          toolID
+          toolId
           name
           location
           status
+          currentHolderId
           toolType
           inService
           updatedAt
           createdAt
         }
         workstation {
-          toolID
+          toolId
           name
           location
           status
+          currentHolderId
           toolType
           inService
           updatedAt
@@ -231,24 +229,21 @@ export const updateTransaction = /* GraphQL */ `
         conductRecord
         conductStatus
         transactionRecord {
-          transactionID
-          transactionType
-          status
-          comment
-          createdAt
-          updatedAt
+          nextToken
         }
         bevoCard
         memberType
         createdAt
         updatedAt
       }
+      memberId
       tools {
         items {
-          toolID
+          toolId
           name
           location
           status
+          currentHolderId
           toolType
           inService
           updatedAt
@@ -257,7 +252,7 @@ export const updateTransaction = /* GraphQL */ `
         nextToken
       }
       training {
-        id
+        trainingId
         name
         createdAt
         updatedAt
@@ -266,6 +261,7 @@ export const updateTransaction = /* GraphQL */ `
       comment
       createdAt
       updatedAt
+      version
     }
   }
 `;
@@ -275,10 +271,10 @@ export const deleteTransaction = /* GraphQL */ `
     $condition: ModelTransactionConditionInput
   ) {
     deleteTransaction(input: $input, condition: $condition) {
-      transactionID
+      transactionId
       transactionType
       staffMember {
-        memberID
+        id
         eid
         firstName
         lastName
@@ -287,26 +283,28 @@ export const deleteTransaction = /* GraphQL */ `
         signinStatus
         email
         trainings {
-          id
+          trainingId
           name
           createdAt
           updatedAt
         }
         itemRecord {
-          toolID
+          toolId
           name
           location
           status
+          currentHolderId
           toolType
           inService
           updatedAt
           createdAt
         }
         workstation {
-          toolID
+          toolId
           name
           location
           status
+          currentHolderId
           toolType
           inService
           updatedAt
@@ -315,20 +313,16 @@ export const deleteTransaction = /* GraphQL */ `
         conductRecord
         conductStatus
         transactionRecord {
-          transactionID
-          transactionType
-          status
-          comment
-          createdAt
-          updatedAt
+          nextToken
         }
         bevoCard
         memberType
         createdAt
         updatedAt
       }
+      staffMemberId
       member {
-        memberID
+        id
         eid
         firstName
         lastName
@@ -337,26 +331,28 @@ export const deleteTransaction = /* GraphQL */ `
         signinStatus
         email
         trainings {
-          id
+          trainingId
           name
           createdAt
           updatedAt
         }
         itemRecord {
-          toolID
+          toolId
           name
           location
           status
+          currentHolderId
           toolType
           inService
           updatedAt
           createdAt
         }
         workstation {
-          toolID
+          toolId
           name
           location
           status
+          currentHolderId
           toolType
           inService
           updatedAt
@@ -365,24 +361,21 @@ export const deleteTransaction = /* GraphQL */ `
         conductRecord
         conductStatus
         transactionRecord {
-          transactionID
-          transactionType
-          status
-          comment
-          createdAt
-          updatedAt
+          nextToken
         }
         bevoCard
         memberType
         createdAt
         updatedAt
       }
+      memberId
       tools {
         items {
-          toolID
+          toolId
           name
           location
           status
+          currentHolderId
           toolType
           inService
           updatedAt
@@ -391,7 +384,7 @@ export const deleteTransaction = /* GraphQL */ `
         nextToken
       }
       training {
-        id
+        trainingId
         name
         createdAt
         updatedAt
@@ -400,6 +393,7 @@ export const deleteTransaction = /* GraphQL */ `
       comment
       createdAt
       updatedAt
+      version
     }
   }
 `;
@@ -409,7 +403,7 @@ export const createMember = /* GraphQL */ `
     $condition: ModelMemberConditionInput
   ) {
     createMember(input: $input, condition: $condition) {
-      memberID
+      id
       eid
       firstName
       lastName
@@ -418,18 +412,18 @@ export const createMember = /* GraphQL */ `
       signinStatus
       email
       trainings {
-        id
+        trainingId
         name
         createdAt
         updatedAt
       }
       itemRecord {
-        toolID
+        toolId
         name
         location
         status
         currentHolder {
-          memberID
+          id
           eid
           firstName
           lastName
@@ -444,11 +438,13 @@ export const createMember = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        currentHolderId
         currentWorkstation {
-          toolID
+          toolId
           name
           location
           status
+          currentHolderId
           toolType
           inService
           updatedAt
@@ -463,12 +459,12 @@ export const createMember = /* GraphQL */ `
         createdAt
       }
       workstation {
-        toolID
+        toolId
         name
         location
         status
         currentHolder {
-          memberID
+          id
           eid
           firstName
           lastName
@@ -483,11 +479,13 @@ export const createMember = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        currentHolderId
         currentWorkstation {
-          toolID
+          toolId
           name
           location
           status
+          currentHolderId
           toolType
           inService
           updatedAt
@@ -504,53 +502,18 @@ export const createMember = /* GraphQL */ `
       conductRecord
       conductStatus
       transactionRecord {
-        transactionID
-        transactionType
-        staffMember {
-          memberID
-          eid
-          firstName
-          lastName
-          password
-          phone
-          signinStatus
-          email
-          conductRecord
-          conductStatus
-          bevoCard
-          memberType
+        items {
+          transactionId
+          transactionType
+          staffMemberId
+          memberId
+          status
+          comment
           createdAt
           updatedAt
+          version
         }
-        member {
-          memberID
-          eid
-          firstName
-          lastName
-          password
-          phone
-          signinStatus
-          email
-          conductRecord
-          conductStatus
-          bevoCard
-          memberType
-          createdAt
-          updatedAt
-        }
-        tools {
-          nextToken
-        }
-        training {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        status
-        comment
-        createdAt
-        updatedAt
+        nextToken
       }
       bevoCard
       memberType
@@ -565,7 +528,7 @@ export const updateMember = /* GraphQL */ `
     $condition: ModelMemberConditionInput
   ) {
     updateMember(input: $input, condition: $condition) {
-      memberID
+      id
       eid
       firstName
       lastName
@@ -574,18 +537,18 @@ export const updateMember = /* GraphQL */ `
       signinStatus
       email
       trainings {
-        id
+        trainingId
         name
         createdAt
         updatedAt
       }
       itemRecord {
-        toolID
+        toolId
         name
         location
         status
         currentHolder {
-          memberID
+          id
           eid
           firstName
           lastName
@@ -600,11 +563,13 @@ export const updateMember = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        currentHolderId
         currentWorkstation {
-          toolID
+          toolId
           name
           location
           status
+          currentHolderId
           toolType
           inService
           updatedAt
@@ -619,12 +584,12 @@ export const updateMember = /* GraphQL */ `
         createdAt
       }
       workstation {
-        toolID
+        toolId
         name
         location
         status
         currentHolder {
-          memberID
+          id
           eid
           firstName
           lastName
@@ -639,11 +604,13 @@ export const updateMember = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        currentHolderId
         currentWorkstation {
-          toolID
+          toolId
           name
           location
           status
+          currentHolderId
           toolType
           inService
           updatedAt
@@ -660,53 +627,18 @@ export const updateMember = /* GraphQL */ `
       conductRecord
       conductStatus
       transactionRecord {
-        transactionID
-        transactionType
-        staffMember {
-          memberID
-          eid
-          firstName
-          lastName
-          password
-          phone
-          signinStatus
-          email
-          conductRecord
-          conductStatus
-          bevoCard
-          memberType
+        items {
+          transactionId
+          transactionType
+          staffMemberId
+          memberId
+          status
+          comment
           createdAt
           updatedAt
+          version
         }
-        member {
-          memberID
-          eid
-          firstName
-          lastName
-          password
-          phone
-          signinStatus
-          email
-          conductRecord
-          conductStatus
-          bevoCard
-          memberType
-          createdAt
-          updatedAt
-        }
-        tools {
-          nextToken
-        }
-        training {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        status
-        comment
-        createdAt
-        updatedAt
+        nextToken
       }
       bevoCard
       memberType
@@ -721,7 +653,7 @@ export const deleteMember = /* GraphQL */ `
     $condition: ModelMemberConditionInput
   ) {
     deleteMember(input: $input, condition: $condition) {
-      memberID
+      id
       eid
       firstName
       lastName
@@ -730,18 +662,18 @@ export const deleteMember = /* GraphQL */ `
       signinStatus
       email
       trainings {
-        id
+        trainingId
         name
         createdAt
         updatedAt
       }
       itemRecord {
-        toolID
+        toolId
         name
         location
         status
         currentHolder {
-          memberID
+          id
           eid
           firstName
           lastName
@@ -756,11 +688,13 @@ export const deleteMember = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        currentHolderId
         currentWorkstation {
-          toolID
+          toolId
           name
           location
           status
+          currentHolderId
           toolType
           inService
           updatedAt
@@ -775,12 +709,12 @@ export const deleteMember = /* GraphQL */ `
         createdAt
       }
       workstation {
-        toolID
+        toolId
         name
         location
         status
         currentHolder {
-          memberID
+          id
           eid
           firstName
           lastName
@@ -795,11 +729,13 @@ export const deleteMember = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        currentHolderId
         currentWorkstation {
-          toolID
+          toolId
           name
           location
           status
+          currentHolderId
           toolType
           inService
           updatedAt
@@ -816,53 +752,18 @@ export const deleteMember = /* GraphQL */ `
       conductRecord
       conductStatus
       transactionRecord {
-        transactionID
-        transactionType
-        staffMember {
-          memberID
-          eid
-          firstName
-          lastName
-          password
-          phone
-          signinStatus
-          email
-          conductRecord
-          conductStatus
-          bevoCard
-          memberType
+        items {
+          transactionId
+          transactionType
+          staffMemberId
+          memberId
+          status
+          comment
           createdAt
           updatedAt
+          version
         }
-        member {
-          memberID
-          eid
-          firstName
-          lastName
-          password
-          phone
-          signinStatus
-          email
-          conductRecord
-          conductStatus
-          bevoCard
-          memberType
-          createdAt
-          updatedAt
-        }
-        tools {
-          nextToken
-        }
-        training {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        status
-        comment
-        createdAt
-        updatedAt
+        nextToken
       }
       bevoCard
       memberType
@@ -877,12 +778,12 @@ export const createTool = /* GraphQL */ `
     $condition: ModelToolConditionInput
   ) {
     createTool(input: $input, condition: $condition) {
-      toolID
+      toolId
       name
       location
       status
       currentHolder {
-        memberID
+        id
         eid
         firstName
         lastName
@@ -891,26 +792,28 @@ export const createTool = /* GraphQL */ `
         signinStatus
         email
         trainings {
-          id
+          trainingId
           name
           createdAt
           updatedAt
         }
         itemRecord {
-          toolID
+          toolId
           name
           location
           status
+          currentHolderId
           toolType
           inService
           updatedAt
           createdAt
         }
         workstation {
-          toolID
+          toolId
           name
           location
           status
+          currentHolderId
           toolType
           inService
           updatedAt
@@ -919,25 +822,21 @@ export const createTool = /* GraphQL */ `
         conductRecord
         conductStatus
         transactionRecord {
-          transactionID
-          transactionType
-          status
-          comment
-          createdAt
-          updatedAt
+          nextToken
         }
         bevoCard
         memberType
         createdAt
         updatedAt
       }
+      currentHolderId
       currentWorkstation {
-        toolID
+        toolId
         name
         location
         status
         currentHolder {
-          memberID
+          id
           eid
           firstName
           lastName
@@ -952,11 +851,13 @@ export const createTool = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        currentHolderId
         currentWorkstation {
-          toolID
+          toolId
           name
           location
           status
+          currentHolderId
           toolType
           inService
           updatedAt
@@ -972,12 +873,15 @@ export const createTool = /* GraphQL */ `
       }
       transactionRecord {
         items {
-          transactionID
+          transactionId
           transactionType
+          staffMemberId
+          memberId
           status
           comment
           createdAt
           updatedAt
+          version
         }
         nextToken
       }
@@ -994,12 +898,12 @@ export const updateTool = /* GraphQL */ `
     $condition: ModelToolConditionInput
   ) {
     updateTool(input: $input, condition: $condition) {
-      toolID
+      toolId
       name
       location
       status
       currentHolder {
-        memberID
+        id
         eid
         firstName
         lastName
@@ -1008,26 +912,28 @@ export const updateTool = /* GraphQL */ `
         signinStatus
         email
         trainings {
-          id
+          trainingId
           name
           createdAt
           updatedAt
         }
         itemRecord {
-          toolID
+          toolId
           name
           location
           status
+          currentHolderId
           toolType
           inService
           updatedAt
           createdAt
         }
         workstation {
-          toolID
+          toolId
           name
           location
           status
+          currentHolderId
           toolType
           inService
           updatedAt
@@ -1036,25 +942,21 @@ export const updateTool = /* GraphQL */ `
         conductRecord
         conductStatus
         transactionRecord {
-          transactionID
-          transactionType
-          status
-          comment
-          createdAt
-          updatedAt
+          nextToken
         }
         bevoCard
         memberType
         createdAt
         updatedAt
       }
+      currentHolderId
       currentWorkstation {
-        toolID
+        toolId
         name
         location
         status
         currentHolder {
-          memberID
+          id
           eid
           firstName
           lastName
@@ -1069,11 +971,13 @@ export const updateTool = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        currentHolderId
         currentWorkstation {
-          toolID
+          toolId
           name
           location
           status
+          currentHolderId
           toolType
           inService
           updatedAt
@@ -1089,12 +993,15 @@ export const updateTool = /* GraphQL */ `
       }
       transactionRecord {
         items {
-          transactionID
+          transactionId
           transactionType
+          staffMemberId
+          memberId
           status
           comment
           createdAt
           updatedAt
+          version
         }
         nextToken
       }
@@ -1111,12 +1018,12 @@ export const deleteTool = /* GraphQL */ `
     $condition: ModelToolConditionInput
   ) {
     deleteTool(input: $input, condition: $condition) {
-      toolID
+      toolId
       name
       location
       status
       currentHolder {
-        memberID
+        id
         eid
         firstName
         lastName
@@ -1125,26 +1032,28 @@ export const deleteTool = /* GraphQL */ `
         signinStatus
         email
         trainings {
-          id
+          trainingId
           name
           createdAt
           updatedAt
         }
         itemRecord {
-          toolID
+          toolId
           name
           location
           status
+          currentHolderId
           toolType
           inService
           updatedAt
           createdAt
         }
         workstation {
-          toolID
+          toolId
           name
           location
           status
+          currentHolderId
           toolType
           inService
           updatedAt
@@ -1153,25 +1062,21 @@ export const deleteTool = /* GraphQL */ `
         conductRecord
         conductStatus
         transactionRecord {
-          transactionID
-          transactionType
-          status
-          comment
-          createdAt
-          updatedAt
+          nextToken
         }
         bevoCard
         memberType
         createdAt
         updatedAt
       }
+      currentHolderId
       currentWorkstation {
-        toolID
+        toolId
         name
         location
         status
         currentHolder {
-          memberID
+          id
           eid
           firstName
           lastName
@@ -1186,11 +1091,13 @@ export const deleteTool = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        currentHolderId
         currentWorkstation {
-          toolID
+          toolId
           name
           location
           status
+          currentHolderId
           toolType
           inService
           updatedAt
@@ -1206,12 +1113,15 @@ export const deleteTool = /* GraphQL */ `
       }
       transactionRecord {
         items {
-          transactionID
+          transactionId
           transactionType
+          staffMemberId
+          memberId
           status
           comment
           createdAt
           updatedAt
+          version
         }
         nextToken
       }
@@ -1228,7 +1138,7 @@ export const createTraining = /* GraphQL */ `
     $condition: ModelTrainingConditionInput
   ) {
     createTraining(input: $input, condition: $condition) {
-      id
+      trainingId
       name
       createdAt
       updatedAt
@@ -1241,7 +1151,7 @@ export const updateTraining = /* GraphQL */ `
     $condition: ModelTrainingConditionInput
   ) {
     updateTraining(input: $input, condition: $condition) {
-      id
+      trainingId
       name
       createdAt
       updatedAt
@@ -1254,7 +1164,7 @@ export const deleteTraining = /* GraphQL */ `
     $condition: ModelTrainingConditionInput
   ) {
     deleteTraining(input: $input, condition: $condition) {
-      id
+      trainingId
       name
       createdAt
       updatedAt

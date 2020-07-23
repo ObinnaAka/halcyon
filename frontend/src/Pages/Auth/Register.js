@@ -10,7 +10,7 @@ import { API, graphqlOperation } from "aws-amplify";
 // import AuthContext from "../../context/auth-context";
 
 const initialState = {
-	memberID: "",
+	memberId: "",
 	firstName: "",
 	lastName: "",
 	email: "",
@@ -21,11 +21,6 @@ const initialState = {
 
 const RegisterPage = () => {
 	const [formState, setFormState] = useState(initialState);
-	// const { value: firstName, bind: bindFirstName, reset: resetFirstName } = useInput("");
-	// const { value: lastName, bind: bindLastName, reset: resetLastName } = useInput("");
-	// const { value: email, bind: bindEmail, reset: resetEmail } = useInput("");
-	// const { value: eid, bind: bindEid, reset: resetEid } = useInput("");
-	// const { value: password, bind: bindPassword, reset: resetPassword } = useInput("");
 
 	// For student portal login
 	const [memberLogin, setMemberLogin] = useState(false);
@@ -54,7 +49,7 @@ const RegisterPage = () => {
 			}
 
 			const member = { ...formState };
-			member.memberID = await generateID("Member");
+			member.memberId = generateID("Member");
 			console.log(member);
 			await API.graphql(graphqlOperation(createMember, { input: member }));
 			setFormState(initialState);

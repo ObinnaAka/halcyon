@@ -6,9 +6,9 @@
         "framework": "react",
         "config": {
             "SourceDir": "frontend/src",
-            "DistributionDir": "build",
-            "BuildCommand": "npm.cmd run-script build",
-            "StartCommand": "npm.cmd run-script start"
+            "DistributionDir": "frontend/src/build",
+            "BuildCommand": "cd frontend && npm run build",
+            "StartCommand": "cd frontend && npm start"
         }
     },
     "providers": [

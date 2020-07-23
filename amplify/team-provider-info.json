@@ -1,15 +1,25 @@
 {
     "dev": {
         "awscloudformation": {
-            "AuthRoleName": "amplify-tiwappsync-dev-193609-authRole",
-            "UnauthRoleArn": "arn:aws:iam::107464086687:role/amplify-tiwappsync-dev-193609-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::107464086687:role/amplify-tiwappsync-dev-193609-authRole",
+            "AuthRoleName": "amplify-tiwappsync-dev-10450-authRole",
+            "UnauthRoleArn": "arn:aws:iam::107464086687:role/amplify-tiwappsync-dev-10450-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::107464086687:role/amplify-tiwappsync-dev-10450-authRole",
             "Region": "us-east-1",
-            "DeploymentBucketName": "amplify-tiwappsync-dev-193609-deployment",
-            "UnauthRoleName": "amplify-tiwappsync-dev-193609-unauthRole",
-            "StackName": "amplify-tiwappsync-dev-193609",
-            "StackId": "arn:aws:cloudformation:us-east-1:107464086687:stack/amplify-tiwappsync-dev-193609/2d51b930-caea-11ea-adfd-0a279eeb3bc1",
-            "AmplifyAppId": "d17iyqp9lttrvs"
+            "DeploymentBucketName": "amplify-tiwappsync-dev-10450-deployment",
+            "UnauthRoleName": "amplify-tiwappsync-dev-10450-unauthRole",
+            "StackName": "amplify-tiwappsync-dev-10450",
+            "StackId": "arn:aws:cloudformation:us-east-1:107464086687:stack/amplify-tiwappsync-dev-10450/23be7740-cb18-11ea-8350-12dace8e8b83",
+            "AmplifyAppId": "d39d9m9tkh5ffg"
+        },
+        "categories": {
+            "function": {
+                "tiwappsyncb664dac2PostConfirmation": {
+                    "GROUP": "Members"
+                }
+            },
+            "auth": {
+                "tiwappsyncb9f01991": {}
+            }
         }
     }
 }
