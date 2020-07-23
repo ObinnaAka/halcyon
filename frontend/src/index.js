@@ -28,7 +28,7 @@ const wsClient = new SubscriptionClient(
 );
 
 const httpLink = createHttpLink({
-	uri: "https://s6rbb7i554.execute-api.us-east-1.amazonaws.com/dev/graphql",
+	uri: "https://s6rbb7i554.execute-api.us-east-1.amazonaws.com/dev/",
 });
 
 const wsLink = new WebSocketLink(wsClient);

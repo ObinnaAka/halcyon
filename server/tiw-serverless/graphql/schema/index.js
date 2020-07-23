@@ -95,7 +95,7 @@ module.exports = gql`
 		Faculty
 	}
 	type Subscription {
-		onNewRequest: Transaction
+		onNewRequest: Transaction!
 		onNewStudent: Transaction
 	}
 	type Query {

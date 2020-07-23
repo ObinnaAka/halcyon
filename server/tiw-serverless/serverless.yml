@@ -4,29 +4,11 @@ service: tiw-serverless
 app: tiw-serverless
 org: akaharao
 
-# custom:
-#   dynamodb:
-#     stages:
-#       - dev
-#     start:
-#       inMemory: true
-#       migrate: true
-#       noStart: false
-#   dynamodbStream:
-#     host: localhost
-#     port: 8000
-#     # this fixes the problem with missing region
-#     region: us-east-1
-#     pollForever: true
-#     streams:
-#       - table: Events
-#         functions:
-#           - eventsHandler
-
 provider:
   name: aws
-  runtime: nodejs12.x
-  region: us-east-1
+  runtime: nodejs10.x
+  region: us-east-1 # NOTE: change with your preferred region
+  memorySize: 256
 
   iamRoleStatements:
     - Effect: Allow
@@ -69,18 +51,7 @@ provider:
       Resource: !GetAtt SubscriptionOperationsDynamoDBTable.Arn
 
 functions:
-  httpHandler:
-    handler: graphql.handleHTTP
-    events:
-      - http:
-          path: graphql
-          method: ANY
-          cors: true
-      - http:
-          path: graphiql
-          method: GET
-          cors: true
-  webSocketHandler:
+  wsHandler:
     handler: graphql.handleWebSocket
     events:
       - websocket:
@@ -89,7 +60,7 @@ functions:
           route: $disconnect
       - websocket:
           route: $default
-  eventsHandler:
+  eventProcessorHandler:
     handler: graphql.handleEvents
     events:
       - stream:
@@ -97,6 +68,18 @@ functions:
           type: dynamodb
           arn:
             Fn::GetAtt: [EventsDynamoDBTable, StreamArn]
+  # this one is optional (if you want to support HTTP)
+  httpHandler:
+    handler: graphql.handleHTTP
+    events:
+      - http:
+          path: /
+          method: any
+          cors: true
+      - http:
+          path: /graphiql
+          method: any
+          cors: true
 
 resources:
   Resources:
@@ -113,7 +96,7 @@ resources:
           # connection id
           - AttributeName: id
             KeyType: HASH
-        # This one is optional (all subscription operations have 2 hours of lifetime in ttl field but enabling TTL is up to you)
+        # This one is optional (all connections have 2 hours of lifetime in ttl field but enabling TTL is up to you)
         TimeToLiveSpecification:
           AttributeName: ttl
           Enabled: true
@@ -134,7 +117,7 @@ resources:
             KeyType: HASH
           - AttributeName: subscriptionId
             KeyType: RANGE
-        # This one is optional (all subscription operations have 2 hours of lifetime in ttl field but enabling TTL is up to you)
+        # This one is optional (all subscriptions have 2 hours of lifetime in ttl field but enabling TTL is up to you)
         TimeToLiveSpecification:
           AttributeName: ttl
           Enabled: true
@@ -171,7 +154,7 @@ resources:
             AttributeType: S
         StreamSpecification:
           StreamViewType: NEW_IMAGE
-        # This one is optional (all subscription operations have 2 hours of lifetime in ttl field but enabling TTL is up to you)
+        # This one is optional (all events have 2 hours of lifetime in ttl field but enabling TTL is up to you)
         TimeToLiveSpecification:
           AttributeName: ttl
           Enabled: true

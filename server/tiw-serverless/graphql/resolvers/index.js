@@ -22,7 +22,7 @@ const { authenticated, validateRole } = require("../../middleware/is-auth");
 
 const connectToDatabase = require("../../database");
 
-const TRANSACTION_SUBSCRIPTION = "newTransaction";
+const TRANSACTION_SUBSCRIPTION = "NEW_TRANSACTION";
 const STUDENT_SUBSCRIPTION = "newStudent";
 
 // -----------------------------------------------
@@ -74,9 +74,7 @@ module.exports = {
 			let connected = await connectToDatabase();
 			return "We made it || " + connected + " || " + process.env.AZURE;
 		},
-		me: authenticated((root, args, context) =>
-			console.log(context.currentMember)
-		),
+		me: authenticated((root, args, context) => console.log(context.currentMember)),
 
 		// ------------------------------------------
 		// Retrieve all members from database
@@ -186,7 +184,7 @@ module.exports = {
 			);
 			// TODO Change member encoding for only critical information
 			return {
-				member: { _id: member.id, memberType: member.memberType },
+				member: transformMember(member),
 				token: token,
 				tokenExpiration: 1,
 			};
@@ -282,15 +280,9 @@ module.exports = {
 
 				// Here is where we build out the logic/routing for the transactions
 				if (transaction.transactionType === "Sign-in") {
-					await Member.updateOne(
-						{ _id: transaction.member },
-						{ $set: { signinStatus: true } }
-					);
+					await Member.updateOne({ _id: transaction.member }, { $set: { signinStatus: true } });
 				} else if (transaction.transactionType === "Sign-out") {
-					await Member.updateOne(
-						{ _id: transaction.member },
-						{ $set: { signinStatus: false } }
-					);
+					await Member.updateOne({ _id: transaction.member }, { $set: { signinStatus: false } });
 				} else if (transaction.transactionType === "Tool Check-in") {
 					let tools = JSON.stringify(transaction.tools);
 					await Tool.updateMany(
@@ -353,7 +345,7 @@ module.exports = {
 				const result = await transaction.save();
 				createdTransaction = transformTransaction(result);
 
-				await context.pubsub.publish(TRANSACTION_SUBSCRIPTION, transaction);
+				await context.pubSub.publish(TRANSACTION_SUBSCRIPTION, transaction);
 
 				// Add transaction to member transactionRecord
 				member.transactionRecord.push(createdTransaction);
@@ -440,15 +432,9 @@ module.exports = {
 
 					// Here is where we build out the logic/routing for the transactions
 					if (transaction.transactionType === "Sign-in") {
-						await Member.updateOne(
-							{ _id: transaction.member },
-							{ $set: { signinStatus: true } }
-						);
+						await Member.updateOne({ _id: transaction.member }, { $set: { signinStatus: true } });
 					} else if (transaction.transactionType === "Sign-out") {
-						await Member.updateOne(
-							{ _id: transaction.member },
-							{ $set: { signinStatus: false } }
-						);
+						await Member.updateOne({ _id: transaction.member }, { $set: { signinStatus: false } });
 					} else if (transaction.transactionType === "Tool Check-in") {
 						let tools = JSON.stringify(transaction.tools);
 						await Tool.updateMany(
@@ -508,14 +494,14 @@ module.exports = {
 					}
 
 					// We create "createdTransaction" so that we can simultaneously access the
-					// Transaction and its args (member, staffmember, tools)
+					// Transaction and its args (member, staffMember, tools)
 					let createdTransaction;
 					const result = await transaction.save();
 					createdTransaction = transformTransaction(result);
 
 					// publish(createdTransaction);
 
-					await context.pubsub.publish(TRANSACTION_SUBSCRIPTION, transaction);
+					await context.pubSub.publish(TRANSACTION_SUBSCRIPTION, transaction);
 
 					// Add transaction to member transactionRecord
 					member.transactionRecord.push(createdTransaction);
@@ -601,19 +587,17 @@ module.exports = {
 	Subscription: {
 		onNewRequest: {
 			//! Will need WithFilter here to filter for only "Processing transactions"
-			// subscribe: () => pubsub.asyncIterator([TRANSACTION_SUBSCRIPTION]),
-			subscribe: (rootValue, args, context, info) => {
-				context.pubsub.subscribe(TRANSACTION_SUBSCRIPTION);
-			},
-
 			resolve: (rootValue) => {
-				console.log("this is the rootValue: " + rootValue);
-				console.log(rootValue.transaction);
+				console.log("Here 1 ", rootValue);
 				return rootValue;
+			},
+			subscribe: async (rootValue, args, context) => {
+				console.log("Here 2 ", context);
+				return await context.pubSub.subscribe(TRANSACTION_SUBSCRIPTION)(rootValue, args, context);
 			},
 
 			// subscribe: withFilter(
-			// 	() => pubsub.asyncIterator([TRANSACTION_SUBSCRIPTION]),
+			// 	() => pubSub.asyncIterator([TRANSACTION_SUBSCRIPTION]),
 			// 	(payload, args) => {
 			// 		return payload;
 			// 	}
@@ -625,9 +609,10 @@ module.exports = {
 		},
 		onNewStudent: {
 			//! Will need WithFilter here to filter for only "Processing transactions"
-			subscribe: (rootValue, args, context, info) =>
-				context.pubsub.subscribe(STUDENT_SUBSCRIPTION),
 			resolve: (transaction) => transaction.member,
+			subscribe: async (rootValue, args, context) => {
+				return await context.pubSub.subscribe(STUDENT_SUBSCRIPTION)(rootValue, args, context);
+			},
 		},
 	},
 };

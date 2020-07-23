@@ -1,6 +1,3 @@
-// const mongoose = require("mongoose");
-// const connectToDatabase = require("./database");
-
 const { tradeTokenForMember, authenticated } = require("./middleware/is-auth");
 const {
 	DynamoDBConnectionManager,
@@ -14,22 +11,13 @@ const {
 const typeDefs = require("./graphql/schema/index");
 const resolvers = require("./graphql/resolvers/index");
 
-/*
-   By default event stores uses TTL of 2 hours on every event. 
-   This can be changed by `ttl` option in DynamoDBEventStore.
-   ttl accepts a number in seconds (default is 7200 seconds) or
-   false to turn it off.
-  
-   It's your responsibility to set up TTL on your events table.
-  */
-
 const eventStore = new DynamoDBEventStore();
 const eventProcessor = new DynamoDBEventProcessor();
 const subscriptionManager = new DynamoDBSubscriptionManager();
 const connectionManager = new DynamoDBConnectionManager({
-	subscriptionManager,
+	subscriptions: subscriptionManager,
 });
-const pubsub = new PubSub({ eventStore });
+const pubSub = new PubSub({ eventStore });
 
 const server = new Server({
 	// accepts all the apollo-server-lambda options and adds few extra options
@@ -40,7 +28,8 @@ const server = new Server({
 	subscriptionManager,
 	typeDefs,
 	playground: {
-		endpoint: "/graphiql",
+		endpoint: "https://s6rbb7i554.execute-api.us-east-1.amazonaws.com/dev/graphiql",
+		subscriptionEndpoint: "wss://skaq2dxiil.execute-api.us-east-1.amazonaws.com/dev",
 	},
 	context: async ({ event, lambdaContext }) => {
 		let token = null;
@@ -55,17 +44,17 @@ const server = new Server({
 				currentMember = await tradeTokenForMember(token);
 			}
 		} catch (err) {
-			console.warn(
-				`Unable to authenticate using auth token: ${token} event: ${event}`
-			);
+			console.warn(`Unable to authenticate using auth token: ${token}`);
 		}
 		return {
 			token,
 			currentMember,
-			pubsub,
+			pubSub,
 			headers: event.headers,
 			event,
-			lambdaContext,
+			connectionManager,
+			eventProcessor,
+			subscriptionManager,
 		};
 	},
 });
