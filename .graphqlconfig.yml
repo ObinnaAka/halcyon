@@ -1,6 +1,6 @@
 projects:
-  tiwappsync:
-    schemaPath: amplify/backend/api/tiwappsync/build/schema.graphql
+  tiw:
+    schemaPath: src/graphql/schema.json
     includes:
       - frontend/src/graphql/**/*.js
     excludes:
@@ -9,7 +9,7 @@ projects:
       amplify:
         codeGenTarget: javascript
         generatedFileName: ''
-        docsFilePath: frontend/src/graphql
+        docsFilePath: src/graphql
 extensions:
   amplify:
     version: 3

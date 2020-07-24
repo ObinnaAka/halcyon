@@ -1,14 +1,14 @@
 {
-    "projectName": "tiwappsync",
+    "projectName": "tiw",
     "version": "3.0",
     "frontend": "javascript",
     "javascript": {
         "framework": "react",
         "config": {
             "SourceDir": "frontend/src",
-            "DistributionDir": "frontend/src/build",
-            "BuildCommand": "cd frontend && npm run build",
-            "StartCommand": "cd frontend && npm start"
+            "DistributionDir": "frontend/build",
+            "BuildCommand": "npm run build",
+            "StartCommand": "npm.cmd run-script start"
         }
     },
     "providers": [

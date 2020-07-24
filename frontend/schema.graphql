@@ -1,8 +1,15 @@
-type Transaction @model @key(name: "ByStatus", fields: ["id", "status", "updatedAt"]) {
-	id: ID!
+type Transaction @model @versioned 
+	# @searchable
+	@key(name: "byStatus", fields: ["status", "updatedAt", "id"])
+	@key(name: "byMember", fields: ["memberId", "createdAt", "id"])
+	@key(name: "byStaff", fields: ["staffMemberId", "createdAt", "id"])
+{
+	id: ID
 	transactionType: String!
-	staffMember: Member @connection
-	member: Member @connection
+	staffMember: Member @connection(fields:["staffMemberId"])
+	staffMemberId: ID! #This can be empty for certain situations (Sign in etc...) but must be required for connections
+	member: Member @connection(fields:["memberId"])
+	memberId: ID!
 	tools: [Tool] @connection
 	training: Training @connection
 	status: String!
@@ -11,41 +18,57 @@ type Transaction @model @key(name: "ByStatus", fields: ["id", "status", "updated
 	updatedAt: AWSDateTime!
 }
 
-type Member @model @key(name: "ByRecent", fields: ["id", "eid", "updatedAt"]) {
-	id:ID!
-	eid: String!
-	firstName: String
-	lastName: String
+type Member @model
+	# @searchable
+	@key(name: "byEID", fields: ["eid", "id"])
+	@key(name: "byMemberType", fields: ["memberType", "id"]) 
+	@key(name: "byName", fields:["firstName","lastName", "id"])
+{
+	id: ID! # Required here but the memberInput will have this set to non-required
+	eid: ID!
+	firstName: String!
+	lastName: String!
 	password: String
 	phone: AWSPhone
-	signinStatus: Boolean
+	signInStatus: Boolean
 	email: AWSEmail
 	trainings: [Training] 
 	itemRecord: [Tool] 
 	workstation: Tool 
 	conductRecord: [String]
 	conductStatus: Int
-	transactionRecord: [Transaction] 
+	transactionRecord: [Transaction] @connection(keyName:"byMember", fields:["id"])
 	bevoCard: String
 	memberType: String!
-	createdAt: AWSDateTime!
-	updatedAt: AWSDateTime!
+	createdAt: AWSDateTime
+	updatedAt: AWSDateTime
 }
 
-type Tool @model @key(name: "ByToolStatus", fields: ["id", "name", "status"]) {
-	id: ID!
+type Tool @model
+	# @searchable
+	@key(name: "byName", fields: ["name", "id"])
+	# @key(name: "byStatus", fields: ["status", "id"])
+{
+	id: ID
 	name: String!
 	location: String
-	status: Int!
-	currentHolder: Member @connection
+	status: String!
+	currentHolder: Member @connection(fields:["currentHolderId"])
+	currentHolderId: ID! #will default tiw_member_account since it can't be nun-nullable
 	currentWorkstation: Tool @connection
 	transactionRecord: [Transaction] @connection
 	toolType: String!
-	inService: Boolean
 	updatedAt: AWSDateTime!
 }
 
-type Training @model {
-	id: ID!
+type Training @model 
+{
+	id: ID
 	name: String!
+}
+# @auth(allow: groups, groups:["Staff"], operations: [create, update, delete, read, list])
+
+type Query{
+	getOutstandingTransactions(status:String!): [Transaction]
+	listTransactionsRange(sort:String!, from:String!, limit:Int!): Transaction
 }
