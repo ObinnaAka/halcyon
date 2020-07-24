@@ -96,9 +96,9 @@ const MaintenancePage = (Apollo) => {
 		"Cleaning",
 	];
 	const members = {
-		TIW: "1a5d4c24-bea2-459c-84d8-9866ae15ab97",
-		Obinna: "50cf8d5f-6cac-4873-a91c-6680935edf38",
-		Test: "b561a8d6-58fd-4410-b7e5-6f9bf6abf789",
+		TIW: "a1f01525-1bfd-483c-968f-19b3f56abc49",
+		Obinna: "b4677702-2227-43f6-a007-62bea3ac954e",
+		Test: "e7020ff2-7bd0-4739-adcb-79c1686f9f8c",
 	};
 
 	return (

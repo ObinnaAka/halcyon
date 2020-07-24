@@ -28,7 +28,6 @@ export const onCreateTransaction = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -39,7 +38,6 @@ export const onCreateTransaction = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -76,7 +74,6 @@ export const onCreateTransaction = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -87,7 +84,6 @@ export const onCreateTransaction = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -110,7 +106,6 @@ export const onCreateTransaction = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -157,7 +152,6 @@ export const onUpdateTransaction = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -168,7 +162,6 @@ export const onUpdateTransaction = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -205,7 +198,6 @@ export const onUpdateTransaction = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -216,7 +208,6 @@ export const onUpdateTransaction = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -239,7 +230,6 @@ export const onUpdateTransaction = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -286,7 +276,6 @@ export const onDeleteTransaction = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -297,7 +286,6 @@ export const onDeleteTransaction = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -334,7 +322,6 @@ export const onDeleteTransaction = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -345,7 +332,6 @@ export const onDeleteTransaction = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -368,7 +354,6 @@ export const onDeleteTransaction = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -434,7 +419,6 @@ export const onCreateMember = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -442,7 +426,6 @@ export const onCreateMember = /* GraphQL */ `
           nextToken
         }
         toolType
-        inService
         updatedAt
         createdAt
       }
@@ -475,7 +458,6 @@ export const onCreateMember = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -483,7 +465,6 @@ export const onCreateMember = /* GraphQL */ `
           nextToken
         }
         toolType
-        inService
         updatedAt
         createdAt
       }
@@ -556,7 +537,6 @@ export const onUpdateMember = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -564,7 +544,6 @@ export const onUpdateMember = /* GraphQL */ `
           nextToken
         }
         toolType
-        inService
         updatedAt
         createdAt
       }
@@ -597,7 +576,6 @@ export const onUpdateMember = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -605,7 +583,6 @@ export const onUpdateMember = /* GraphQL */ `
           nextToken
         }
         toolType
-        inService
         updatedAt
         createdAt
       }
@@ -678,7 +655,6 @@ export const onDeleteMember = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -686,7 +662,6 @@ export const onDeleteMember = /* GraphQL */ `
           nextToken
         }
         toolType
-        inService
         updatedAt
         createdAt
       }
@@ -719,7 +694,6 @@ export const onDeleteMember = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -727,7 +701,6 @@ export const onDeleteMember = /* GraphQL */ `
           nextToken
         }
         toolType
-        inService
         updatedAt
         createdAt
       }
@@ -783,7 +756,6 @@ export const onCreateTool = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -794,7 +766,6 @@ export const onCreateTool = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -838,7 +809,6 @@ export const onCreateTool = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -846,7 +816,6 @@ export const onCreateTool = /* GraphQL */ `
           nextToken
         }
         toolType
-        inService
         updatedAt
         createdAt
       }
@@ -865,7 +834,6 @@ export const onCreateTool = /* GraphQL */ `
         nextToken
       }
       toolType
-      inService
       updatedAt
       createdAt
     }
@@ -900,7 +868,6 @@ export const onUpdateTool = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -911,7 +878,6 @@ export const onUpdateTool = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -955,7 +921,6 @@ export const onUpdateTool = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -963,7 +928,6 @@ export const onUpdateTool = /* GraphQL */ `
           nextToken
         }
         toolType
-        inService
         updatedAt
         createdAt
       }
@@ -982,7 +946,6 @@ export const onUpdateTool = /* GraphQL */ `
         nextToken
       }
       toolType
-      inService
       updatedAt
       createdAt
     }
@@ -1017,7 +980,6 @@ export const onDeleteTool = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -1028,7 +990,6 @@ export const onDeleteTool = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -1072,7 +1033,6 @@ export const onDeleteTool = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -1080,7 +1040,6 @@ export const onDeleteTool = /* GraphQL */ `
           nextToken
         }
         toolType
-        inService
         updatedAt
         createdAt
       }
@@ -1099,7 +1058,6 @@ export const onDeleteTool = /* GraphQL */ `
         nextToken
       }
       toolType
-      inService
       updatedAt
       createdAt
     }

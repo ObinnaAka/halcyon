@@ -28,7 +28,6 @@ export const getOutstandingTransactions = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -39,7 +38,6 @@ export const getOutstandingTransactions = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -76,7 +74,6 @@ export const getOutstandingTransactions = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -87,7 +84,6 @@ export const getOutstandingTransactions = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -110,7 +106,6 @@ export const getOutstandingTransactions = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -157,7 +152,6 @@ export const listTransactionsRange = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -168,7 +162,6 @@ export const listTransactionsRange = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -205,7 +198,6 @@ export const listTransactionsRange = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -216,7 +208,6 @@ export const listTransactionsRange = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -239,7 +230,6 @@ export const listTransactionsRange = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -286,7 +276,6 @@ export const getTransaction = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -297,7 +286,6 @@ export const getTransaction = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -334,7 +322,6 @@ export const getTransaction = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -345,7 +332,6 @@ export const getTransaction = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -368,7 +354,6 @@ export const getTransaction = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -497,7 +482,6 @@ export const getMember = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -505,7 +489,6 @@ export const getMember = /* GraphQL */ `
           nextToken
         }
         toolType
-        inService
         updatedAt
         createdAt
       }
@@ -538,7 +521,6 @@ export const getMember = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -546,7 +528,6 @@ export const getMember = /* GraphQL */ `
           nextToken
         }
         toolType
-        inService
         updatedAt
         createdAt
       }
@@ -602,7 +583,6 @@ export const listMembers = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -613,7 +593,6 @@ export const listMembers = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -660,7 +639,6 @@ export const getTool = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -671,7 +649,6 @@ export const getTool = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -715,7 +692,6 @@ export const getTool = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -723,7 +699,6 @@ export const getTool = /* GraphQL */ `
           nextToken
         }
         toolType
-        inService
         updatedAt
         createdAt
       }
@@ -742,7 +717,6 @@ export const getTool = /* GraphQL */ `
         nextToken
       }
       toolType
-      inService
       updatedAt
       createdAt
     }
@@ -784,7 +758,6 @@ export const listTools = /* GraphQL */ `
           status
           currentHolderId
           toolType
-          inService
           updatedAt
           createdAt
         }
@@ -792,7 +765,6 @@ export const listTools = /* GraphQL */ `
           nextToken
         }
         toolType
-        inService
         updatedAt
         createdAt
       }
