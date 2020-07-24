@@ -1,5 +1,5 @@
 type Transaction @model @versioned 
-	@searchable
+	# @searchable
 	@key(name: "byStatus", fields: ["status", "updatedAt", "id"])
 	@key(name: "byMember", fields: ["memberId", "createdAt", "id"])
 	@key(name: "byStaff", fields: ["staffMemberId", "createdAt", "id"])
@@ -19,12 +19,12 @@ type Transaction @model @versioned
 }
 
 type Member @model
-	@searchable
+	# @searchable
 	@key(name: "byEID", fields: ["eid", "id"])
 	@key(name: "byMemberType", fields: ["memberType", "id"]) 
 	@key(name: "byName", fields:["firstName","lastName", "id"])
 {
-	id: ID
+	id: ID! # Required here but the memberInput will have this set to non-required
 	eid: ID!
 	firstName: String!
 	lastName: String!
@@ -37,7 +37,7 @@ type Member @model
 	workstation: Tool 
 	conductRecord: [String]
 	conductStatus: Int
-	transactionRecord: [Transaction] # @connection(keyName:"byMember", fields:["eid"])
+	transactionRecord: [Transaction] @connection(keyName:"byMember", fields:["id"])
 	bevoCard: String
 	memberType: String!
 	createdAt: AWSDateTime
@@ -45,20 +45,19 @@ type Member @model
 }
 
 type Tool @model
-	@searchable
+	# @searchable
 	@key(name: "byName", fields: ["name", "id"])
-	@key(name: "byStatus", fields: ["status", "id"])
+	# @key(name: "byStatus", fields: ["status", "id"])
 {
 	id: ID
 	name: String!
 	location: String
-	status: Int!
+	status: String!
 	currentHolder: Member @connection(fields:["currentHolderId"])
 	currentHolderId: ID! #will default tiw_member_account since it can't be nun-nullable
 	currentWorkstation: Tool @connection
 	transactionRecord: [Transaction] @connection
 	toolType: String!
-	inService: String
 	updatedAt: AWSDateTime!
 }
 

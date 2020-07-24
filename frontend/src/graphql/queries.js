@@ -4,7 +4,7 @@
 export const getOutstandingTransactions = /* GraphQL */ `
   query GetOutstandingTransactions($status: String!) {
     getOutstandingTransactions(status: $status) {
-      transactionId
+      id
       transactionType
       staffMember {
         id
@@ -13,16 +13,16 @@ export const getOutstandingTransactions = /* GraphQL */ `
         lastName
         password
         phone
-        signinStatus
+        signInStatus
         email
         trainings {
-          trainingId
+          id
           name
           createdAt
           updatedAt
         }
         itemRecord {
-          toolId
+          id
           name
           location
           status
@@ -33,7 +33,7 @@ export const getOutstandingTransactions = /* GraphQL */ `
           createdAt
         }
         workstation {
-          toolId
+          id
           name
           location
           status
@@ -61,16 +61,16 @@ export const getOutstandingTransactions = /* GraphQL */ `
         lastName
         password
         phone
-        signinStatus
+        signInStatus
         email
         trainings {
-          trainingId
+          id
           name
           createdAt
           updatedAt
         }
         itemRecord {
-          toolId
+          id
           name
           location
           status
@@ -81,7 +81,7 @@ export const getOutstandingTransactions = /* GraphQL */ `
           createdAt
         }
         workstation {
-          toolId
+          id
           name
           location
           status
@@ -104,7 +104,7 @@ export const getOutstandingTransactions = /* GraphQL */ `
       memberId
       tools {
         items {
-          toolId
+          id
           name
           location
           status
@@ -117,7 +117,7 @@ export const getOutstandingTransactions = /* GraphQL */ `
         nextToken
       }
       training {
-        trainingId
+        id
         name
         createdAt
         updatedAt
@@ -133,7 +133,7 @@ export const getOutstandingTransactions = /* GraphQL */ `
 export const listTransactionsRange = /* GraphQL */ `
   query ListTransactionsRange($sort: String!, $from: String!, $limit: Int!) {
     listTransactionsRange(sort: $sort, from: $from, limit: $limit) {
-      transactionId
+      id
       transactionType
       staffMember {
         id
@@ -142,16 +142,16 @@ export const listTransactionsRange = /* GraphQL */ `
         lastName
         password
         phone
-        signinStatus
+        signInStatus
         email
         trainings {
-          trainingId
+          id
           name
           createdAt
           updatedAt
         }
         itemRecord {
-          toolId
+          id
           name
           location
           status
@@ -162,7 +162,7 @@ export const listTransactionsRange = /* GraphQL */ `
           createdAt
         }
         workstation {
-          toolId
+          id
           name
           location
           status
@@ -190,16 +190,16 @@ export const listTransactionsRange = /* GraphQL */ `
         lastName
         password
         phone
-        signinStatus
+        signInStatus
         email
         trainings {
-          trainingId
+          id
           name
           createdAt
           updatedAt
         }
         itemRecord {
-          toolId
+          id
           name
           location
           status
@@ -210,7 +210,7 @@ export const listTransactionsRange = /* GraphQL */ `
           createdAt
         }
         workstation {
-          toolId
+          id
           name
           location
           status
@@ -233,7 +233,7 @@ export const listTransactionsRange = /* GraphQL */ `
       memberId
       tools {
         items {
-          toolId
+          id
           name
           location
           status
@@ -246,7 +246,7 @@ export const listTransactionsRange = /* GraphQL */ `
         nextToken
       }
       training {
-        trainingId
+        id
         name
         createdAt
         updatedAt
@@ -262,7 +262,7 @@ export const listTransactionsRange = /* GraphQL */ `
 export const getTransaction = /* GraphQL */ `
   query GetTransaction($id: ID!) {
     getTransaction(id: $id) {
-      transactionId
+      id
       transactionType
       staffMember {
         id
@@ -271,16 +271,16 @@ export const getTransaction = /* GraphQL */ `
         lastName
         password
         phone
-        signinStatus
+        signInStatus
         email
         trainings {
-          trainingId
+          id
           name
           createdAt
           updatedAt
         }
         itemRecord {
-          toolId
+          id
           name
           location
           status
@@ -291,7 +291,7 @@ export const getTransaction = /* GraphQL */ `
           createdAt
         }
         workstation {
-          toolId
+          id
           name
           location
           status
@@ -319,16 +319,16 @@ export const getTransaction = /* GraphQL */ `
         lastName
         password
         phone
-        signinStatus
+        signInStatus
         email
         trainings {
-          trainingId
+          id
           name
           createdAt
           updatedAt
         }
         itemRecord {
-          toolId
+          id
           name
           location
           status
@@ -339,7 +339,7 @@ export const getTransaction = /* GraphQL */ `
           createdAt
         }
         workstation {
-          toolId
+          id
           name
           location
           status
@@ -362,7 +362,7 @@ export const getTransaction = /* GraphQL */ `
       memberId
       tools {
         items {
-          toolId
+          id
           name
           location
           status
@@ -375,7 +375,7 @@ export const getTransaction = /* GraphQL */ `
         nextToken
       }
       training {
-        trainingId
+        id
         name
         createdAt
         updatedAt
@@ -396,7 +396,7 @@ export const listTransactions = /* GraphQL */ `
   ) {
     listTransactions(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
-        transactionId
+        id
         transactionType
         staffMember {
           id
@@ -405,7 +405,7 @@ export const listTransactions = /* GraphQL */ `
           lastName
           password
           phone
-          signinStatus
+          signInStatus
           email
           conductRecord
           conductStatus
@@ -422,7 +422,7 @@ export const listTransactions = /* GraphQL */ `
           lastName
           password
           phone
-          signinStatus
+          signInStatus
           email
           conductRecord
           conductStatus
@@ -436,7 +436,7 @@ export const listTransactions = /* GraphQL */ `
           nextToken
         }
         training {
-          trainingId
+          id
           name
           createdAt
           updatedAt
@@ -460,16 +460,16 @@ export const getMember = /* GraphQL */ `
       lastName
       password
       phone
-      signinStatus
+      signInStatus
       email
       trainings {
-        trainingId
+        id
         name
         createdAt
         updatedAt
       }
       itemRecord {
-        toolId
+        id
         name
         location
         status
@@ -480,7 +480,7 @@ export const getMember = /* GraphQL */ `
           lastName
           password
           phone
-          signinStatus
+          signInStatus
           email
           conductRecord
           conductStatus
@@ -491,7 +491,7 @@ export const getMember = /* GraphQL */ `
         }
         currentHolderId
         currentWorkstation {
-          toolId
+          id
           name
           location
           status
@@ -510,7 +510,7 @@ export const getMember = /* GraphQL */ `
         createdAt
       }
       workstation {
-        toolId
+        id
         name
         location
         status
@@ -521,7 +521,7 @@ export const getMember = /* GraphQL */ `
           lastName
           password
           phone
-          signinStatus
+          signInStatus
           email
           conductRecord
           conductStatus
@@ -532,7 +532,7 @@ export const getMember = /* GraphQL */ `
         }
         currentHolderId
         currentWorkstation {
-          toolId
+          id
           name
           location
           status
@@ -554,7 +554,7 @@ export const getMember = /* GraphQL */ `
       conductStatus
       transactionRecord {
         items {
-          transactionId
+          id
           transactionType
           staffMemberId
           memberId
@@ -587,16 +587,16 @@ export const listMembers = /* GraphQL */ `
         lastName
         password
         phone
-        signinStatus
+        signInStatus
         email
         trainings {
-          trainingId
+          id
           name
           createdAt
           updatedAt
         }
         itemRecord {
-          toolId
+          id
           name
           location
           status
@@ -607,7 +607,7 @@ export const listMembers = /* GraphQL */ `
           createdAt
         }
         workstation {
-          toolId
+          id
           name
           location
           status
@@ -634,7 +634,7 @@ export const listMembers = /* GraphQL */ `
 export const getTool = /* GraphQL */ `
   query GetTool($id: ID!) {
     getTool(id: $id) {
-      toolId
+      id
       name
       location
       status
@@ -645,16 +645,16 @@ export const getTool = /* GraphQL */ `
         lastName
         password
         phone
-        signinStatus
+        signInStatus
         email
         trainings {
-          trainingId
+          id
           name
           createdAt
           updatedAt
         }
         itemRecord {
-          toolId
+          id
           name
           location
           status
@@ -665,7 +665,7 @@ export const getTool = /* GraphQL */ `
           createdAt
         }
         workstation {
-          toolId
+          id
           name
           location
           status
@@ -687,7 +687,7 @@ export const getTool = /* GraphQL */ `
       }
       currentHolderId
       currentWorkstation {
-        toolId
+        id
         name
         location
         status
@@ -698,7 +698,7 @@ export const getTool = /* GraphQL */ `
           lastName
           password
           phone
-          signinStatus
+          signInStatus
           email
           conductRecord
           conductStatus
@@ -709,7 +709,7 @@ export const getTool = /* GraphQL */ `
         }
         currentHolderId
         currentWorkstation {
-          toolId
+          id
           name
           location
           status
@@ -729,7 +729,7 @@ export const getTool = /* GraphQL */ `
       }
       transactionRecord {
         items {
-          transactionId
+          id
           transactionType
           staffMemberId
           memberId
@@ -756,7 +756,7 @@ export const listTools = /* GraphQL */ `
   ) {
     listTools(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
-        toolId
+        id
         name
         location
         status
@@ -767,7 +767,7 @@ export const listTools = /* GraphQL */ `
           lastName
           password
           phone
-          signinStatus
+          signInStatus
           email
           conductRecord
           conductStatus
@@ -778,7 +778,7 @@ export const listTools = /* GraphQL */ `
         }
         currentHolderId
         currentWorkstation {
-          toolId
+          id
           name
           location
           status
@@ -803,7 +803,7 @@ export const listTools = /* GraphQL */ `
 export const getTraining = /* GraphQL */ `
   query GetTraining($id: ID!) {
     getTraining(id: $id) {
-      trainingId
+      id
       name
       createdAt
       updatedAt
@@ -818,206 +818,12 @@ export const listTrainings = /* GraphQL */ `
   ) {
     listTrainings(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
-        trainingId
-        name
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
-export const searchTransactions = /* GraphQL */ `
-  query SearchTransactions(
-    $filter: SearchableTransactionFilterInput
-    $sort: SearchableTransactionSortInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    searchTransactions(
-      filter: $filter
-      sort: $sort
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        transactionId
-        transactionType
-        staffMember {
-          id
-          eid
-          firstName
-          lastName
-          password
-          phone
-          signinStatus
-          email
-          conductRecord
-          conductStatus
-          bevoCard
-          memberType
-          createdAt
-          updatedAt
-        }
-        staffMemberId
-        member {
-          id
-          eid
-          firstName
-          lastName
-          password
-          phone
-          signinStatus
-          email
-          conductRecord
-          conductStatus
-          bevoCard
-          memberType
-          createdAt
-          updatedAt
-        }
-        memberId
-        tools {
-          nextToken
-        }
-        training {
-          trainingId
-          name
-          createdAt
-          updatedAt
-        }
-        status
-        comment
-        createdAt
-        updatedAt
-        version
-      }
-      nextToken
-      total
-    }
-  }
-`;
-export const searchMembers = /* GraphQL */ `
-  query SearchMembers(
-    $filter: SearchableMemberFilterInput
-    $sort: SearchableMemberSortInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    searchMembers(
-      filter: $filter
-      sort: $sort
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
         id
-        eid
-        firstName
-        lastName
-        password
-        phone
-        signinStatus
-        email
-        trainings {
-          trainingId
-          name
-          createdAt
-          updatedAt
-        }
-        itemRecord {
-          toolId
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          inService
-          updatedAt
-          createdAt
-        }
-        workstation {
-          toolId
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          inService
-          updatedAt
-          createdAt
-        }
-        conductRecord
-        conductStatus
-        transactionRecord {
-          nextToken
-        }
-        bevoCard
-        memberType
-        createdAt
-        updatedAt
-      }
-      nextToken
-      total
-    }
-  }
-`;
-export const searchTools = /* GraphQL */ `
-  query SearchTools(
-    $filter: SearchableToolFilterInput
-    $sort: SearchableToolSortInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    searchTools(
-      filter: $filter
-      sort: $sort
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        toolId
         name
-        location
-        status
-        currentHolder {
-          id
-          eid
-          firstName
-          lastName
-          password
-          phone
-          signinStatus
-          email
-          conductRecord
-          conductStatus
-          bevoCard
-          memberType
-          createdAt
-          updatedAt
-        }
-        currentHolderId
-        currentWorkstation {
-          toolId
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          inService
-          updatedAt
-          createdAt
-        }
-        transactionRecord {
-          nextToken
-        }
-        toolType
-        inService
-        updatedAt
         createdAt
+        updatedAt
       }
       nextToken
-      total
     }
   }
 `;

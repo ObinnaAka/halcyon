@@ -7,7 +7,7 @@ import { updateMember } from "../../../graphql/mutations";
 // import style from "./StudentStudents.module.css";
 
 const StudentStudents = () => {
-	const [students, setStudents] = useState([]);
+	const [students, setStudents] = useState(["loading"]);
 
 	useEffect(() => {
 		fetchSignedInStudents();
@@ -17,26 +17,30 @@ const StudentStudents = () => {
 	}, []);
 
 	const fetchSignedInStudents = async () => {
-		let newStudents = await API.graphql({
+		let results = await API.graphql({
 			query: listMembers,
-			variables: { input: { signInStatus: true } },
+			variables: { filter: { signInStatus: { eq: true } } },
 		});
-		setStudents([newStudents]);
+		setStudents(results.data.listMembers.items);
 	};
 
 	return (
 		<div className="left-view">
-			{students.map((student, index) => (
-				<Student
-					firstName={student.firstName}
-					lastName={student.lastName}
-					workstation={student.workstation}
-					date={student.updatedAt}
-					key={index}
-					comment={student.comment}
-					itemRecord={student.itemRecord}
-				/>
-			))}
+			{students.length
+				? students[0] != "loading"
+					? students.map((student, index) => (
+							<Student
+								firstName={student.firstName}
+								lastName={student.lastName}
+								workstation={student.workstation}
+								date={student.updatedAt}
+								key={index}
+								comment={student.comment}
+								itemRecord={student.itemRecord}
+							/>
+					  ))
+					: "Loading..."
+				: "No Signed in Students"}
 		</div>
 	);
 };

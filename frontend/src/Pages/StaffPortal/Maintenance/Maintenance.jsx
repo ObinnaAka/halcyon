@@ -15,7 +15,8 @@ const initialToolState = {
 	location: "",
 	toolType: "",
 	inService: "true",
-	currentHolderId: "",
+	currentHolderId: "1a5d4c24-bea2-459c-84d8-9866ae15ab97",
+	status: "Checked Out",
 };
 const initialTransactionState = {
 	transactionType: "Test",
@@ -43,17 +44,20 @@ const MaintenancePage = (Apollo) => {
 	//____ State Handlers____
 	const inServiceHandler = () => {
 		setInService(!inService);
-		setTool("inService", tool.inService === "true" ? "false" : "true");
+		setTool({ ...tool, inService: tool.inService === "true" ? "false" : "true" });
 	};
 	const statusHandler = () => {
 		return transaction.status === "Processing" ? "Finished" : "Processing";
 	};
 
 	const submitToolHandler = async () => {
+		console.log("here");
+		console.log(tool);
 		let newTool = await API.graphql({
 			query: createTool,
 			variables: { input: tool },
 		});
+
 		console.log(newTool);
 	};
 	const submitTransactionHandler = async () => {
@@ -71,6 +75,15 @@ const MaintenancePage = (Apollo) => {
 		console.log(newMember);
 	};
 
+	const toolStatus = [
+		"Checked Out",
+		"Checked in",
+		"Cleaning",
+		"Cleaned",
+		"Repair",
+		"Not in Service",
+	];
+
 	const transactionTypes = [
 		"Test",
 		"Tool Checkout",
@@ -83,20 +96,21 @@ const MaintenancePage = (Apollo) => {
 		"Cleaning",
 	];
 	const members = {
-		"Obinna ": "5efcc51cf9eba03f046435c3",
-		"TIW ": "5efcce293b30cc0d10bde95c",
+		TIW: "1a5d4c24-bea2-459c-84d8-9866ae15ab97",
+		Obinna: "50cf8d5f-6cac-4873-a91c-6680935edf38",
+		Test: "b561a8d6-58fd-4410-b7e5-6f9bf6abf789",
 	};
 
 	return (
 		<div className="left-view">
-			<form className="create-tool" onSubmit={submitToolHandler}>
+			<form className="create-tool">
 				<div className="form-control">
 					<label htmlFor="name">
 						Name:
 						<input
 							type="string"
 							value={tool.name}
-							onChange={(event) => setTool("name", event.target.value)}
+							onChange={(event) => setTool({ ...tool, name: event.target.value })}
 						/>
 					</label>
 				</div>
@@ -106,7 +120,7 @@ const MaintenancePage = (Apollo) => {
 						<input
 							type="string"
 							value={tool.toolType}
-							onChange={(event) => setTool("toolType", event.target.value)}
+							onChange={(event) => setTool({ ...tool, toolType: event.target.value })}
 						/>
 					</label>
 				</div>
@@ -116,23 +130,33 @@ const MaintenancePage = (Apollo) => {
 						<input
 							type="Location"
 							value={tool.location}
-							onChange={(event) => setTool("location", event.target.value)}
+							onChange={(event) => setTool({ ...tool, location: event.target.value })}
 						/>
 					</label>
 				</div>
-				<div className="form-control" id="checkbox">
-					<label htmlFor="inService">
-						In Service:
-						<ToggleButton
-							className="itemButton"
-							type="checkbox"
-							onClick={inServiceHandler}
-							checked={inService}
-						/>
+				<div className="form-control">
+					<label className="selector-label" htmlFor="status">
+						Status:
+						<select
+							className="selector"
+							onChange={(event) => setTransaction({ ...tool, status: event.target.value })}>
+							{toolStatus.map((status, index) => {
+								return (
+									<option key={index} value={status}>
+										{status}
+									</option>
+								);
+							})}
+						</select>
 					</label>
 				</div>
 				<div className="form-actions">
-					<input type="submit" className="button" value="Create New Tool" />
+					<input
+						type="button"
+						onClick={submitToolHandler}
+						className="button"
+						value="Create New Tool"
+					/>
 				</div>
 				{/* {toolLoading ? <div>Processing...</div> : null} */}
 			</form>

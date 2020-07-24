@@ -10,18 +10,11 @@ import moment from "moment";
 
 // import ListItemIcon from "@material-ui/core/ListItemIcon";
 
-const Student = ({
-	firstName,
-	lastName,
-	date,
-	comment,
-	itemRecord,
-	workstation,
-}) => {
+const Student = ({ firstName, lastName, date, comment, itemRecord, workstation }) => {
 	const [open, setOpen] = React.useState(false);
 
 	// TODO Add setTools to this useState function
-	const [tools] = useState(Object.values(itemRecord));
+	const [tools, setTools] = useState(itemRecord ? Object.values(itemRecord) : []);
 
 	const handleItemClick = () => {
 		setOpen(!open);
@@ -38,15 +31,9 @@ const Student = ({
 		<div className="student_item_div">
 			<List className="student_item">
 				<ListItem button onClick={handleItemClick}>
-					<ListItemText
-						className="student_member_name"
-						primary={firstName + " " + lastName}
-					/>
+					<ListItemText className="student_member_name" primary={firstName + " " + lastName} />
 					<ListItemText className="student_workstation" primary={workstation} />
-					<ListItemText
-						className="student_time"
-						primary={moment.unix(date / 1000).fromNow()}
-					/>
+					<ListItemText className="student_time" primary={moment(date).fromNow()} />
 					{open ? <ExpandLess /> : <ExpandMore />}
 				</ListItem>
 				<Collapse in={open} timeout="auto" unmountOnExit>

@@ -18,7 +18,8 @@
                 }
             },
             "auth": {
-                "tiwappsyncb9f01991": {}
+                "tiwappsyncb9f01991": {},
+                "userPoolGroups": {}
             }
         }
     }

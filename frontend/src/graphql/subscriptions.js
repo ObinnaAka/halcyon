@@ -4,7 +4,7 @@
 export const onCreateTransaction = /* GraphQL */ `
   subscription OnCreateTransaction {
     onCreateTransaction {
-      transactionId
+      id
       transactionType
       staffMember {
         id
@@ -13,16 +13,16 @@ export const onCreateTransaction = /* GraphQL */ `
         lastName
         password
         phone
-        signinStatus
+        signInStatus
         email
         trainings {
-          trainingId
+          id
           name
           createdAt
           updatedAt
         }
         itemRecord {
-          toolId
+          id
           name
           location
           status
@@ -33,7 +33,7 @@ export const onCreateTransaction = /* GraphQL */ `
           createdAt
         }
         workstation {
-          toolId
+          id
           name
           location
           status
@@ -61,16 +61,16 @@ export const onCreateTransaction = /* GraphQL */ `
         lastName
         password
         phone
-        signinStatus
+        signInStatus
         email
         trainings {
-          trainingId
+          id
           name
           createdAt
           updatedAt
         }
         itemRecord {
-          toolId
+          id
           name
           location
           status
@@ -81,7 +81,7 @@ export const onCreateTransaction = /* GraphQL */ `
           createdAt
         }
         workstation {
-          toolId
+          id
           name
           location
           status
@@ -104,7 +104,7 @@ export const onCreateTransaction = /* GraphQL */ `
       memberId
       tools {
         items {
-          toolId
+          id
           name
           location
           status
@@ -117,7 +117,7 @@ export const onCreateTransaction = /* GraphQL */ `
         nextToken
       }
       training {
-        trainingId
+        id
         name
         createdAt
         updatedAt
@@ -133,7 +133,7 @@ export const onCreateTransaction = /* GraphQL */ `
 export const onUpdateTransaction = /* GraphQL */ `
   subscription OnUpdateTransaction {
     onUpdateTransaction {
-      transactionId
+      id
       transactionType
       staffMember {
         id
@@ -142,16 +142,16 @@ export const onUpdateTransaction = /* GraphQL */ `
         lastName
         password
         phone
-        signinStatus
+        signInStatus
         email
         trainings {
-          trainingId
+          id
           name
           createdAt
           updatedAt
         }
         itemRecord {
-          toolId
+          id
           name
           location
           status
@@ -162,7 +162,7 @@ export const onUpdateTransaction = /* GraphQL */ `
           createdAt
         }
         workstation {
-          toolId
+          id
           name
           location
           status
@@ -190,16 +190,16 @@ export const onUpdateTransaction = /* GraphQL */ `
         lastName
         password
         phone
-        signinStatus
+        signInStatus
         email
         trainings {
-          trainingId
+          id
           name
           createdAt
           updatedAt
         }
         itemRecord {
-          toolId
+          id
           name
           location
           status
@@ -210,7 +210,7 @@ export const onUpdateTransaction = /* GraphQL */ `
           createdAt
         }
         workstation {
-          toolId
+          id
           name
           location
           status
@@ -233,7 +233,7 @@ export const onUpdateTransaction = /* GraphQL */ `
       memberId
       tools {
         items {
-          toolId
+          id
           name
           location
           status
@@ -246,7 +246,7 @@ export const onUpdateTransaction = /* GraphQL */ `
         nextToken
       }
       training {
-        trainingId
+        id
         name
         createdAt
         updatedAt
@@ -262,7 +262,7 @@ export const onUpdateTransaction = /* GraphQL */ `
 export const onDeleteTransaction = /* GraphQL */ `
   subscription OnDeleteTransaction {
     onDeleteTransaction {
-      transactionId
+      id
       transactionType
       staffMember {
         id
@@ -271,16 +271,16 @@ export const onDeleteTransaction = /* GraphQL */ `
         lastName
         password
         phone
-        signinStatus
+        signInStatus
         email
         trainings {
-          trainingId
+          id
           name
           createdAt
           updatedAt
         }
         itemRecord {
-          toolId
+          id
           name
           location
           status
@@ -291,7 +291,7 @@ export const onDeleteTransaction = /* GraphQL */ `
           createdAt
         }
         workstation {
-          toolId
+          id
           name
           location
           status
@@ -319,16 +319,16 @@ export const onDeleteTransaction = /* GraphQL */ `
         lastName
         password
         phone
-        signinStatus
+        signInStatus
         email
         trainings {
-          trainingId
+          id
           name
           createdAt
           updatedAt
         }
         itemRecord {
-          toolId
+          id
           name
           location
           status
@@ -339,7 +339,7 @@ export const onDeleteTransaction = /* GraphQL */ `
           createdAt
         }
         workstation {
-          toolId
+          id
           name
           location
           status
@@ -362,7 +362,7 @@ export const onDeleteTransaction = /* GraphQL */ `
       memberId
       tools {
         items {
-          toolId
+          id
           name
           location
           status
@@ -375,7 +375,7 @@ export const onDeleteTransaction = /* GraphQL */ `
         nextToken
       }
       training {
-        trainingId
+        id
         name
         createdAt
         updatedAt
@@ -397,16 +397,16 @@ export const onCreateMember = /* GraphQL */ `
       lastName
       password
       phone
-      signinStatus
+      signInStatus
       email
       trainings {
-        trainingId
+        id
         name
         createdAt
         updatedAt
       }
       itemRecord {
-        toolId
+        id
         name
         location
         status
@@ -417,7 +417,7 @@ export const onCreateMember = /* GraphQL */ `
           lastName
           password
           phone
-          signinStatus
+          signInStatus
           email
           conductRecord
           conductStatus
@@ -428,7 +428,7 @@ export const onCreateMember = /* GraphQL */ `
         }
         currentHolderId
         currentWorkstation {
-          toolId
+          id
           name
           location
           status
@@ -447,7 +447,7 @@ export const onCreateMember = /* GraphQL */ `
         createdAt
       }
       workstation {
-        toolId
+        id
         name
         location
         status
@@ -458,7 +458,7 @@ export const onCreateMember = /* GraphQL */ `
           lastName
           password
           phone
-          signinStatus
+          signInStatus
           email
           conductRecord
           conductStatus
@@ -469,7 +469,7 @@ export const onCreateMember = /* GraphQL */ `
         }
         currentHolderId
         currentWorkstation {
-          toolId
+          id
           name
           location
           status
@@ -491,7 +491,7 @@ export const onCreateMember = /* GraphQL */ `
       conductStatus
       transactionRecord {
         items {
-          transactionId
+          id
           transactionType
           staffMemberId
           memberId
@@ -519,16 +519,16 @@ export const onUpdateMember = /* GraphQL */ `
       lastName
       password
       phone
-      signinStatus
+      signInStatus
       email
       trainings {
-        trainingId
+        id
         name
         createdAt
         updatedAt
       }
       itemRecord {
-        toolId
+        id
         name
         location
         status
@@ -539,7 +539,7 @@ export const onUpdateMember = /* GraphQL */ `
           lastName
           password
           phone
-          signinStatus
+          signInStatus
           email
           conductRecord
           conductStatus
@@ -550,7 +550,7 @@ export const onUpdateMember = /* GraphQL */ `
         }
         currentHolderId
         currentWorkstation {
-          toolId
+          id
           name
           location
           status
@@ -569,7 +569,7 @@ export const onUpdateMember = /* GraphQL */ `
         createdAt
       }
       workstation {
-        toolId
+        id
         name
         location
         status
@@ -580,7 +580,7 @@ export const onUpdateMember = /* GraphQL */ `
           lastName
           password
           phone
-          signinStatus
+          signInStatus
           email
           conductRecord
           conductStatus
@@ -591,7 +591,7 @@ export const onUpdateMember = /* GraphQL */ `
         }
         currentHolderId
         currentWorkstation {
-          toolId
+          id
           name
           location
           status
@@ -613,7 +613,7 @@ export const onUpdateMember = /* GraphQL */ `
       conductStatus
       transactionRecord {
         items {
-          transactionId
+          id
           transactionType
           staffMemberId
           memberId
@@ -641,16 +641,16 @@ export const onDeleteMember = /* GraphQL */ `
       lastName
       password
       phone
-      signinStatus
+      signInStatus
       email
       trainings {
-        trainingId
+        id
         name
         createdAt
         updatedAt
       }
       itemRecord {
-        toolId
+        id
         name
         location
         status
@@ -661,7 +661,7 @@ export const onDeleteMember = /* GraphQL */ `
           lastName
           password
           phone
-          signinStatus
+          signInStatus
           email
           conductRecord
           conductStatus
@@ -672,7 +672,7 @@ export const onDeleteMember = /* GraphQL */ `
         }
         currentHolderId
         currentWorkstation {
-          toolId
+          id
           name
           location
           status
@@ -691,7 +691,7 @@ export const onDeleteMember = /* GraphQL */ `
         createdAt
       }
       workstation {
-        toolId
+        id
         name
         location
         status
@@ -702,7 +702,7 @@ export const onDeleteMember = /* GraphQL */ `
           lastName
           password
           phone
-          signinStatus
+          signInStatus
           email
           conductRecord
           conductStatus
@@ -713,7 +713,7 @@ export const onDeleteMember = /* GraphQL */ `
         }
         currentHolderId
         currentWorkstation {
-          toolId
+          id
           name
           location
           status
@@ -735,7 +735,7 @@ export const onDeleteMember = /* GraphQL */ `
       conductStatus
       transactionRecord {
         items {
-          transactionId
+          id
           transactionType
           staffMemberId
           memberId
@@ -757,7 +757,7 @@ export const onDeleteMember = /* GraphQL */ `
 export const onCreateTool = /* GraphQL */ `
   subscription OnCreateTool {
     onCreateTool {
-      toolId
+      id
       name
       location
       status
@@ -768,16 +768,16 @@ export const onCreateTool = /* GraphQL */ `
         lastName
         password
         phone
-        signinStatus
+        signInStatus
         email
         trainings {
-          trainingId
+          id
           name
           createdAt
           updatedAt
         }
         itemRecord {
-          toolId
+          id
           name
           location
           status
@@ -788,7 +788,7 @@ export const onCreateTool = /* GraphQL */ `
           createdAt
         }
         workstation {
-          toolId
+          id
           name
           location
           status
@@ -810,7 +810,7 @@ export const onCreateTool = /* GraphQL */ `
       }
       currentHolderId
       currentWorkstation {
-        toolId
+        id
         name
         location
         status
@@ -821,7 +821,7 @@ export const onCreateTool = /* GraphQL */ `
           lastName
           password
           phone
-          signinStatus
+          signInStatus
           email
           conductRecord
           conductStatus
@@ -832,7 +832,7 @@ export const onCreateTool = /* GraphQL */ `
         }
         currentHolderId
         currentWorkstation {
-          toolId
+          id
           name
           location
           status
@@ -852,7 +852,7 @@ export const onCreateTool = /* GraphQL */ `
       }
       transactionRecord {
         items {
-          transactionId
+          id
           transactionType
           staffMemberId
           memberId
@@ -874,7 +874,7 @@ export const onCreateTool = /* GraphQL */ `
 export const onUpdateTool = /* GraphQL */ `
   subscription OnUpdateTool {
     onUpdateTool {
-      toolId
+      id
       name
       location
       status
@@ -885,16 +885,16 @@ export const onUpdateTool = /* GraphQL */ `
         lastName
         password
         phone
-        signinStatus
+        signInStatus
         email
         trainings {
-          trainingId
+          id
           name
           createdAt
           updatedAt
         }
         itemRecord {
-          toolId
+          id
           name
           location
           status
@@ -905,7 +905,7 @@ export const onUpdateTool = /* GraphQL */ `
           createdAt
         }
         workstation {
-          toolId
+          id
           name
           location
           status
@@ -927,7 +927,7 @@ export const onUpdateTool = /* GraphQL */ `
       }
       currentHolderId
       currentWorkstation {
-        toolId
+        id
         name
         location
         status
@@ -938,7 +938,7 @@ export const onUpdateTool = /* GraphQL */ `
           lastName
           password
           phone
-          signinStatus
+          signInStatus
           email
           conductRecord
           conductStatus
@@ -949,7 +949,7 @@ export const onUpdateTool = /* GraphQL */ `
         }
         currentHolderId
         currentWorkstation {
-          toolId
+          id
           name
           location
           status
@@ -969,7 +969,7 @@ export const onUpdateTool = /* GraphQL */ `
       }
       transactionRecord {
         items {
-          transactionId
+          id
           transactionType
           staffMemberId
           memberId
@@ -991,7 +991,7 @@ export const onUpdateTool = /* GraphQL */ `
 export const onDeleteTool = /* GraphQL */ `
   subscription OnDeleteTool {
     onDeleteTool {
-      toolId
+      id
       name
       location
       status
@@ -1002,16 +1002,16 @@ export const onDeleteTool = /* GraphQL */ `
         lastName
         password
         phone
-        signinStatus
+        signInStatus
         email
         trainings {
-          trainingId
+          id
           name
           createdAt
           updatedAt
         }
         itemRecord {
-          toolId
+          id
           name
           location
           status
@@ -1022,7 +1022,7 @@ export const onDeleteTool = /* GraphQL */ `
           createdAt
         }
         workstation {
-          toolId
+          id
           name
           location
           status
@@ -1044,7 +1044,7 @@ export const onDeleteTool = /* GraphQL */ `
       }
       currentHolderId
       currentWorkstation {
-        toolId
+        id
         name
         location
         status
@@ -1055,7 +1055,7 @@ export const onDeleteTool = /* GraphQL */ `
           lastName
           password
           phone
-          signinStatus
+          signInStatus
           email
           conductRecord
           conductStatus
@@ -1066,7 +1066,7 @@ export const onDeleteTool = /* GraphQL */ `
         }
         currentHolderId
         currentWorkstation {
-          toolId
+          id
           name
           location
           status
@@ -1086,7 +1086,7 @@ export const onDeleteTool = /* GraphQL */ `
       }
       transactionRecord {
         items {
-          transactionId
+          id
           transactionType
           staffMemberId
           memberId
@@ -1108,7 +1108,7 @@ export const onDeleteTool = /* GraphQL */ `
 export const onCreateTraining = /* GraphQL */ `
   subscription OnCreateTraining {
     onCreateTraining {
-      trainingId
+      id
       name
       createdAt
       updatedAt
@@ -1118,7 +1118,7 @@ export const onCreateTraining = /* GraphQL */ `
 export const onUpdateTraining = /* GraphQL */ `
   subscription OnUpdateTraining {
     onUpdateTraining {
-      trainingId
+      id
       name
       createdAt
       updatedAt
@@ -1128,7 +1128,7 @@ export const onUpdateTraining = /* GraphQL */ `
 export const onDeleteTraining = /* GraphQL */ `
   subscription OnDeleteTraining {
     onDeleteTraining {
-      trainingId
+      id
       name
       createdAt
       updatedAt

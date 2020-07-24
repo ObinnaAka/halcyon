@@ -65,7 +65,7 @@ const Request = ({ items, member, date, requestType, workstation = "-", comment 
 						primary={member.firstName + " " + member.lastName}
 					/>
 					<ListItemText className="request_workstation" primary={workstation} />
-					<ListItemText className="request_time" primary={moment.unix(date / 1000).fromNow()} />
+					<ListItemText className="request_time" primary={moment(date).fromNow()} />
 					{open ? <ExpandLess /> : <ExpandMore />}
 				</ListItem>
 				<Collapse in={open} timeout="auto" unmountOnExit>
