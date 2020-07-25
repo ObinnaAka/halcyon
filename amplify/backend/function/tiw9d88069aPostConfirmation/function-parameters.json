@@ -7,10 +7,11 @@
   "functionName": "tiw9d88069aPostConfirmation",
   "resourceName": "tiw9d88069aPostConfirmation",
   "parentStack": "auth",
-  "triggerEnvs": [],
+  "triggerEnvs": "[]",
   "triggerDir": "C:\\Users\\akaha\\AppData\\Roaming\\npm\\node_modules\\@aws-amplify\\cli\\node_modules\\amplify-category-auth\\provider-utils\\awscloudformation\\utils/../triggers/PostConfirmation",
   "triggerTemplate": "PostConfirmation.json.ejs",
   "roleName": "tiw9d88069aPostConfirmation",
   "skipEdit": true,
-  "GROUP": "Staff"
+  "GROUP": "Staff",
+  "triggerEventPath": "PostConfirmation.event.json"
 }

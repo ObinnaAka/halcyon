@@ -8,6 +8,7 @@ import Footer from "./components/Footer/Footer";
 import AuthContext from "./context/auth-context";
 
 import Amplify, { API, graphqlOperation, Auth } from "aws-amplify";
+import "@aws-amplify/ui/dist/style.css";
 import awsExports from "./aws-exports";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 
