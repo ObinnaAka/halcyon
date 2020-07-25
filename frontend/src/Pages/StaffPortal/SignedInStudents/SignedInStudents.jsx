@@ -4,7 +4,8 @@ import { Student } from "../../../components";
 import gql from "graphql-tag";
 
 import { useSubscription, useQuery } from "@apollo/react-hooks";
-// import style from "./StudentStudents.module.css";
+
+// import style from "./SignedInStudents.module.css";
 
 // TODO Create Signed in students function
 // ! Add Workstation as a field for Member Object
@@ -47,7 +48,7 @@ const SIGNED_IN_STUDENTS_SUBSCRIPTION = gql`
 	}
 `;
 
-const StudentStudents = (Apollo) => {
+const SignedInStudents = (Apollo) => {
 	const [students, setStudents] = useState([]);
 
 	useSubscription(SIGNED_IN_STUDENTS_SUBSCRIPTION, {
@@ -63,21 +64,18 @@ const StudentStudents = (Apollo) => {
 		},
 	});
 
-	const { loading: queryLoading, error: queryError } = useQuery(
-		SIGNED_IN_STUDENTS,
-		{
-			variables: {},
-			onCompleted: (data) => {
-				console.log(data);
-				if (data) {
-					const resArray = Object.values(data.signedInStudents);
-					setStudents(resArray);
-				} else {
-					return <div className="page">No new students</div>;
-				}
-			},
-		}
-	);
+	const { loading: queryLoading, error: queryError } = useQuery(SIGNED_IN_STUDENTS, {
+		variables: {},
+		onCompleted: (data) => {
+			console.log(data);
+			if (data) {
+				const resArray = Object.values(data.signedInStudents);
+				setStudents(resArray);
+			} else {
+				return <div className="page">No new students</div>;
+			}
+		},
+	});
 
 	if (queryLoading) return <div className="page">Loading ...</div>;
 	if (queryError) return <div className="page">{`Error! ${queryError}`}</div>;
@@ -100,4 +98,4 @@ const StudentStudents = (Apollo) => {
 	);
 };
 
-export default StudentStudents;
+export default SignedInStudents;
