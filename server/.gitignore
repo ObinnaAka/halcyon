@@ -1,8 +1,6 @@
-# dependencies
-/node_modules
+# package directories
+node_modules
+jspm_packages
 
-# env files
-.env
-
-# node
-package-lock.json
+# Serverless directories
+.serverless

@@ -7,8 +7,8 @@ IMPORTANT: This document will need to be changed
 when using a different database
 -----------------------------------------------*/
 
-const DataLoader = require("dataloader");
-const { PubSub, withFilter } = require("graphql-subscriptions");
+const { withFilter } = require("graphql-subscriptions");
+
 const Member = require("../../models/member");
 const Transaction = require("../../models/transaction");
 const Tool = require("../../models/tool");
@@ -17,18 +17,18 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { authenticated, validateRole } = require("../../middleware/is-auth");
 
+// const express = require("express");
+// const mongoose = require("mongoose");
 
+const connectToDatabase = require("../../database");
 
-const TRANSACTION_SUBSCRIPTION = "newTransaction";
+const TRANSACTION_SUBSCRIPTION = "NEW_TRANSACTION";
+const STUDENT_SUBSCRIPTION = "newStudent";
 
-
-
-const pubsub = new PubSub();
-const publish = (transaction) => {
-	setTimeout((transaction) => {
-		pubsub.publish(TRANSACTION_SUBSCRIPTION, transaction);
-	}, 1000);
-};
+// -----------------------------------------------
+// We use this to store the events for the subscriptions
+// on our GraphQL Lambda Server
+// -----------------------------------------------
 
 // -----------------------------------------------
 // These convert the objects (Members, Transactions,
@@ -70,14 +70,19 @@ module.exports = {
 	// ------------------------------------------
 
 	Query: {
-		me: authenticated((root, args, context) => context.currentMember),
+		test: async () => {
+			let connected = await connectToDatabase();
+			return "We made it || " + connected + " || " + process.env.AZURE;
+		},
+		me: authenticated((root, args, context) => console.log(context.currentMember)),
 
 		// ------------------------------------------
 		// Retrieve all members from database
 		// ------------------------------------------
-
+		// TODO Require authentication to retrieve all members in the database
 		members: async () => {
 			try {
+				await connectToDatabase();
 				const members = await Member.find();
 				return members.map((member) => {
 					return transformMember(member);
@@ -94,6 +99,7 @@ module.exports = {
 
 		singleMember: async (memberID) => {
 			try {
+				await connectToDatabase();
 				const member = await Member.findById(memberID);
 				return transformMember(member);
 			} catch (err) {
@@ -107,6 +113,7 @@ module.exports = {
 
 		transactions: async () => {
 			try {
+				await connectToDatabase();
 				const transactions = await Transaction.find();
 				return transactions.map((transaction) => {
 					return transformTransaction(transaction);
@@ -122,6 +129,7 @@ module.exports = {
 
 		singleTransaction: async (transactionID) => {
 			try {
+				await connectToDatabase();
 				const transaction = await Transaction.findById(transactionID);
 				return transformTransaction(transaction);
 			} catch (err) {
@@ -135,6 +143,7 @@ module.exports = {
 
 		tools: async () => {
 			try {
+				await connectToDatabase();
 				const tools = await Tool.find();
 				return tools.map((tool) => {
 					return transformTool(tool);
@@ -151,13 +160,14 @@ module.exports = {
 		singleTool: async (toolID) => {
 			// For coworking session
 		},
-		
+
 		// ------------------------------------------
 		// Verify a user's password, authenticate their
 		// token and log them in
 		// ------------------------------------------
 
 		login: async (_, { eid, password }, { cache }) => {
+			await connectToDatabase();
 			const member = await Member.findOne({ eid: eid });
 			if (!member) {
 				throw new Error("User not registered");
@@ -174,7 +184,7 @@ module.exports = {
 			);
 			// TODO Change member encoding for only critical information
 			return {
-				member: { _id: member.id, memberType: member.memberType },
+				member: transformMember(member),
 				token: token,
 				tokenExpiration: 1,
 			};
@@ -187,13 +197,14 @@ module.exports = {
 
 		outstandingTransactions: async () => {
 			try {
+				await connectToDatabase();
 				const transactions = await Transaction.find({
 					status: "Processing",
 				});
 				// !------------------------------------------
 				// ! The Sort function at the end is a temporary solution for Cosmos DB\
 				// ! THe native sort function from Mongoose/MongoDB didn't work. It returned GraphQLError
-				// !.sort("createdAt desc");
+				// ! .sort("createdAt desc");
 				// ! ------------------------------------------
 				if (transactions) {
 					console.log("oof");
@@ -203,134 +214,155 @@ module.exports = {
 						})
 						.sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1));
 				}
-				console.log("oof");
+				// console.log("oof");
+			} catch (err) {
+				console.log(err);
+				throw err;
+			}
+		},
+
+		signedInStudents: async () => {
+			try {
+				await connectToDatabase();
+				const signedInStudents = await Member.find({
+					signinStatus: true,
+				});
+				// !------------------------------------------
+				// ! The Sort function at the end is a temporary solution for Cosmos DB\
+				// ! THe native sort function from Mongoose/MongoDB didn't work. It returned GraphQLError
+				// ! .sort("workstation desc");
+				// ! ------------------------------------------
+				if (signedInStudents) {
+					return signedInStudents.map((transaction) => {
+						return transformTransaction(transaction);
+					});
+					// .sort((a, b) =>
+					// 	a.member.workstation > b.member.workstation ? -1 : 1
+					// );
+				} else {
+					console.log("No Signed In Students");
+					return null;
+				}
 			} catch (err) {
 				console.log(err);
 				throw err;
 			}
 		},
 	},
-
 	// ------------------------------------------
 	// Mutations
 	// ------------------------------------------
 
 	Mutation: {
 		// ------------------------------------------
-		// Just a test
+		// Just a transaction testing function. Can
+		// create transactions without being authenticated
+		// with a token
 		// ------------------------------------------
 
-		authTest: authenticated(
-			validateRole("Staff")(async (root, args, context) => {
-				try {
-					const transaction = new Transaction({
-						transactionType: args.transactionInput.transactionType,
-						staffMember: args.transactionInput.staffMember,
-						member: args.transactionInput.member,
-						tools: args.transactionInput.tools,
-						training: args.transactionInput.training,
-						status: args.transactionInput.status,
-						comment: args.transactionInput.comment,
-					});
-					const member = await Member.findById(transaction.member);
-					// Make sure member is registered in the database
-					if (!member) {
-						throw new Error("User not found");
-					}
-
-					// Here is where we build out the logic/routing for the transactions
-					if (transaction.transactionType === "Sign-in") {
-						await Member.updateOne(
-							{ _id: transaction.member },
-							{ $set: { signinStatus: true } }
-						);
-					} else if (transaction.transactionType === "Sign-out") {
-						await Member.updateOne(
-							{ _id: transaction.member },
-							{ $set: { signinStatus: false } }
-						);
-					} else if (transaction.transactionType === "Tool Check-in") {
-						let tools = JSON.stringify(transaction.tools);
-						await Tool.updateMany(
-							{ _id: { $in: transaction.tools } },
-							{
-								$set: {
-									// currentWorkspace: null,
-									currentUser: null,
-									status: 0,
-								},
-							},
-							{ upsert: true },
-							(err, doc) => {
-								if (err) console.log(err);
-							}
-						);
-						await Member.updateOne(
-							{ _id: { $in: transaction.member } },
-							{ $pull: { itemRecord: { $in: transaction.tools } } },
-							{ upsert: false },
-							(err, doc) => {
-								if (err) console.log(err);
-							}
-						);
-					} else if (transaction.transactionType === "Tool Checkout") {
-						let tools = JSON.stringify(transaction.tools);
-						await Tool.updateMany(
-							{ _id: { $in: transaction.tools } },
-							{
-								$set: {
-									// currentWorkspace: null,
-									currentUser: transaction.member,
-									status: 2,
-								},
-							},
-							{ upsert: true },
-							(err, doc) => {
-								if (err) console.log(err);
-							}
-						);
-						await Member.update(
-							{ _id: { $in: transaction.member } },
-							{ $push: { itemRecord: { $each: transaction.tools } } },
-							{ upsert: false },
-							(err, doc) => {
-								if (err) console.log(err);
-							}
-						);
-					} else if (transaction.transactionType === "Advanced 3D-Print") {
-					} else if (transaction.transactionType === "Training") {
-					} else if (transaction.transactionType === "Conduct-Update") {
-					}
-					// Not sure of this last one
-					else if (transaction.transactionType === "Cleaning") {
-					} else {
-						console.log("test");
-					}
-
-					// We create "createdTransaction" so that we can simultaneously access the
-					// Transaction and its args (member, staffMember, tools)
-					let createdTransaction;
-					const result = await transaction.save();
-					createdTransaction = transformTransaction(result);
-
-					// Add transaction to member transactionRecord
-					member.transactionRecord.push(createdTransaction);
-					//At the end of this, save the member to the database
-					await member.save();
-					publish(createdTransaction);
-					return createdTransaction;
-				} catch (err) {
-					throw err;
+		noAuthTest: async (root, args, context) => {
+			try {
+				await connectToDatabase();
+				const transaction = new Transaction({
+					transactionType: args.transactionInput.transactionType,
+					staffMember: args.transactionInput.staffMember,
+					member: args.transactionInput.member,
+					tools: args.transactionInput.tools,
+					training: args.transactionInput.training,
+					status: args.transactionInput.status,
+					comment: args.transactionInput.comment,
+				});
+				const member = await Member.findById(transaction.member);
+				// Make sure member is registered in the database
+				if (!member) {
+					throw new Error("User not found");
 				}
-			})
-		),
 
+				// Here is where we build out the logic/routing for the transactions
+				if (transaction.transactionType === "Sign-in") {
+					await Member.updateOne({ _id: transaction.member }, { $set: { signinStatus: true } });
+				} else if (transaction.transactionType === "Sign-out") {
+					await Member.updateOne({ _id: transaction.member }, { $set: { signinStatus: false } });
+				} else if (transaction.transactionType === "Tool Check-in") {
+					let tools = JSON.stringify(transaction.tools);
+					await Tool.updateMany(
+						{ _id: { $in: transaction.tools } },
+						{
+							$set: {
+								// currentWorkspace: null,
+								currentUser: null,
+								status: 0,
+							},
+						},
+						{ upsert: true },
+						(err, doc) => {
+							if (err) console.log(err);
+						}
+					);
+					await Member.updateOne(
+						{ _id: { $in: transaction.member } },
+						{ $pull: { itemRecord: { $in: transaction.tools } } },
+						{ upsert: false },
+						(err, doc) => {
+							if (err) console.log(err);
+						}
+					);
+				} else if (transaction.transactionType === "Tool Checkout") {
+					let tools = JSON.stringify(transaction.tools);
+					await Tool.updateMany(
+						{ _id: { $in: transaction.tools } },
+						{
+							$set: {
+								// currentWorkspace: null,
+								currentUser: transaction.member,
+								status: 2,
+							},
+						},
+						{ upsert: true },
+						(err, doc) => {
+							if (err) console.log(err);
+						}
+					);
+					await Member.updateOne(
+						{ _id: { $in: transaction.member } },
+						{ $push: { itemRecord: { $each: transaction.tools } } },
+						{ upsert: false },
+						(err, doc) => {
+							if (err) console.log(err);
+						}
+					);
+				} else if (transaction.transactionType === "Advanced 3D-Print") {
+				} else if (transaction.transactionType === "Training") {
+				} else if (transaction.transactionType === "Conduct-Update") {
+				} else if (transaction.transactionType === "Cleaning") {
+				} else {
+					console.log("test");
+				}
+
+				// We create "createdTransaction" so that we can simultaneously access the
+				// Transaction and its args (member, staffMember, tools)
+				let createdTransaction;
+				const result = await transaction.save();
+				createdTransaction = transformTransaction(result);
+
+				await context.pubSub.publish(TRANSACTION_SUBSCRIPTION, transaction);
+
+				// Add transaction to member transactionRecord
+				member.transactionRecord.push(createdTransaction);
+				//At the end of this, save the member to the database
+				await member.save();
+				return createdTransaction;
+			} catch (err) {
+				throw err;
+			}
+		},
 		// ------------------------------------------
 		// Create a new Member in the database
 		// ------------------------------------------
 
 		createMember: async (root, args) => {
 			try {
+				await connectToDatabase();
 				console.log(args);
 
 				// Check to see if the user is already registered
@@ -382,6 +414,7 @@ module.exports = {
 		createTransaction: authenticated(
 			validateRole("Staff")(async (root, args, context) => {
 				try {
+					await connectToDatabase();
 					const transaction = new Transaction({
 						transactionType: args.transactionInput.transactionType,
 						staffMember: args.transactionInput.staffMember,
@@ -399,15 +432,9 @@ module.exports = {
 
 					// Here is where we build out the logic/routing for the transactions
 					if (transaction.transactionType === "Sign-in") {
-						await Member.updateOne(
-							{ _id: transaction.member },
-							{ $set: { signinStatus: true } }
-						);
+						await Member.updateOne({ _id: transaction.member }, { $set: { signinStatus: true } });
 					} else if (transaction.transactionType === "Sign-out") {
-						await Member.updateOne(
-							{ _id: transaction.member },
-							{ $set: { signinStatus: false } }
-						);
+						await Member.updateOne({ _id: transaction.member }, { $set: { signinStatus: false } });
 					} else if (transaction.transactionType === "Tool Check-in") {
 						let tools = JSON.stringify(transaction.tools);
 						await Tool.updateMany(
@@ -467,14 +494,14 @@ module.exports = {
 					}
 
 					// We create "createdTransaction" so that we can simultaneously access the
-					// Transaction and its args (member, staffmember, tools)
+					// Transaction and its args (member, staffMember, tools)
 					let createdTransaction;
 					const result = await transaction.save();
 					createdTransaction = transformTransaction(result);
 
 					// publish(createdTransaction);
 
-					pubsub.publish(TRANSACTION_SUBSCRIPTION, createdTransaction);
+					await context.pubSub.publish(TRANSACTION_SUBSCRIPTION, transaction);
 
 					// Add transaction to member transactionRecord
 					member.transactionRecord.push(createdTransaction);
@@ -522,6 +549,7 @@ module.exports = {
 		// WIP: Meant to be a tool checkout resolver
 		// ------------------------------------------
 		toolCheckout: async (root, args, req) => {
+			await connectToDatabase();
 			if (!req.isAuth) {
 				throw new Error("Not authenticated. Please log in");
 			}
@@ -555,17 +583,21 @@ module.exports = {
 	// ------------------------------------------
 	// Subscriptions
 	// ------------------------------------------
-	
+
 	Subscription: {
 		onNewRequest: {
 			//! Will need WithFilter here to filter for only "Processing transactions"
-			subscribe: () => pubsub.asyncIterator([TRANSACTION_SUBSCRIPTION]),
-			resolve: (transaction) => {
-				return transaction;
+			resolve: (rootValue) => {
+				console.log("Here 1 ", rootValue);
+				return rootValue;
+			},
+			subscribe: async (rootValue, args, context) => {
+				console.log("Here 2 ", context);
+				return await context.pubSub.subscribe(TRANSACTION_SUBSCRIPTION)(rootValue, args, context);
 			},
 
 			// subscribe: withFilter(
-			// 	() => pubsub.asyncIterator([TRANSACTION_SUBSCRIPTION]),
+			// 	() => pubSub.asyncIterator([TRANSACTION_SUBSCRIPTION]),
 			// 	(payload, args) => {
 			// 		return payload;
 			// 	}
@@ -574,6 +606,13 @@ module.exports = {
 			// 	console.log(payload);
 			// 	return transformTransaction(payload);
 			// },
+		},
+		onNewStudent: {
+			//! Will need WithFilter here to filter for only "Processing transactions"
+			resolve: (transaction) => transaction.member,
+			subscribe: async (rootValue, args, context) => {
+				return await context.pubSub.subscribe(STUDENT_SUBSCRIPTION)(rootValue, args, context);
+			},
 		},
 	},
 };

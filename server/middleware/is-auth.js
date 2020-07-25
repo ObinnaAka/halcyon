@@ -13,23 +13,24 @@ module.exports = {
 	tradeTokenForMember: async (header) => {
 		const authHeader = header;
 		if (!authHeader) {
-			console.log("1");
+			console.log("is-auth : 1 : No Auth Header");
 			return null;
 		}
 		const token = authHeader.split(" ")[1];
 		if (!token || token === "") {
-			console.log("2");
+			console.log("is-auth : 2 : No Token Attached");
 			return null;
 		}
 		let decodedToken;
 		try {
 			decodedToken = jwt.verify(token, "supercalifragilisticexpialidocious");
 		} catch (err) {
+			console.log("is-auth : 3 : JWT Decryption Failed");
 			console.log(err);
 			return null;
 		}
 		if (!decodedToken) {
-			console.log("4");
+			console.log("is-auth : 4 : Decoded Token is Empty");
 			return null;
 		}
 
@@ -45,7 +46,12 @@ module.exports = {
 		// Belongs to the current user who's data is trying to be accessed
 		// ------------------------------------------------------------------
 		if (!context.currentMember) {
-			throw new Error(`Unauthenticated!`);
+			console.log("Context: " + context);
+			throw new Error(
+				`Unauthenticated! context : ${context} \n \n \n ${JSON.stringify(
+					context
+				)} `
+			);
 		}
 
 		return next(root, args, context, info);
@@ -57,8 +63,9 @@ module.exports = {
 	// ------------------------------------------------------------------
 	validateRole: (role) => (next) => (root, args, context, info) => {
 		if (context.currentMember.memberType !== role) {
-			console.log(role);
-			throw new Error(`Unauthorized!`);
+			console.log("Context: " + context);
+			console.log("Role: " + role);
+			throw new Error(`Unauthorized! ${JSON.stringify(context)}`);
 		}
 
 		return next(root, args, context, info);
