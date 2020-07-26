@@ -1,27 +1,9 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createNewTransaction = /* GraphQL */ `
-  mutation CreateNewTransaction(
-    $id: ID
-    $transactionType: String!
-    $staffMemberId: ID!
-    $memberId: ID!
-    $tools: [ID]
-    $training: ID
-    $status: String!
-    $comment: String
-  ) {
-    createNewTransaction(
-      id: $id
-      transactionType: $transactionType
-      staffMemberId: $staffMemberId
-      memberId: $memberId
-      tools: $tools
-      training: $training
-      status: $status
-      comment: $comment
-    ) {
+export const onCreateTransaction = /* GraphQL */ `
+  subscription OnCreateTransaction {
+    onCreateTransaction {
       id
       transactionType
       staffMember {
@@ -143,12 +125,9 @@ export const createNewTransaction = /* GraphQL */ `
     }
   }
 `;
-export const createTransaction = /* GraphQL */ `
-  mutation CreateTransaction(
-    $input: CreateTransactionInput!
-    $condition: ModelTransactionConditionInput
-  ) {
-    createTransaction(input: $input, condition: $condition) {
+export const onUpdateTransaction = /* GraphQL */ `
+  subscription OnUpdateTransaction {
+    onUpdateTransaction {
       id
       transactionType
       staffMember {
@@ -270,12 +249,9 @@ export const createTransaction = /* GraphQL */ `
     }
   }
 `;
-export const updateTransaction = /* GraphQL */ `
-  mutation UpdateTransaction(
-    $input: UpdateTransactionInput!
-    $condition: ModelTransactionConditionInput
-  ) {
-    updateTransaction(input: $input, condition: $condition) {
+export const onDeleteTransaction = /* GraphQL */ `
+  subscription OnDeleteTransaction {
+    onDeleteTransaction {
       id
       transactionType
       staffMember {
@@ -397,139 +373,9 @@ export const updateTransaction = /* GraphQL */ `
     }
   }
 `;
-export const deleteTransaction = /* GraphQL */ `
-  mutation DeleteTransaction(
-    $input: DeleteTransactionInput!
-    $condition: ModelTransactionConditionInput
-  ) {
-    deleteTransaction(input: $input, condition: $condition) {
-      id
-      transactionType
-      staffMember {
-        id
-        eid
-        firstName
-        lastName
-        password
-        phone
-        signInStatus
-        email
-        trainings {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        itemRecord {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
-        }
-        workstation {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
-        }
-        conductRecord
-        conductStatus
-        transactionRecord {
-          nextToken
-        }
-        bevoCard
-        memberType
-        createdAt
-        updatedAt
-      }
-      staffMemberId
-      member {
-        id
-        eid
-        firstName
-        lastName
-        password
-        phone
-        signInStatus
-        email
-        trainings {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        itemRecord {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
-        }
-        workstation {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
-        }
-        conductRecord
-        conductStatus
-        transactionRecord {
-          nextToken
-        }
-        bevoCard
-        memberType
-        createdAt
-        updatedAt
-      }
-      memberId
-      tools {
-        items {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
-        }
-        nextToken
-      }
-      training {
-        id
-        name
-        createdAt
-        updatedAt
-      }
-      status
-      comment
-      createdAt
-      updatedAt
-      version
-    }
-  }
-`;
-export const createMember = /* GraphQL */ `
-  mutation CreateMember(
-    $input: CreateMemberInput!
-    $condition: ModelMemberConditionInput
-  ) {
-    createMember(input: $input, condition: $condition) {
+export const onCreateMember = /* GraphQL */ `
+  subscription OnCreateMember {
+    onCreateMember {
       id
       eid
       firstName
@@ -645,12 +491,9 @@ export const createMember = /* GraphQL */ `
     }
   }
 `;
-export const updateMember = /* GraphQL */ `
-  mutation UpdateMember(
-    $input: UpdateMemberInput!
-    $condition: ModelMemberConditionInput
-  ) {
-    updateMember(input: $input, condition: $condition) {
+export const onUpdateMember = /* GraphQL */ `
+  subscription OnUpdateMember {
+    onUpdateMember {
       id
       eid
       firstName
@@ -766,12 +609,9 @@ export const updateMember = /* GraphQL */ `
     }
   }
 `;
-export const deleteMember = /* GraphQL */ `
-  mutation DeleteMember(
-    $input: DeleteMemberInput!
-    $condition: ModelMemberConditionInput
-  ) {
-    deleteMember(input: $input, condition: $condition) {
+export const onDeleteMember = /* GraphQL */ `
+  subscription OnDeleteMember {
+    onDeleteMember {
       id
       eid
       firstName
@@ -887,12 +727,9 @@ export const deleteMember = /* GraphQL */ `
     }
   }
 `;
-export const createTool = /* GraphQL */ `
-  mutation CreateTool(
-    $input: CreateToolInput!
-    $condition: ModelToolConditionInput
-  ) {
-    createTool(input: $input, condition: $condition) {
+export const onCreateTool = /* GraphQL */ `
+  subscription OnCreateTool {
+    onCreateTool {
       id
       name
       location
@@ -1002,12 +839,9 @@ export const createTool = /* GraphQL */ `
     }
   }
 `;
-export const updateTool = /* GraphQL */ `
-  mutation UpdateTool(
-    $input: UpdateToolInput!
-    $condition: ModelToolConditionInput
-  ) {
-    updateTool(input: $input, condition: $condition) {
+export const onUpdateTool = /* GraphQL */ `
+  subscription OnUpdateTool {
+    onUpdateTool {
       id
       name
       location
@@ -1117,12 +951,9 @@ export const updateTool = /* GraphQL */ `
     }
   }
 `;
-export const deleteTool = /* GraphQL */ `
-  mutation DeleteTool(
-    $input: DeleteToolInput!
-    $condition: ModelToolConditionInput
-  ) {
-    deleteTool(input: $input, condition: $condition) {
+export const onDeleteTool = /* GraphQL */ `
+  subscription OnDeleteTool {
+    onDeleteTool {
       id
       name
       location
@@ -1232,12 +1063,9 @@ export const deleteTool = /* GraphQL */ `
     }
   }
 `;
-export const createTraining = /* GraphQL */ `
-  mutation CreateTraining(
-    $input: CreateTrainingInput!
-    $condition: ModelTrainingConditionInput
-  ) {
-    createTraining(input: $input, condition: $condition) {
+export const onCreateTraining = /* GraphQL */ `
+  subscription OnCreateTraining {
+    onCreateTraining {
       id
       name
       createdAt
@@ -1245,12 +1073,9 @@ export const createTraining = /* GraphQL */ `
     }
   }
 `;
-export const updateTraining = /* GraphQL */ `
-  mutation UpdateTraining(
-    $input: UpdateTrainingInput!
-    $condition: ModelTrainingConditionInput
-  ) {
-    updateTraining(input: $input, condition: $condition) {
+export const onUpdateTraining = /* GraphQL */ `
+  subscription OnUpdateTraining {
+    onUpdateTraining {
       id
       name
       createdAt
@@ -1258,12 +1083,9 @@ export const updateTraining = /* GraphQL */ `
     }
   }
 `;
-export const deleteTraining = /* GraphQL */ `
-  mutation DeleteTraining(
-    $input: DeleteTrainingInput!
-    $condition: ModelTrainingConditionInput
-  ) {
-    deleteTraining(input: $input, condition: $condition) {
+export const onDeleteTraining = /* GraphQL */ `
+  subscription OnDeleteTraining {
+    onDeleteTraining {
       id
       name
       createdAt

@@ -5,30 +5,30 @@ import { getOutstandingTransactions, listTransactions } from "../../../graphql/q
 import { updateTransaction } from "../../../graphql/mutations";
 import { onCreateTransaction } from "../../../graphql/subscriptions";
 
-const StudentRequests = () => {
-	const [requests, setRequests] = useState(["loading"]);
+const Transactions = () => {
+	const [transactions, setTransactions] = useState(["loading"]);
 
 	useEffect(() => {
-		fetchOutstandingTransactions();
+		fetchTransactions();
 		// return () => {
 		// 	cleanup
 		// }
 	}, []);
 
-	const fetchOutstandingTransactions = async () => {
+	const fetchTransactions = async () => {
 		let results = await API.graphql({
 			query: listTransactions,
-			variables: { filter: { status: { eq: "Processing" } } },
+			variables: { limit: 20 },
 		});
 		console.log(results);
-		setRequests(results.data.listTransactions.items);
+		setTransactions(results.data.listTransactions.items);
 	};
 
 	return (
 		<div className="left-view">
-			{requests.length
-				? requests[0] != "loading"
-					? requests.map((request, index) => (
+			{transactions.length
+				? transactions[0] != "loading"
+					? transactions.map((request, index) => (
 							<Request
 								items={request.tools}
 								requestType={request.transactionType}
@@ -40,9 +40,9 @@ const StudentRequests = () => {
 							/>
 					  ))
 					: "Loading..."
-				: "No New Requests"}
+				: "No New transactions"}
 		</div>
 	);
 };
 
-export default StudentRequests;
+export default Transactions;

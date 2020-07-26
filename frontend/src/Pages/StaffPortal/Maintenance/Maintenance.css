@@ -1,32 +1,38 @@
+.left-view {
+	display: flex;
+	flex-direction: row;
+}
 .left-view form {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	/* justify-content: space-between; */
+	justify-content: space-around;
 	align-items: center;
 	align-content: center;
-	padding: 2vh;
-	border: 1px solid #333333;
+	border: 0.5px solid #bf5700;
+	border-radius: 1vw;
+	margin: 1vh;
+	padding: 2vw;
+	padding-left: 0;
 }
+.left-view form div {
+	display: flex;
+	justify-content: flex-end;
+}
+
 #checkbox {
-	margin-left: 5vh;
 	display: flex;
 	justify-content: flex-start;
 	width: 10vw;
 }
-.left-view .create-tool {
-	padding: 5vh;
-	border: 1px solid #333333;
+.form-select {
 }
-.selector {
-	margin-left: 5vh;
+select {
+	margin-left: 20px;
+	justify-self: flex-end;
+	width: 189px;
 }
-.selector-label {
-	margin-left: 5vh;
-	width: 15vw;
-	display: flex;
-	justify-content: flex-start;
-}
+
 ToggleButton {
 	margin-left: 2vh;
 }

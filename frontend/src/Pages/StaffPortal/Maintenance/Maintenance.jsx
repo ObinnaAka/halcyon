@@ -1,8 +1,6 @@
-import React, { useState, useContext } from "react";
-import gql from "graphql-tag";
+import React, { useState } from "react";
 
 import { useInput } from "../../../helpers/helpers";
-import AuthContext from "../../../context/auth-context";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 
@@ -10,49 +8,55 @@ import { API } from "aws-amplify";
 import { createTransaction, createTool, createMember } from "../../../graphql/mutations";
 
 import "./Maintenance.css";
+
+const toolStatus = ["Checked Out", "Checked in", "Cleaning", "Cleaned", "Repair", "Not in Service"];
+const transactionTypes = [
+	"Test",
+	"Tool Checkout",
+	"Tool Check In",
+	"Sign In",
+	"Sign Out",
+	"3D Print",
+	"Training",
+	"Conduct",
+	"Cleaning",
+];
+const members = {
+	TIW: "a1f01525-1bfd-483c-968f-19b3f56abc49",
+	Obinna: "b4677702-2227-43f6-a007-62bea3ac954e",
+	Test: "e7020ff2-7bd0-4739-adcb-79c1686f9f8c",
+};
+
 const initialToolState = {
 	name: "",
 	location: "",
 	toolType: "",
-	inService: "true",
-	currentHolderId: "1a5d4c24-bea2-459c-84d8-9866ae15ab97",
+	currentHolderId: members["TIW"],
 	status: "Checked Out",
 };
 const initialTransactionState = {
 	transactionType: "Test",
-	member: "",
+	memberId: members["TIW"],
 	status: "Processing",
-	tools: [],
-	staffID: "",
+	staffMemberId: members["TIW"],
+	comment: "",
 };
 const initialMemberState = {
 	firstName: "",
 	lastName: "",
 	eid: "",
-	email: "true",
+	email: "",
 	password: "",
 	memberType: "Staff",
 };
 
-const MaintenancePage = (Apollo) => {
+const MaintenancePage = () => {
 	const [transaction, setTransaction] = useState(initialTransactionState);
 	const [member, setMember] = useState(initialMemberState);
 	const [tool, setTool] = useState(initialToolState);
 
-	const [inService, setInService] = useState(true);
-
-	//____ State Handlers____
-	const inServiceHandler = () => {
-		setInService(!inService);
-		setTool({ ...tool, inService: tool.inService === "true" ? "false" : "true" });
-	};
-	const statusHandler = () => {
-		return transaction.status === "Processing" ? "Finished" : "Processing";
-	};
-
+	//____Handlers____
 	const submitToolHandler = async () => {
-		console.log("here");
-		console.log(tool);
 		let newTool = await API.graphql({
 			query: createTool,
 			variables: { input: tool },
@@ -63,47 +67,22 @@ const MaintenancePage = (Apollo) => {
 	const submitTransactionHandler = async () => {
 		let newTransaction = await API.graphql({
 			query: createTransaction,
-			variables: { input: tool },
+			variables: { input: transaction },
 		});
 		console.log(newTransaction);
 	};
 	const submitMemberHandler = async () => {
 		let newMember = await API.graphql({
 			query: createMember,
-			variables: { input: tool },
+			variables: { input: member },
 		});
 		console.log(newMember);
 	};
 
-	const toolStatus = [
-		"Checked Out",
-		"Checked in",
-		"Cleaning",
-		"Cleaned",
-		"Repair",
-		"Not in Service",
-	];
-
-	const transactionTypes = [
-		"Test",
-		"Tool Checkout",
-		"Tool Check In",
-		"Sign In",
-		"Sign Out",
-		"3D Print",
-		"Training",
-		"Conduct",
-		"Cleaning",
-	];
-	const members = {
-		TIW: "a1f01525-1bfd-483c-968f-19b3f56abc49",
-		Obinna: "b4677702-2227-43f6-a007-62bea3ac954e",
-		Test: "e7020ff2-7bd0-4739-adcb-79c1686f9f8c",
-	};
-
 	return (
 		<div className="left-view">
-			<form className="create-tool">
+			<form className="form-control">
+				<h2>New Tool</h2>
 				<div className="form-control">
 					<label htmlFor="name">
 						Name:
@@ -160,13 +139,16 @@ const MaintenancePage = (Apollo) => {
 				</div>
 				{/* {toolLoading ? <div>Processing...</div> : null} */}
 			</form>
-			<form className="create-transaction" onSubmit={submitTransactionHandler}>
+			<form className="form-control">
+				<h2>New Transaction</h2>
 				<div className="form-control">
-					<label className="selector-label" htmlFor="member">
+					<label className="selector-label" htmlFor="memberId">
 						Member:
 						<select
 							className="selector"
-							onChange={(event) => setTransaction("member", event.target.value)}>
+							onChange={(event) =>
+								setTransaction({ ...transaction, memberId: event.target.value })
+							}>
 							{Object.keys(members).map((key, index) => {
 								return (
 									<option key={key} value={members[key]}>
@@ -182,7 +164,9 @@ const MaintenancePage = (Apollo) => {
 						Type:
 						<select
 							className="selector"
-							onChange={(event) => setTransaction("transactionType", event.target.value)}>
+							onChange={(event) =>
+								setTransaction({ ...transaction, transactionType: event.target.value })
+							}>
 							{transactionTypes.map((transactionType, index) => {
 								return (
 									<option key={index} value={transactionType}>
@@ -193,42 +177,95 @@ const MaintenancePage = (Apollo) => {
 						</select>
 					</label>
 				</div>
-				{/* <ToggleButtonGroup
-					value={tools}
-					onChange={toolHandler}
-					type="checkbox"
-					aria-label="Tools"
-					className="toggle-label">
-					<ToggleButton value="5eeb31b77884fa41402f074d" aria-label="Hammer">
-						Hammer
-					</ToggleButton>
-					<ToggleButton value="5eeb31377884fa41402f074c" aria-label="Wire Cutter">
-						Wire Cutter
-					</ToggleButton>
-					<ToggleButton value="5eeb31d87884fa41402f074e" aria_label="DFAB-12">
-						DFAB-12
-					</ToggleButton>
-				</ToggleButtonGroup>
 				<div className="form-control">
 					<label htmlFor="comment">
 						Comment:
-						<input type="string" value={comment} {...bindComment} />
+						<input
+							type="string"
+							value={transaction.comment}
+							onChange={(event) => setTransaction({ ...transaction, comment: event.target.value })}
+						/>
 					</label>
 				</div>
-				<div>
-					<ToggleButton
-						value="Processing"
-						checked={status === "Processing"}
-						onClick={statusHandler}
-						type="checkbox"
-						aria_label="Processing">
-						Processing
-					</ToggleButton>
+				<div className="form-control">
+					<label className="selector-label" htmlFor="status">
+						Status:
+						<select
+							className="selector"
+							onChange={(event) => setTransaction({ ...transaction, status: event.target.value })}>
+							<option value="Processing">Processing</option>
+							<option value="Complete">Complete</option>
+						</select>
+					</label>
 				</div>
-				<div className="form-actions">
-					<input type="submit" className="button" value="Create New Transaction" />
-				</div> */}
+				<div className="form-control">
+					<input
+						type="button"
+						className="button"
+						value="Create New Transaction"
+						onClick={submitTransactionHandler}
+					/>
+				</div>
 				{/* {transactionLoading ? <div>Processing...</div> : null} */}
+			</form>
+			<form className="form-control">
+				<h2>New Member</h2>
+				<div className="form-control">
+					<label htmlFor="firstName">
+						First Name
+						<input
+							onChange={(event) => setMember({ ...member, firstName: event.target.value })}
+							value={member.firstName}
+							placeholder="First Name"
+						/>
+					</label>
+				</div>
+				<div className="form-control">
+					<label htmlFor="lastName">
+						Last Name:
+						<input
+							onChange={(event) => setMember({ ...member, lastName: event.target.value })}
+							value={member.lastName}
+							placeholder="Last Name"
+						/>
+					</label>
+				</div>
+				<div className="form-control">
+					<label htmlFor="eid">
+						EID:
+						<input
+							onChange={(event) => setMember({ ...member, eid: event.target.value })}
+							value={member.eid}
+							placeholder="EID"
+						/>
+					</label>
+				</div>
+				<div className="form-control">
+					<label htmlFor="email">
+						Email:
+						<input
+							type="email"
+							onChange={(event) => setMember({ ...member, email: event.target.value })}
+							value={member.email}
+							placeholder="Email"
+						/>
+					</label>
+				</div>
+				<div className="form-control">
+					<label htmlFor="password">
+						Password:
+						<input
+							type="password"
+							onChange={(event) => setMember({ ...member, password: event.target.value })}
+							value={member.password}
+							placeholder="Password"
+						/>
+					</label>
+				</div>
+
+				<div className="form-actions">
+					<input type="button" className="button" value="Register" onClick={submitMemberHandler} />
+				</div>
 			</form>
 		</div>
 	);

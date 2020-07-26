@@ -72,3 +72,15 @@ type Query{
 	getOutstandingTransactions(status:String!): [Transaction]
 	listTransactionsRange(sort:String!, from:String!, limit:Int!): Transaction
 }
+type Mutation{
+	createNewTransaction(
+		id: ID
+		transactionType: String!
+		staffMemberId: ID! 
+		memberId: ID!
+		tools: [ID] 
+		training: ID
+		status: String!
+		comment: String
+	): Transaction
+}

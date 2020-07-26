@@ -1,27 +1,9 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createNewTransaction = /* GraphQL */ `
-  mutation CreateNewTransaction(
-    $id: ID
-    $transactionType: String!
-    $staffMemberId: ID!
-    $memberId: ID!
-    $tools: [ID]
-    $training: ID
-    $status: String!
-    $comment: String
-  ) {
-    createNewTransaction(
-      id: $id
-      transactionType: $transactionType
-      staffMemberId: $staffMemberId
-      memberId: $memberId
-      tools: $tools
-      training: $training
-      status: $status
-      comment: $comment
-    ) {
+export const getOutstandingTransactions = /* GraphQL */ `
+  query GetOutstandingTransactions($status: String!) {
+    getOutstandingTransactions(status: $status) {
       id
       transactionType
       staffMember {
@@ -143,12 +125,9 @@ export const createNewTransaction = /* GraphQL */ `
     }
   }
 `;
-export const createTransaction = /* GraphQL */ `
-  mutation CreateTransaction(
-    $input: CreateTransactionInput!
-    $condition: ModelTransactionConditionInput
-  ) {
-    createTransaction(input: $input, condition: $condition) {
+export const listTransactionsRange = /* GraphQL */ `
+  query ListTransactionsRange($sort: String!, $from: String!, $limit: Int!) {
+    listTransactionsRange(sort: $sort, from: $from, limit: $limit) {
       id
       transactionType
       staffMember {
@@ -270,12 +249,9 @@ export const createTransaction = /* GraphQL */ `
     }
   }
 `;
-export const updateTransaction = /* GraphQL */ `
-  mutation UpdateTransaction(
-    $input: UpdateTransactionInput!
-    $condition: ModelTransactionConditionInput
-  ) {
-    updateTransaction(input: $input, condition: $condition) {
+export const getTransaction = /* GraphQL */ `
+  query GetTransaction($id: ID!) {
+    getTransaction(id: $id) {
       id
       transactionType
       staffMember {
@@ -397,139 +373,72 @@ export const updateTransaction = /* GraphQL */ `
     }
   }
 `;
-export const deleteTransaction = /* GraphQL */ `
-  mutation DeleteTransaction(
-    $input: DeleteTransactionInput!
-    $condition: ModelTransactionConditionInput
+export const listTransactions = /* GraphQL */ `
+  query ListTransactions(
+    $filter: ModelTransactionFilterInput
+    $limit: Int
+    $nextToken: String
   ) {
-    deleteTransaction(input: $input, condition: $condition) {
-      id
-      transactionType
-      staffMember {
+    listTransactions(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
         id
-        eid
-        firstName
-        lastName
-        password
-        phone
-        signInStatus
-        email
-        trainings {
+        transactionType
+        staffMember {
           id
-          name
+          eid
+          firstName
+          lastName
+          password
+          phone
+          signInStatus
+          email
+          conductRecord
+          conductStatus
+          bevoCard
+          memberType
           createdAt
           updatedAt
         }
-        itemRecord {
+        staffMemberId
+        member {
           id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
+          eid
+          firstName
+          lastName
+          password
+          phone
+          signInStatus
+          email
+          conductRecord
+          conductStatus
+          bevoCard
+          memberType
           createdAt
-        }
-        workstation {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
           updatedAt
-          createdAt
         }
-        conductRecord
-        conductStatus
-        transactionRecord {
+        memberId
+        tools {
           nextToken
         }
-        bevoCard
-        memberType
+        training {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        status
+        comment
         createdAt
         updatedAt
+        version
       }
-      staffMemberId
-      member {
-        id
-        eid
-        firstName
-        lastName
-        password
-        phone
-        signInStatus
-        email
-        trainings {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        itemRecord {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
-        }
-        workstation {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
-        }
-        conductRecord
-        conductStatus
-        transactionRecord {
-          nextToken
-        }
-        bevoCard
-        memberType
-        createdAt
-        updatedAt
-      }
-      memberId
-      tools {
-        items {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
-        }
-        nextToken
-      }
-      training {
-        id
-        name
-        createdAt
-        updatedAt
-      }
-      status
-      comment
-      createdAt
-      updatedAt
-      version
+      nextToken
     }
   }
 `;
-export const createMember = /* GraphQL */ `
-  mutation CreateMember(
-    $input: CreateMemberInput!
-    $condition: ModelMemberConditionInput
-  ) {
-    createMember(input: $input, condition: $condition) {
+export const getMember = /* GraphQL */ `
+  query GetMember($id: ID!) {
+    getMember(id: $id) {
       id
       eid
       firstName
@@ -645,49 +554,29 @@ export const createMember = /* GraphQL */ `
     }
   }
 `;
-export const updateMember = /* GraphQL */ `
-  mutation UpdateMember(
-    $input: UpdateMemberInput!
-    $condition: ModelMemberConditionInput
+export const listMembers = /* GraphQL */ `
+  query ListMembers(
+    $filter: ModelMemberFilterInput
+    $limit: Int
+    $nextToken: String
   ) {
-    updateMember(input: $input, condition: $condition) {
-      id
-      eid
-      firstName
-      lastName
-      password
-      phone
-      signInStatus
-      email
-      trainings {
+    listMembers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
         id
-        name
-        createdAt
-        updatedAt
-      }
-      itemRecord {
-        id
-        name
-        location
-        status
-        currentHolder {
+        eid
+        firstName
+        lastName
+        password
+        phone
+        signInStatus
+        email
+        trainings {
           id
-          eid
-          firstName
-          lastName
-          password
-          phone
-          signInStatus
-          email
-          conductRecord
-          conductStatus
-          bevoCard
-          memberType
+          name
           createdAt
           updatedAt
         }
-        currentHolderId
-        currentWorkstation {
+        itemRecord {
           id
           name
           location
@@ -697,36 +586,7 @@ export const updateMember = /* GraphQL */ `
           updatedAt
           createdAt
         }
-        transactionRecord {
-          nextToken
-        }
-        toolType
-        updatedAt
-        createdAt
-      }
-      workstation {
-        id
-        name
-        location
-        status
-        currentHolder {
-          id
-          eid
-          firstName
-          lastName
-          password
-          phone
-          signInStatus
-          email
-          conductRecord
-          conductStatus
-          bevoCard
-          memberType
-          createdAt
-          updatedAt
-        }
-        currentHolderId
-        currentWorkstation {
+        workstation {
           id
           name
           location
@@ -736,163 +596,23 @@ export const updateMember = /* GraphQL */ `
           updatedAt
           createdAt
         }
+        conductRecord
+        conductStatus
         transactionRecord {
           nextToken
         }
-        toolType
-        updatedAt
+        bevoCard
+        memberType
         createdAt
+        updatedAt
       }
-      conductRecord
-      conductStatus
-      transactionRecord {
-        items {
-          id
-          transactionType
-          staffMemberId
-          memberId
-          status
-          comment
-          createdAt
-          updatedAt
-          version
-        }
-        nextToken
-      }
-      bevoCard
-      memberType
-      createdAt
-      updatedAt
+      nextToken
     }
   }
 `;
-export const deleteMember = /* GraphQL */ `
-  mutation DeleteMember(
-    $input: DeleteMemberInput!
-    $condition: ModelMemberConditionInput
-  ) {
-    deleteMember(input: $input, condition: $condition) {
-      id
-      eid
-      firstName
-      lastName
-      password
-      phone
-      signInStatus
-      email
-      trainings {
-        id
-        name
-        createdAt
-        updatedAt
-      }
-      itemRecord {
-        id
-        name
-        location
-        status
-        currentHolder {
-          id
-          eid
-          firstName
-          lastName
-          password
-          phone
-          signInStatus
-          email
-          conductRecord
-          conductStatus
-          bevoCard
-          memberType
-          createdAt
-          updatedAt
-        }
-        currentHolderId
-        currentWorkstation {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
-        }
-        transactionRecord {
-          nextToken
-        }
-        toolType
-        updatedAt
-        createdAt
-      }
-      workstation {
-        id
-        name
-        location
-        status
-        currentHolder {
-          id
-          eid
-          firstName
-          lastName
-          password
-          phone
-          signInStatus
-          email
-          conductRecord
-          conductStatus
-          bevoCard
-          memberType
-          createdAt
-          updatedAt
-        }
-        currentHolderId
-        currentWorkstation {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
-        }
-        transactionRecord {
-          nextToken
-        }
-        toolType
-        updatedAt
-        createdAt
-      }
-      conductRecord
-      conductStatus
-      transactionRecord {
-        items {
-          id
-          transactionType
-          staffMemberId
-          memberId
-          status
-          comment
-          createdAt
-          updatedAt
-          version
-        }
-        nextToken
-      }
-      bevoCard
-      memberType
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const createTool = /* GraphQL */ `
-  mutation CreateTool(
-    $input: CreateToolInput!
-    $condition: ModelToolConditionInput
-  ) {
-    createTool(input: $input, condition: $condition) {
+export const getTool = /* GraphQL */ `
+  query GetTool($id: ID!) {
+    getTool(id: $id) {
       id
       name
       location
@@ -1002,63 +722,14 @@ export const createTool = /* GraphQL */ `
     }
   }
 `;
-export const updateTool = /* GraphQL */ `
-  mutation UpdateTool(
-    $input: UpdateToolInput!
-    $condition: ModelToolConditionInput
+export const listTools = /* GraphQL */ `
+  query ListTools(
+    $filter: ModelToolFilterInput
+    $limit: Int
+    $nextToken: String
   ) {
-    updateTool(input: $input, condition: $condition) {
-      id
-      name
-      location
-      status
-      currentHolder {
-        id
-        eid
-        firstName
-        lastName
-        password
-        phone
-        signInStatus
-        email
-        trainings {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        itemRecord {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
-        }
-        workstation {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
-        }
-        conductRecord
-        conductStatus
-        transactionRecord {
-          nextToken
-        }
-        bevoCard
-        memberType
-        createdAt
-        updatedAt
-      }
-      currentHolderId
-      currentWorkstation {
+    listTools(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
         id
         name
         location
@@ -1097,177 +768,34 @@ export const updateTool = /* GraphQL */ `
         updatedAt
         createdAt
       }
-      transactionRecord {
-        items {
-          id
-          transactionType
-          staffMemberId
-          memberId
-          status
-          comment
-          createdAt
-          updatedAt
-          version
-        }
-        nextToken
-      }
-      toolType
-      updatedAt
-      createdAt
+      nextToken
     }
   }
 `;
-export const deleteTool = /* GraphQL */ `
-  mutation DeleteTool(
-    $input: DeleteToolInput!
-    $condition: ModelToolConditionInput
-  ) {
-    deleteTool(input: $input, condition: $condition) {
+export const getTraining = /* GraphQL */ `
+  query GetTraining($id: ID!) {
+    getTraining(id: $id) {
       id
       name
-      location
-      status
-      currentHolder {
-        id
-        eid
-        firstName
-        lastName
-        password
-        phone
-        signInStatus
-        email
-        trainings {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        itemRecord {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
-        }
-        workstation {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
-        }
-        conductRecord
-        conductStatus
-        transactionRecord {
-          nextToken
-        }
-        bevoCard
-        memberType
-        createdAt
-        updatedAt
-      }
-      currentHolderId
-      currentWorkstation {
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listTrainings = /* GraphQL */ `
+  query ListTrainings(
+    $filter: ModelTrainingFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTrainings(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
         id
         name
-        location
-        status
-        currentHolder {
-          id
-          eid
-          firstName
-          lastName
-          password
-          phone
-          signInStatus
-          email
-          conductRecord
-          conductStatus
-          bevoCard
-          memberType
-          createdAt
-          updatedAt
-        }
-        currentHolderId
-        currentWorkstation {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
-        }
-        transactionRecord {
-          nextToken
-        }
-        toolType
-        updatedAt
         createdAt
+        updatedAt
       }
-      transactionRecord {
-        items {
-          id
-          transactionType
-          staffMemberId
-          memberId
-          status
-          comment
-          createdAt
-          updatedAt
-          version
-        }
-        nextToken
-      }
-      toolType
-      updatedAt
-      createdAt
-    }
-  }
-`;
-export const createTraining = /* GraphQL */ `
-  mutation CreateTraining(
-    $input: CreateTrainingInput!
-    $condition: ModelTrainingConditionInput
-  ) {
-    createTraining(input: $input, condition: $condition) {
-      id
-      name
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const updateTraining = /* GraphQL */ `
-  mutation UpdateTraining(
-    $input: UpdateTrainingInput!
-    $condition: ModelTrainingConditionInput
-  ) {
-    updateTraining(input: $input, condition: $condition) {
-      id
-      name
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deleteTraining = /* GraphQL */ `
-  mutation DeleteTraining(
-    $input: DeleteTrainingInput!
-    $condition: ModelTrainingConditionInput
-  ) {
-    deleteTraining(input: $input, condition: $condition) {
-      id
-      name
-      createdAt
-      updatedAt
+      nextToken
     }
   }
 `;

@@ -1,6 +1,6 @@
 projects:
   tiw:
-    schemaPath: src/graphql/schema.json
+    schemaPath: amplify/backend/api/tiw/build/schema.graphql
     includes:
       - frontend/src/graphql/**/*.js
     excludes:
@@ -8,8 +8,8 @@ projects:
     extensions:
       amplify:
         codeGenTarget: javascript
-        generatedFileName: ''
-        docsFilePath: src/graphql
+        generatedFileName: ""
+        docsFilePath: frontend/src/graphql
 extensions:
   amplify:
     version: 3

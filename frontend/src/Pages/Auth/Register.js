@@ -9,7 +9,7 @@ import { API, graphqlOperation } from "aws-amplify";
 
 // import AuthContext from "../../context/auth-context";
 
-const initialState = {
+const initialMemberState = {
 	memberId: "",
 	firstName: "",
 	lastName: "",
@@ -20,14 +20,14 @@ const initialState = {
 };
 
 const RegisterPage = () => {
-	const [formState, setFormState] = useState(initialState);
+	const [member, setMember] = useState(initialMemberState);
 
 	// For student portal login
 	const [memberLogin, setMemberLogin] = useState(false);
 
 	const setInput = (key, value) => {
-		setFormState({ ...formState, [key]: value });
-		console.log(formState);
+		setMember({ ...member, [key]: value });
+		console.log(member);
 	};
 
 	const handleRegister = () => {
@@ -35,26 +35,26 @@ const RegisterPage = () => {
 	};
 
 	const addMember = async () => {
-		console.log(formState);
+		console.log(member);
 		try {
 			if (
-				!formState.firstName ||
-				!formState.lastName ||
-				!formState.email ||
-				!formState.eid ||
-				!formState.password
+				!member.firstName ||
+				!member.lastName ||
+				!member.email ||
+				!member.eid ||
+				!member.password
 			) {
 				alert("Invalid credentials entered");
 				return;
 			}
 
-			const member = { ...formState };
+			const member = { ...member };
 			member.memberId = generateID("Member");
 			console.log(member);
 			await API.graphql(graphqlOperation(createMember, { input: member }));
-			setFormState(initialState);
+			setMember(initialMemberState);
 		} catch (err) {
-			console.log(formState);
+			console.log(member);
 			// console.log(memberID);
 			console.log("Error creating member: ", err);
 		}
@@ -68,8 +68,8 @@ const RegisterPage = () => {
 					<label htmlFor="firstName">
 						First Name
 						<input
-							onChange={(event) => setInput("firstName", event.target.value)}
-							value={formState.firstName}
+							onChange={(event) => setInput({ ...member, firstName: event.target.value })}
+							value={member.firstName}
 							placeholder="First Name"
 						/>
 					</label>
@@ -78,8 +78,8 @@ const RegisterPage = () => {
 					<label htmlFor="lastName">
 						Last Name:
 						<input
-							onChange={(event) => setInput("lastName", event.target.value)}
-							value={formState.lastName}
+							onChange={(event) => setInput({ ...member, lastName: event.target.value })}
+							value={member.lastName}
 							placeholder="Last Name"
 						/>
 					</label>
@@ -88,8 +88,8 @@ const RegisterPage = () => {
 					<label htmlFor="eid">
 						EID:
 						<input
-							onChange={(event) => setInput("eid", event.target.value)}
-							value={formState.eid}
+							onChange={(event) => setInput({ ...member, eid: event.target.value })}
+							value={member.eid}
 							placeholder="EID"
 						/>
 					</label>
@@ -99,8 +99,8 @@ const RegisterPage = () => {
 						Email:
 						<input
 							type="email"
-							onChange={(event) => setInput("email", event.target.value)}
-							value={formState.email}
+							onChange={(event) => setInput({ ...member, email: event.target.value })}
+							value={member.email}
 							placeholder="Email"
 						/>
 					</label>
@@ -110,20 +110,14 @@ const RegisterPage = () => {
 						Password:
 						<input
 							type="password"
-							onChange={(event) => setInput("password", event.target.value)}
-							value={formState.password}
+							onChange={(event) => setInput({ ...member, password: event.target.value })}
+							value={member.password}
 							placeholder="Password"
 						/>
 					</label>
 				</div>
 
 				<div className="form-actions">
-					<input
-						type="button"
-						className="button"
-						value="Switch to Login"
-						onClick={handleRegister}
-					/>
 					<input type="button" className="button" value="Register" onClick={addMember} />
 				</div>
 			</form>

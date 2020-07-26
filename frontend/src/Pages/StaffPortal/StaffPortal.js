@@ -5,7 +5,13 @@ import "./StaffPortal.css";
 import { SectionButton } from "../../components";
 import { Scrollbars } from "react-custom-scrollbars";
 
-import { StudentRequests, SignedInStudents, Maintenance } from "../../Pages";
+import {
+	StudentRequests,
+	SignedInStudents,
+	CheckedOutTools,
+	Maintenance,
+	Transactions,
+} from "../../Pages";
 
 const StaffPortal = () => {
 	const { auth } = useContext(AuthContext);
@@ -13,7 +19,7 @@ const StaffPortal = () => {
 	const sections = {
 		"Student Requests": "/staff/requests",
 		"Signed-in Students": "/staff/students",
-		"Checked-out Tools": "/staff/checkout",
+		"Checked-out Tools": "/staff/tools",
 		"Transaction History": "/staff/transactions",
 		"Maintenance Request": "/staff/maintenance",
 		"TIW Wiki and Help": "/staff/wiki",
@@ -37,14 +43,13 @@ const StaffPortal = () => {
 							))}
 						</nav>
 					</Scrollbars>
-					{/* These scroll views are being used to replace the ugly default scroll bar*/}
 					<Scrollbars className="left-scroll">
-						{/* This is where the different pages will be rendered, e.g.
-					Student Requests.*/}
 						<div className="left-view">
 							<Route path="/staff/requests" component={StudentRequests} />
 							<Route path="/staff/students" component={SignedInStudents} />
 							<Route path="/staff/maintenance" component={Maintenance} />
+							<Route path="/staff/tools" component={CheckedOutTools} />
+							<Route path="/staff/transactions" component={Transactions} />
 						</div>
 					</Scrollbars>
 				</div>

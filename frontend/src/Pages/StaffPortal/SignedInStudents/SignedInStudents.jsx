@@ -4,9 +4,9 @@ import { API } from "aws-amplify";
 import { listMembers } from "../../../graphql/queries";
 import { updateMember } from "../../../graphql/mutations";
 
-// import style from "./StudentStudents.module.css";
+// import style from "./SignedInStudents.module.css";
 
-const StudentStudents = () => {
+const SignedInStudents = () => {
 	const [students, setStudents] = useState(["loading"]);
 
 	useEffect(() => {
@@ -45,4 +45,4 @@ const StudentStudents = () => {
 	);
 };
 
-export default StudentStudents;
+export default SignedInStudents;

@@ -6,15 +6,15 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-import styles from "./Request.modules.css";
+import styles from "./Transaction.modules.css";
 import moment from "moment";
 
 // import ListItemIcon from "@material-ui/core/ListItemIcon";
 
-const Request = ({ items, member, date, requestType, workstation = "-", comment }) => {
+const Transaction = ({ items, member, date, requestType, workstation = "-", comment }) => {
 	const [open, setOpen] = React.useState(false);
 	const [done, setDone] = React.useState(false);
-	const [requestDone, setRequestDone] = React.useState(false);
+	const [requestDone, setTransactionDone] = React.useState(false);
 	const [itemDone, setItemDone] = React.useState(false);
 
 	// TODO Add setTools to this useState function
@@ -24,7 +24,7 @@ const Request = ({ items, member, date, requestType, workstation = "-", comment 
 		setOpen(!open);
 	};
 	const handleDoneClick = () => {
-		setRequestDone(!requestDone);
+		setTransactionDone(!requestDone);
 		requestDone
 			? setDone(!done)
 			: setTimeout(function () {
@@ -104,4 +104,4 @@ const Request = ({ items, member, date, requestType, workstation = "-", comment 
 	);
 };
 
-export default Request;
+export default Transaction;
