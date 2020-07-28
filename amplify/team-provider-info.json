@@ -23,7 +23,8 @@
                 }
             },
             "auth": {
-                "tiw9d88069a": {}
+                "tiw9d88069a": {},
+                "userPoolGroups": {}
             }
         }
     }

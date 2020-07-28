@@ -1,4 +1,4 @@
-.student_item_div {
+.tool_item_div {
 	display: flex;
 	flex-direction: row;
 	justify-content: flex-start;
@@ -6,20 +6,20 @@
 	align-items: flex-start;
 	margin: 1vh;
 }
-.student_item {
+.tool_item {
 	width: 300px;
 	border: 1px solid #eeeeee;
 	border-radius: 5px;
 	box-shadow: 10px 10px 5px #eeeeee;
 }
-.student_workstation {
+.tool_workstation {
 	display: flex;
 	width: 5vw;
 	justify-content: left;
 	padding-left: 1vw;
 	font-weight: bold;
 }
-.student_time {
+.tool_time {
 	display: flex;
 	justify-content: flex-end;
 	width: 10vw;
@@ -27,30 +27,31 @@
 	margin-right: 1vw;
 	margin-left: 1vw;
 }
-.student_member_name {
+.tool_member_name {
 	display: flex;
 	justify-content: flex-start;
 	flex-wrap: wrap;
 	width: 15vw;
 }
-.student_expanded_view {
+.tool_expanded_view {
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
+	flex-wrap: wrap;
 	justify-content: space-between;
 }
-.student_expanded_view_right {
+.tool_expanded_view_right {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-end;
 	justify-content: center;
-	padding: 2vh 5vw 2vh 2vw;
+	padding: 2vh 2vw 2vh 2vw;
 }
-.student_expanded_view_left {
+.tool_expanded_view_left {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
 	padding: 5vh 2vw 2vh 5vw;
 }
-.student_expanded_view_right h3 {
+.tool_expanded_view_right h3 {
 	margin-bottom: 2vh;
 }

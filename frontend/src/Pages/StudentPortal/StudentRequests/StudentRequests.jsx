@@ -1,6 +1,6 @@
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Request } from "../../../components";
-import { API, graphqlOperation } from "aws-amplify";
+import { API } from "aws-amplify";
 import { getOutstandingTransactions, listTransactions } from "../../../graphql/queries";
 import { updateTransaction } from "../../../graphql/mutations";
 import { onCreateTransaction } from "../../../graphql/subscriptions";
@@ -8,9 +8,11 @@ import { onCreateTransaction } from "../../../graphql/subscriptions";
 const StudentRequests = () => {
 	const [requests, setRequests] = useState(["loading"]);
 
-	useLayoutEffect(() => {
+	useEffect(() => {
 		fetchOutstandingTransactions();
-		subscribeToTransactions();
+		// return () => {
+		// 	cleanup
+		// }
 	}, []);
 
 	const fetchOutstandingTransactions = async () => {
@@ -20,16 +22,6 @@ const StudentRequests = () => {
 		});
 		console.log(results);
 		setRequests(results.data.listTransactions.items);
-	};
-
-	const subscribeToTransactions = async () => {
-		console.log(requests);
-		let results = API.graphql(graphqlOperation(onCreateTransaction)).subscribe({
-			next: (request) => {
-				setRequests(requests.unshift(request.value.data.onCreateTransaction));
-				// console.log(requests);
-			},
-		});
 	};
 
 	return (

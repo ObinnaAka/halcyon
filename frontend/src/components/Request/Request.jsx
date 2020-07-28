@@ -36,7 +36,7 @@ const Request = ({ items, member, date, requestType, workstation = "-", comment 
 		setItemDone(!itemDone);
 	};
 	useEffect(() => {
-		console.log(items);
+		// console.log(items);
 	}, []);
 
 	const listItems =

@@ -39,7 +39,7 @@ const initialTransactionState = {
 	memberId: members["TIW"],
 	status: "Processing",
 	staffMemberId: members["TIW"],
-	comment: "Test",
+	comment: "",
 };
 const initialMemberState = {
 	firstName: "",
