@@ -19,7 +19,12 @@ const NavBar = () => {
 
 			<div className="logo-navigation">
 				<img src={logo} className="App-logo" alt="logo" />
-				<Clock className="App-clock" format={"HH:mm"} ticking={true} timezone={"US/Central"} />
+				<Clock
+					className="App-clock"
+					format={"HH:mm"}
+					ticking={true}
+					timezone={"US/Central"}
+				/>
 			</div>
 
 			{/* Right side of NavBar  */}
