@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import Clock from "react-live-clock";
-import logo from "../../images/tiw_logo.png";
+import logo from "../../images/tiw_logo.jpg";
 import { NavLink } from "react-router-dom";
 import AuthContext from "../../context/auth-context";
 import { AmplifySignOut } from "@aws-amplify/ui-react";

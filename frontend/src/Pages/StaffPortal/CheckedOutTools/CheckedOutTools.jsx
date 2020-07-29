@@ -27,7 +27,7 @@ const CheckedOutTools = () => {
 	return (
 		<div className="left-view">
 			{tools.length
-				? tools[0] != "loading"
+				? tools[0] !== "loading"
 					? tools.map((tool, index) => (
 							<Tool
 								id={tool.id}

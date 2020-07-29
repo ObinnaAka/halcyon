@@ -27,7 +27,7 @@ const SignedInStudents = () => {
 	return (
 		<div className="left-view">
 			{students.length
-				? students[0] != "loading"
+				? students[0] !== "loading"
 					? students.map((student, index) => (
 							<Student
 								firstName={student.firstName}
