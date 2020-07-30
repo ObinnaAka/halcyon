@@ -36,6 +36,5 @@ const App = () => {
 	);
 };
 
-// export default withAuthenticator(App);
-export default App;
-
+export default withAuthenticator(App, { usernameAttributes: "eid" });
+// export default App;
