@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import { Request } from "../../../components";
 import { API, graphqlOperation } from "aws-amplify";
 import { getOutstandingTransactions, listTransactions } from "../../../graphql/queries";
@@ -7,37 +7,63 @@ import { onCreateTransaction } from "../../../graphql/subscriptions";
 
 const StudentRequests = () => {
 	const [requests, setRequests] = useState(["loading"]);
+	const [subscribe, setSubscribe] = useState(null);
 
 	useLayoutEffect(() => {
-		fetchOutstandingTransactions();
-		subscribeToTransactions();
+		fetchOutstandingTransactions().then(() => setSubscribe(true));
 	}, []);
+	useEffect(() => {
+		if (subscribe) {
+			let subscription = subscribeToTransactions();
+		}
+		// return () => {
+		// 	if (subscribe) {
+		// 		subscription.unsubscribe();
+		// 	}
+		// };
+	}, [subscribe]);
 
 	const fetchOutstandingTransactions = async () => {
 		let results = await API.graphql({
 			query: listTransactions,
 			variables: { filter: { status: { eq: "Processing" } } },
 		});
-		console.log(results);
-		setRequests(results.data.listTransactions.items);
+		setRequests(
+			results.data.listTransactions.items.sort((a, b) => {
+				return new Date(b.updatedAt) - new Date(a.updatedAt);
+			})
+		);
+		return results.data.listTransactions.items;
 	};
 
 	const subscribeToTransactions = async () => {
-		console.log(requests);
-		let results = API.graphql(graphqlOperation(onCreateTransaction)).subscribe({
+		let subscription = API.graphql(graphqlOperation(onCreateTransaction));
+		subscription.subscribe({
 			next: (request) => {
-				setRequests(requests.unshift(request.value.data.onCreateTransaction));
-				// console.log(requests);
+				console.log(requests);
+				let results = [request.value.data.onCreateTransaction, ...requests];
+				setRequests(results);
+				console.log(requests);
+				console.log(results);
+			},
+			error: (error) => {
+				console.warn(error);
 			},
 		});
+		return subscription;
+	};
+	const stateTester = () => {
+		return;
 	};
 
 	return (
 		<div className="left-view">
+			<input type="button" onClick={stateTester} value="Add Request" />
 			{requests.length
 				? requests[0] != "loading"
 					? requests.map((request, index) => (
 							<Request
+								id={request.id}
 								items={request.tools}
 								requestType={request.transactionType}
 								member={request.member}

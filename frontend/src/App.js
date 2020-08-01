@@ -11,7 +11,12 @@ import Amplify, { API, graphqlOperation, Auth } from "aws-amplify";
 
 import "@aws-amplify/ui/dist/style.css";
 import awsExports from "./aws-exports";
-import { withAuthenticator } from "@aws-amplify/ui-react";
+import {
+	AmplifyAuthenticator,
+	AmplifySignOut,
+	AmplifySignIn,
+	AmplifySignUp,
+} from "@aws-amplify/ui-react";
 
 import "./App.css";
 Amplify.configure(awsExports);
@@ -23,18 +28,28 @@ const App = () => {
 	const authValue = { auth, setAuth };
 	return (
 		// TODO Replace "AuthContext" with Apollo context because it already stores the auth stuff
+
 		<BrowserRouter>
 			<React.Fragment>
-				<NavBar />
-				<Switch>
-					<Redirect from="/" to="/staff" exact />
-					<Route path="/staff" component={StaffPortal} />
-				</Switch>
-				<Footer />
+				<AmplifyAuthenticator>
+					<AmplifySignIn
+						className="auth"
+						headerText="Welcome to Texas Inventionworks!"
+						slot="sign-in"
+					/>
+					<AmplifySignUp className="auth" headerText="Sign Up to Become a" slot="sign-up" />
+
+					<NavBar />
+					<Switch>
+						<Redirect from="/" to="/staff" exact />
+						<Route path="/staff" component={StaffPortal} />
+					</Switch>
+					<Footer />
+				</AmplifyAuthenticator>
 			</React.Fragment>
 		</BrowserRouter>
 	);
 };
 
-export default withAuthenticator(App, { usernameAttributes: "eid" });
-// export default App;
+// export default withAuthenticator(App, { usernameAttributes: "eid" });
+export default App;

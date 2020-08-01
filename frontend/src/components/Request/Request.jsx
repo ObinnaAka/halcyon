@@ -8,10 +8,12 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import styles from "./Request.modules.css";
 import moment from "moment";
+import { API } from "aws-amplify";
+import { updateTransaction } from "../../graphql/mutations";
 
 // import ListItemIcon from "@material-ui/core/ListItemIcon";
 
-const Request = ({ items, member, date, requestType, workstation = "-", comment }) => {
+const Request = ({ id, items, member, date, requestType, workstation = "-", comment }) => {
 	const [open, setOpen] = React.useState(false);
 	const [done, setDone] = React.useState(false);
 	const [requestDone, setRequestDone] = React.useState(false);
@@ -30,7 +32,14 @@ const Request = ({ items, member, date, requestType, workstation = "-", comment 
 			: setTimeout(function () {
 					setDone(!done);
 			  }, 3000);
+		finishTransaction();
 		console.log(tools);
+	};
+	const finishTransaction = async () => {
+		await API.graphql({
+			query: updateTransaction,
+			variables: { input: id },
+		});
 	};
 	const handleItemDone = () => {
 		setItemDone(!itemDone);

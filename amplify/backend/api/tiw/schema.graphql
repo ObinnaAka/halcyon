@@ -1,8 +1,8 @@
 type Transaction @model @versioned 
 	# @searchable
 	@key(name: "byStatus", fields: ["status", "updatedAt", "id"])
-	@key(name: "byMember", fields: ["memberId", "createdAt", "id"])
-	@key(name: "byStaff", fields: ["staffMemberId", "createdAt", "id"])
+	@key(name: "byMember", fields: ["memberId", "updatedAt", "id"])
+	@key(name: "byStaff", fields: ["staffMemberId", "updatedAt", "id"])
 {
 	id: ID
 	transactionType: String!
@@ -47,7 +47,7 @@ type Member @model
 type Tool @model
 	# @searchable
 	@key(name: "byName", fields: ["name", "id"])
-	# @key(name: "byStatus", fields: ["status", "id"])
+	@key(name: "byStatus", fields: ["status", "id"])
 {
 	id: ID
 	name: String!

@@ -16,6 +16,7 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
+		"aws-amplify-react": "^4.1.21",
 		"aws-sdk": "^2.723.0",
 		"typescript": "^3.9.5"
 	},
