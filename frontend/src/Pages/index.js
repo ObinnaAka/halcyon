@@ -4,3 +4,4 @@ export { default as SignedInStudents } from "./StaffPortal/SignedInStudents/Sign
 export { default as CheckedOutTools } from "./StaffPortal/CheckedOutTools/CheckedOutTools";
 export { default as Maintenance } from "./StaffPortal/Maintenance/Maintenance";
 export { default as Transactions } from "./StaffPortal/Transactions/Transactions";
+export { default as Scheduling } from "./StaffPortal/Scheduling/Scheduling";

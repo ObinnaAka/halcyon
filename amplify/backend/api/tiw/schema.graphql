@@ -48,6 +48,7 @@ type Tool @model
 	# @searchable
 	@key(name: "byName", fields: ["name", "id"])
 	@key(name: "byStatus", fields: ["status", "id"])
+	@key(name: "byType", fields:["toolType", "id"] )
 {
 	id: ID
 	name: String!
@@ -65,6 +66,8 @@ type Training @model
 {
 	id: ID
 	name: String!
+	laserTraining: Boolean
+	laserProficiency: Int
 }
 # @auth(allow: groups, groups:["Staff"], operations: [create, update, delete, read, list])
 

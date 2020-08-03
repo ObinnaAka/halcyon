@@ -118,7 +118,7 @@ const MaintenancePage = () => {
 						Status:
 						<select
 							className="selector"
-							onChange={(event) => setTransaction({ ...tool, status: event.target.value })}>
+							onChange={(event) => setTool({ ...tool, status: event.target.value })}>
 							{toolStatus.map((status, index) => {
 								return (
 									<option key={index} value={status}>

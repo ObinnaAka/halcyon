@@ -37,7 +37,7 @@ const App = () => {
 						headerText="Welcome to Texas Inventionworks!"
 						slot="sign-in"
 					/>
-					<AmplifySignUp className="auth" headerText="Sign Up to Become a" slot="sign-up" />
+					<AmplifySignUp className="auth" headerText="Sign Up to Become a Member" slot="sign-up" />
 
 					<NavBar />
 					<Switch>

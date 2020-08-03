@@ -5,7 +5,14 @@ import "./StaffPortal.css";
 import { SectionButton } from "../../components";
 import { Scrollbars } from "react-custom-scrollbars";
 
-import { StudentRequests, SignedInStudents, CheckedOutTools, Maintenance, Transactions } from "..";
+import {
+	StudentRequests,
+	SignedInStudents,
+	CheckedOutTools,
+	Maintenance,
+	Transactions,
+	Scheduling,
+} from "..";
 
 const StaffPortal = () => {
 	const { auth } = useContext(AuthContext);
@@ -44,6 +51,7 @@ const StaffPortal = () => {
 							<Route path="/staff/maintenance" component={Maintenance} />
 							<Route path="/staff/tools" component={CheckedOutTools} />
 							<Route path="/staff/transactions" component={Transactions} />
+							<Route path="/staff/scheduling" component={Scheduling} />
 						</div>
 					</Scrollbars>
 				</div>

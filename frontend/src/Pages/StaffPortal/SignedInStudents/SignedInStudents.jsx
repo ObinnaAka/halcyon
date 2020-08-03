@@ -21,6 +21,7 @@ const SignedInStudents = () => {
 			query: listMembers,
 			variables: { filter: { signInStatus: { eq: true } } },
 		});
+		console.log(results);
 		setStudents(results.data.listMembers.items);
 	};
 

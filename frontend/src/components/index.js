@@ -5,3 +5,4 @@ export { default as NavBar } from "./NavBar/NavBar";
 export { default as Student } from "./Student/Student";
 export { default as Tool } from "./Tool/Tool";
 export { default as Transaction } from "./Transaction/Transaction";
+export { default as Workstation } from "./Workstation/Workstation";

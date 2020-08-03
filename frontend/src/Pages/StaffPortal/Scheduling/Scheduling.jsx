@@ -1,19 +1,19 @@
 //--------------------------------------------
-// STUDENT REQUESTS
+// SCHEDULING
 //--------------------------------------------
 
 import React, { useState, useEffect, useLayoutEffect } from "react";
-import { Request } from "../../../components";
+import { Workstation } from "../../../components";
 import { API, graphqlOperation } from "aws-amplify";
-import { getOutstandingTransactions, listTransactions } from "../../../graphql/queries";
+import { listTools } from "../../../graphql/queries";
 import { updateTransaction } from "../../../graphql/mutations";
-import { onCreateTransaction } from "../../../graphql/subscriptions";
+import { onCreateTool } from "../../../graphql/subscriptions";
 
 const StudentRequests = () => {
 	//--------------------------------------------
 	// STATE MANAGEMENT
 	//--------------------------------------------
-	const [requests, setRequests] = useState(["loading"]);
+	const [workstations, setWorkstations] = useState(["loading"]);
 	const [subscribe, setSubscribe] = useState(null);
 
 	useLayoutEffect(() => {
@@ -22,7 +22,7 @@ const StudentRequests = () => {
 
 	useEffect(() => {
 		if (subscribe) {
-			let subscription = subscribeToTransactions();
+			let subscription = subscribeToTools();
 		}
 		// return () => {
 		// 	if (subscribe) {
@@ -36,7 +36,7 @@ const StudentRequests = () => {
 	//--------------------------------------------
 
 	//--------------------------------------------
-	// Get initial requests that are "Processing"
+	// Get initial workstations that are "Processing"
 	//--------------------------------------------
 
 	const fetchOutstandingTransactions = async () => {
@@ -44,8 +44,8 @@ const StudentRequests = () => {
 		// Pull information from the database
 		//--------------------------------------------
 		let results = await API.graphql({
-			query: listTransactions,
-			variables: { filter: { status: { eq: "Processing" } } },
+			query: listTools,
+			variables: { filter: { toolType: { eq: "Workstation" }, status: { eq: "Cleaned" } } },
 		});
 
 		//--------------------------------------------
@@ -53,9 +53,9 @@ const StudentRequests = () => {
 		// TODO Requests should be sorted in the opposite direction
 		// TODO oldest first
 		//--------------------------------------------
-		setRequests(
-			results.data.listTransactions.items.sort((a, b) => {
-				return new Date(b.updatedAt) - new Date(a.updatedAt);
+		setWorkstations(
+			results.data.listTools.items.sort((a, b) => {
+				return new Date(b.name) - new Date(a.name);
 			})
 		);
 		console.log(results);
@@ -67,13 +67,16 @@ const StudentRequests = () => {
 	// something changes in the database.
 	//--------------------------------------------
 
-	const subscribeToTransactions = async () => {
-		let subscription = API.graphql(graphqlOperation(onCreateTransaction));
+	const subscribeToTools = async () => {
+		let subscription = API.graphql(graphqlOperation(onCreateTool));
 
 		subscription.subscribe({
 			next: (request) => {
-				let results = [request.value.data.onCreateTransaction, ...requests];
-				setRequests(results);
+				let results = [request.value.data.onCreateTool, ...workstations];
+				results.sort((a, b) => {
+					return new Date(b.name) - new Date(a.name);
+				});
+				setWorkstations(results);
 			},
 			error: (error) => {
 				console.warn(error);
@@ -87,25 +90,15 @@ const StudentRequests = () => {
 
 	return (
 		<div className="left-view">
-			<input type="button" onClick={stateTester} value="Add Request" />
-			{requests.length
-				? requests[0] != "loading"
-					? requests.map((request, index) => (
-							<Request
-								id={request.id}
-								items={request.tools}
-								requestType={request.transactionType}
-								member={request.member}
-								date={request.updatedAt}
-								key={index}
-								workstation={request.member.workstation}
-								comment={request.comment}
-							/>
-					  ))
-					: "Loading..."
-				: "No New Requests"}
-
-			{/* { condition ?  ifConditionIsTrue : ifConditionIsFalse} */}
+			<div className="left-view">
+				{workstations.length
+					? workstations[0] !== "loading"
+						? workstations.map((tool, index) => (
+								<Workstation id={tool.id} name={tool.name} date={tool.updatedAt} key={index} />
+						  ))
+						: "Loading..."
+					: "No Available Workstations"}
+			</div>
 		</div>
 	);
 };

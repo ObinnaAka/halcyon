@@ -3,25 +3,10 @@
 
 export const createNewTransaction = /* GraphQL */ `
   mutation CreateNewTransaction(
-    $id: ID
-    $transactionType: String!
-    $staffMemberId: ID!
-    $memberId: ID!
-    $tools: [ID]
-    $training: ID
-    $status: String!
-    $comment: String
+    $input: CreateTransactionInput!
+    $condition: ModelTransactionConditionInput
   ) {
-    createNewTransaction(
-      id: $id
-      transactionType: $transactionType
-      staffMemberId: $staffMemberId
-      memberId: $memberId
-      tools: $tools
-      training: $training
-      status: $status
-      comment: $comment
-    ) {
+    createNewTransaction(input: $input, condition: $condition) {
       id
       transactionType
       staffMember {
