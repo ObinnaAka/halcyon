@@ -1,7 +1,8 @@
 #set( $limit = $util.defaultIfNull($context.args.limit, 100) )
 #set( $ListRequest = {
   "version": "2018-05-29",
-  "limit": $limit
+  "limit": $limit,
+  "index": "byStatus"
 } )
 #if( $context.args.nextToken )
   #set( $ListRequest.nextToken = $context.args.nextToken )
