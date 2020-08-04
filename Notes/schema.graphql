@@ -56,7 +56,6 @@ type Tool @model
   name: String!
   description: String
   location: String
-  status: String!
   toolStatus: String!
   currentHolder: Member @connection(fields: ["currentHolderId"])
   currentHolderId: ID! #will default tiw_member_account since it can't be nun-nullable

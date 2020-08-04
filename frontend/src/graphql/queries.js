@@ -29,7 +29,6 @@ export const getOutstandingTransactions = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -73,7 +72,6 @@ export const getOutstandingTransactions = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -100,7 +98,6 @@ export const getOutstandingTransactions = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -161,7 +158,6 @@ export const listTransactionsRange = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -205,7 +201,6 @@ export const listTransactionsRange = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -232,7 +227,6 @@ export const listTransactionsRange = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -293,7 +287,6 @@ export const getTransaction = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -337,7 +330,6 @@ export const getTransaction = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -364,7 +356,6 @@ export const getTransaction = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -486,7 +477,6 @@ export const getMember = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -500,7 +490,6 @@ export const getMember = /* GraphQL */ `
         name
         description
         location
-        status
         toolStatus
         currentHolder {
           id
@@ -524,7 +513,6 @@ export const getMember = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -602,7 +590,6 @@ export const listMembers = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -633,7 +620,6 @@ export const getTool = /* GraphQL */ `
       name
       description
       location
-      status
       toolStatus
       currentHolder {
         id
@@ -658,7 +644,6 @@ export const getTool = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -684,7 +669,6 @@ export const getTool = /* GraphQL */ `
         name
         description
         location
-        status
         toolStatus
         currentHolder {
           id
@@ -708,7 +692,6 @@ export const getTool = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -765,7 +748,6 @@ export const listTools = /* GraphQL */ `
         name
         description
         location
-        status
         toolStatus
         currentHolder {
           id
@@ -789,7 +771,6 @@ export const listTools = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -893,7 +874,6 @@ export const getReservation = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -1059,7 +1039,6 @@ export const searchMembers = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -1102,7 +1081,6 @@ export const searchTools = /* GraphQL */ `
         name
         description
         location
-        status
         toolStatus
         currentHolder {
           id
@@ -1126,7 +1104,6 @@ export const searchTools = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType

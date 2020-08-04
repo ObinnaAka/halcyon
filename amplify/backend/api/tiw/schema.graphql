@@ -56,7 +56,6 @@ type Tool @model
   name: String!
   description: String
   location: String
-  status: String!
   toolStatus: String!
   currentHolder: Member @connection(fields: ["currentHolderId"])
   currentHolderId: ID! #will default tiw_member_account since it can't be nun-nullable
@@ -90,7 +89,7 @@ input CreateTransactionInput {
   transactionType: String!
   staffMemberId: ID!
   memberId: ID!
-  status: String!
+  transactionStatus: String!
   comment: String
   createdAt: AWSDateTime
   updatedAt: AWSDateTime
@@ -105,5 +104,5 @@ type Query {
   listTransactionsRange(sort: String!, from: String!, limit: Int!): Transaction
 }
 type Mutation {
-  createNewTransaction(input: CreateTransactionInput!): ID
+  createNewTransaction(input: CreateTransactionInput!): Transaction
 }

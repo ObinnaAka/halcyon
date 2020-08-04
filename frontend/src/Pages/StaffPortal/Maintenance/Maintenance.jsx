@@ -32,12 +32,12 @@ const initialToolState = {
 	location: "",
 	toolType: "",
 	currentHolderId: members["TIW"],
-	status: "Checked Out",
+	toolStatus: "Checked Out",
 };
 const initialTransactionState = {
 	transactionType: "Test",
 	memberId: members["TIW"],
-	status: "Processing",
+	transactionStatus: "Processing",
 	staffMemberId: members["TIW"],
 	comment: "Test",
 };
@@ -114,15 +114,15 @@ const MaintenancePage = () => {
 					</label>
 				</div>
 				<div className="form-control">
-					<label className="selector-label" htmlFor="status">
+					<label className="selector-label" htmlFor="toolStatus">
 						Status:
 						<select
 							className="selector"
-							onChange={(event) => setTool({ ...tool, status: event.target.value })}>
-							{toolStatus.map((status, index) => {
+							onChange={(event) => setTool({ ...tool, toolStatus: event.target.value })}>
+							{toolStatus.map((toolStatus, index) => {
 								return (
-									<option key={index} value={status}>
-										{status}
+									<option key={index} value={toolStatus}>
+										{toolStatus}
 									</option>
 								);
 							})}
@@ -188,11 +188,13 @@ const MaintenancePage = () => {
 					</label>
 				</div>
 				<div className="form-control">
-					<label className="selector-label" htmlFor="status">
+					<label className="selector-label" htmlFor="transactionStatus">
 						Status:
 						<select
 							className="selector"
-							onChange={(event) => setTransaction({ ...transaction, status: event.target.value })}>
+							onChange={(event) =>
+								setTransaction({ ...transaction, transactionStatus: event.target.value })
+							}>
 							<option value="Processing">Processing</option>
 							<option value="Complete">Complete</option>
 						</select>

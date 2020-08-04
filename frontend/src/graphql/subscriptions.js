@@ -29,7 +29,6 @@ export const onCreateTransaction = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -73,7 +72,6 @@ export const onCreateTransaction = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -100,7 +98,6 @@ export const onCreateTransaction = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -161,7 +158,6 @@ export const onUpdateTransaction = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -205,7 +201,6 @@ export const onUpdateTransaction = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -232,7 +227,6 @@ export const onUpdateTransaction = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -293,7 +287,6 @@ export const onDeleteTransaction = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -337,7 +330,6 @@ export const onDeleteTransaction = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -364,7 +356,6 @@ export const onDeleteTransaction = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -420,7 +411,6 @@ export const onCreateMember = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -434,7 +424,6 @@ export const onCreateMember = /* GraphQL */ `
         name
         description
         location
-        status
         toolStatus
         currentHolder {
           id
@@ -458,7 +447,6 @@ export const onCreateMember = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -529,7 +517,6 @@ export const onUpdateMember = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -543,7 +530,6 @@ export const onUpdateMember = /* GraphQL */ `
         name
         description
         location
-        status
         toolStatus
         currentHolder {
           id
@@ -567,7 +553,6 @@ export const onUpdateMember = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -638,7 +623,6 @@ export const onDeleteMember = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -652,7 +636,6 @@ export const onDeleteMember = /* GraphQL */ `
         name
         description
         location
-        status
         toolStatus
         currentHolder {
           id
@@ -676,7 +659,6 @@ export const onDeleteMember = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -731,7 +713,6 @@ export const onCreateTool = /* GraphQL */ `
       name
       description
       location
-      status
       toolStatus
       currentHolder {
         id
@@ -756,7 +737,6 @@ export const onCreateTool = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -782,7 +762,6 @@ export const onCreateTool = /* GraphQL */ `
         name
         description
         location
-        status
         toolStatus
         currentHolder {
           id
@@ -806,7 +785,6 @@ export const onCreateTool = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -858,7 +836,6 @@ export const onUpdateTool = /* GraphQL */ `
       name
       description
       location
-      status
       toolStatus
       currentHolder {
         id
@@ -883,7 +860,6 @@ export const onUpdateTool = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -909,7 +885,6 @@ export const onUpdateTool = /* GraphQL */ `
         name
         description
         location
-        status
         toolStatus
         currentHolder {
           id
@@ -933,7 +908,6 @@ export const onUpdateTool = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -985,7 +959,6 @@ export const onDeleteTool = /* GraphQL */ `
       name
       description
       location
-      status
       toolStatus
       currentHolder {
         id
@@ -1010,7 +983,6 @@ export const onDeleteTool = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -1036,7 +1008,6 @@ export const onDeleteTool = /* GraphQL */ `
         name
         description
         location
-        status
         toolStatus
         currentHolder {
           id
@@ -1060,7 +1031,6 @@ export const onDeleteTool = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -1195,7 +1165,6 @@ export const onCreateReservation = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -1247,7 +1216,6 @@ export const onUpdateReservation = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
@@ -1299,7 +1267,6 @@ export const onDeleteReservation = /* GraphQL */ `
           name
           description
           location
-          status
           toolStatus
           currentHolderId
           toolType
