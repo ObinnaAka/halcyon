@@ -45,7 +45,7 @@ const StudentRequests = () => {
 		//--------------------------------------------
 		let results = await API.graphql({
 			query: listTransactions,
-			variables: { filter: { status: { eq: "Processing" } } },
+			variables: { filter: { transactionStatus: { eq: "Processing" } } },
 		});
 
 		//--------------------------------------------

@@ -1,0 +1,20 @@
+{
+  "trigger": true,
+  "modules": [
+    "verification-link"
+  ],
+  "parentResource": "tiw9d88069a",
+  "functionName": "tiw9d88069aCustomMessage",
+  "resourceName": "tiw9d88069aCustomMessage",
+  "parentStack": "auth",
+  "triggerEnvs": "[{\"key\":\"RESOURCENAME\",\"value\":\"resourceName\"}]",
+  "triggerDir": "C:\\Users\\akaha\\AppData\\Roaming\\npm\\node_modules\\@aws-amplify\\cli\\node_modules\\amplify-category-auth\\provider-utils\\awscloudformation\\utils/../triggers/CustomMessage",
+  "triggerTemplate": "CustomMessage.json.ejs",
+  "roleName": "tiw9d88069aCustomMessage",
+  "skipEdit": true,
+  "REDIRECTURL": "",
+  "EMAILSUBJECT": "TIW Verification Code",
+  "EMAILMESSAGE": "Welcome to TIW! \\nHere is your verification code",
+  "RESOURCENAME": "resourceName",
+  "triggerEventPath": "CustomMessage.event.json"
+}

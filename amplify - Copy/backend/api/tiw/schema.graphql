@@ -11,8 +11,8 @@ type Transaction
   staffMemberId: ID! #This can be empty for certain situations (Sign in etc...) but must be required for connections
   member: Member @connection(fields: ["memberId"])
   memberId: ID!
-  tools: [Tool] @connection
-  materials: [Material] @connection
+#   tools: [Tool] @connection
+  # materials: [Material] @connection
   training: Training @connection
   transactionStatus: String!
   comment: String
@@ -35,12 +35,12 @@ type Member
   signInStatus: Boolean
   email: AWSEmail
   trainings: [Training] 
-  itemRecord: [Tool] @connection
-  workstation: Tool
+#   itemRecord: [Tool] @connection
+#   workstation: Tool
   conductRecord: [String]
   memberStatus: String
   reservations: [Reservation] @connection(fields: ["id"])
-  transactionRecord: [Transaction] @connection(keyName: "byMember", fields: ["id"])
+#   transactionRecord: [Transaction] @connection(keyName: "byMember", fields: ["id"])
   bevoCard: String
   memberType: String!
   createdAt: AWSDateTime
@@ -72,11 +72,11 @@ type Training @model {
   name: String!
 }
 
-type Material @model {
-  id: ID
-  name: String!
-  count: Int!
-}
+# type Material @model {
+#   id: ID
+#   name: String!
+#   count: Int!
+# }
 
 type Reservation @model {
 	id: ID
@@ -97,7 +97,6 @@ input CreateTransactionInput {
   transactionTrainingId: ID
   toolTransactionRecordId: ID
   tools: [ID]
-  materials: [ID]
 }
 
 type Query {

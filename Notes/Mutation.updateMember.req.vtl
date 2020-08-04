@@ -1,81 +1,12 @@
-## Automatically set the updatedAt timestamp. **
-$util.qr($context.args.input.put("updatedAt", $util.defaultIfNull($ctx.args.input.updatedAt, $util.time.nowISO8601())))
-$util.qr($context.args.input.put("__typename", "Transaction"))
+#if( $util.isNull($dynamodbNameOverrideMap) )
+  #set( $dynamodbNameOverrideMap = {
+  "lastName#id": "lastNameId"
+} )
+#else
+  $util.qr($dynamodbNameOverrideMap.put("lastName#id", "lastNameId"))
+#end
+$util.qr($ctx.args.input.put("lastName#id","${ctx.args.input.lastName}#${ctx.args.input.id}"))
 
-## [Start] Validate update mutation for @key 'byStaff'. **
-#set( $hasSeenSomeKeyArg = false )
-#set( $keyFieldNames = ["updatedAt", "id"] )
-#foreach( $keyFieldName in $keyFieldNames )
-#if( $ctx.args.input.containsKey("$keyFieldName") ) #set( $hasSeenSomeKeyArg = true ) #end
-#end
-#foreach( $keyFieldName in $keyFieldNames )
-  #if( $hasSeenSomeKeyArg && !$ctx.args.input.containsKey("$keyFieldName") )
-    $util.error("When updating any part of the composite sort key for @key 'byStaff', you must provide all fields for the key. Missing key: '$keyFieldName'.")
-  #end
-#end
-## [End] Validate update mutation for @key 'byStaff'. **
-#if( $util.isNull($dynamodbNameOverrideMap) )
-  #set( $dynamodbNameOverrideMap = {
-  "updatedAt#id": "updatedAtId"
-} )
-#else
-  $util.qr($dynamodbNameOverrideMap.put("updatedAt#id", "updatedAtId"))
-#end
-$util.qr($ctx.args.input.put("updatedAt#id","${ctx.args.input.updatedAt}#${ctx.args.input.id}"))
-## [Start] Validate update mutation for @key 'byMember'. **
-#set( $hasSeenSomeKeyArg = false )
-#set( $keyFieldNames = ["updatedAt", "id"] )
-#foreach( $keyFieldName in $keyFieldNames )
-#if( $ctx.args.input.containsKey("$keyFieldName") ) #set( $hasSeenSomeKeyArg = true ) #end
-#end
-#foreach( $keyFieldName in $keyFieldNames )
-  #if( $hasSeenSomeKeyArg && !$ctx.args.input.containsKey("$keyFieldName") )
-    $util.error("When updating any part of the composite sort key for @key 'byMember', you must provide all fields for the key. Missing key: '$keyFieldName'.")
-  #end
-#end
-## [End] Validate update mutation for @key 'byMember'. **
-#if( $util.isNull($dynamodbNameOverrideMap) )
-  #set( $dynamodbNameOverrideMap = {
-  "updatedAt#id": "updatedAtId"
-} )
-#else
-  $util.qr($dynamodbNameOverrideMap.put("updatedAt#id", "updatedAtId"))
-#end
-$util.qr($ctx.args.input.put("updatedAt#id","${ctx.args.input.updatedAt}#${ctx.args.input.id}"))
-## [Start] Validate update mutation for @key 'byStatus'. **
-#set( $hasSeenSomeKeyArg = false )
-#set( $keyFieldNames = ["updatedAt", "id"] )
-#foreach( $keyFieldName in $keyFieldNames )
-#if( $ctx.args.input.containsKey("$keyFieldName") ) #set( $hasSeenSomeKeyArg = true ) #end
-#end
-#foreach( $keyFieldName in $keyFieldNames )
-  #if( $hasSeenSomeKeyArg && !$ctx.args.input.containsKey("$keyFieldName") )
-    $util.error("When updating any part of the composite sort key for @key 'byStatus', you must provide all fields for the key. Missing key: '$keyFieldName'.")
-  #end
-#end
-## [End] Validate update mutation for @key 'byStatus'. **
-#if( $util.isNull($dynamodbNameOverrideMap) )
-  #set( $dynamodbNameOverrideMap = {
-  "updatedAt#id": "updatedAtId"
-} )
-#else
-  $util.qr($dynamodbNameOverrideMap.put("updatedAt#id", "updatedAtId"))
-#end
-$util.qr($ctx.args.input.put("updatedAt#id","${ctx.args.input.updatedAt}#${ctx.args.input.id}"))
-## [Start] Inject @versioned condition.. **
-#set( $versionedCondition = {
-  "expression": "#version = :expectedVersion",
-  "expressionValues": {
-      ":expectedVersion":     $util.dynamodb.toDynamoDB($ctx.args.input.expectedVersion)
-  },
-  "expressionNames": {
-      "#version": "version"
-  }
-} )
-#set( $newVersion = $ctx.args.input.expectedVersion + 1 )
-$util.qr($ctx.args.input.put("version", $newVersion))
-$util.qr($ctx.args.input.remove("expectedVersion"))
-## [End] Inject @versioned condition.. **
 
 #if( $authCondition && $authCondition.expression != "" )
   #set( $condition = $authCondition )
@@ -113,7 +44,9 @@ $util.qr($ctx.args.input.remove("expectedVersion"))
 } )
   #end
 #end
-
+## Automatically set the updatedAt timestamp. **
+$util.qr($context.args.input.put("updatedAt", $util.defaultIfNull($ctx.args.input.updatedAt, $util.time.nowISO8601())))
+$util.qr($context.args.input.put("__typename", "Member"))
 ## Update condition if type is @versioned **
 #if( $versionedCondition )
   $util.qr($condition.put("expression", "($condition.expression) AND $versionedCondition.expression"))
@@ -206,4 +139,5 @@ $util.qr($update.put("expression", "$expression"))
 } #end,
   "update": $util.toJson($update),
   "condition": $util.toJson($condition)
+  
 }

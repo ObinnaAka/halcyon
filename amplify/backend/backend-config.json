@@ -9,50 +9,19 @@
                     "defaultAuthentication": {
                         "authenticationType": "API_KEY",
                         "apiKeyConfig": {
-                            "description": "Zero",
-                            "apiKeyExpirationDays": 365
+                            "description": "Default",
+                            "apiKeyExpirationDays": 30
                         }
                     }
                 }
             }
         }
     },
-    "function": {
-        "tiw9d88069aCustomMessage": {
-            "build": true,
-            "providerPlugin": "awscloudformation",
-            "service": "Lambda"
-        },
-        "tiw9d88069aPostConfirmation": {
-            "build": true,
-            "providerPlugin": "awscloudformation",
-            "service": "Lambda"
-        }
-    },
     "auth": {
-        "tiw9d88069a": {
+        "tiwa61444a0": {
             "service": "Cognito",
             "providerPlugin": "awscloudformation",
-            "dependsOn": [
-                {
-                    "category": "function",
-                    "resourceName": "tiw9d88069aCustomMessage",
-                    "triggerProvider": "Cognito",
-                    "attributes": [
-                        "Arn",
-                        "Name"
-                    ]
-                },
-                {
-                    "category": "function",
-                    "resourceName": "tiw9d88069aPostConfirmation",
-                    "triggerProvider": "Cognito",
-                    "attributes": [
-                        "Arn",
-                        "Name"
-                    ]
-                }
-            ]
+            "dependsOn": []
         },
         "userPoolGroups": {
             "service": "Cognito-UserPool-Groups",
@@ -60,7 +29,7 @@
             "dependsOn": [
                 {
                     "category": "auth",
-                    "resourceName": "tiw9d88069a",
+                    "resourceName": "tiwa61444a0",
                     "attributes": [
                         "UserPoolId",
                         "AppClientIDWeb",

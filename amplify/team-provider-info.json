@@ -1,29 +1,21 @@
 {
     "dev": {
         "awscloudformation": {
-            "AuthRoleName": "amplify-tiw-dev-11011-authRole",
-            "UnauthRoleArn": "arn:aws:iam::107464086687:role/amplify-tiw-dev-11011-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::107464086687:role/amplify-tiw-dev-11011-authRole",
+            "AuthRoleName": "amplify-tiw-dev-05655-authRole",
+            "UnauthRoleArn": "arn:aws:iam::107464086687:role/amplify-tiw-dev-05655-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::107464086687:role/amplify-tiw-dev-05655-authRole",
             "Region": "us-east-1",
-            "DeploymentBucketName": "amplify-tiw-dev-11011-deployment",
-            "UnauthRoleName": "amplify-tiw-dev-11011-unauthRole",
-            "StackName": "amplify-tiw-dev-11011",
-            "StackId": "arn:aws:cloudformation:us-east-1:107464086687:stack/amplify-tiw-dev-11011/569ea780-cd74-11ea-bc6a-0aa958b6917a",
-            "AmplifyAppId": "d1ue3p22kd0yx3"
+            "DeploymentBucketName": "amplify-tiw-dev-05655-deployment",
+            "UnauthRoleName": "amplify-tiw-dev-05655-unauthRole",
+            "StackName": "amplify-tiw-dev-05655",
+            "StackId": "arn:aws:cloudformation:us-east-1:107464086687:stack/amplify-tiw-dev-05655/4ef3bdd0-d617-11ea-8d5d-0a8540e42a70",
+            "AmplifyAppId": "d19xz995nuxv35"
         },
         "categories": {
-            "function": {
-                "tiw9d88069aCustomMessage": {
-                    "REDIRECTURL": "",
-                    "EMAILSUBJECT": "TIW Verification Code",
-                    "EMAILMESSAGE": "Welcome to TIW! \\nHere is your verification code"
-                },
-                "tiw9d88069aPostConfirmation": {
-                    "GROUP": "Staff"
-                }
-            },
             "auth": {
-                "tiw9d88069a": {},
+                "tiwa61444a0": {
+                    "hostedUIProviderCreds": "[]"
+                },
                 "userPoolGroups": {}
             }
         }
