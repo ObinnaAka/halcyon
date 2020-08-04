@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
 import { useInput } from "../../../helpers/helpers";
 import ToggleButton from "react-bootstrap/ToggleButton";
@@ -6,6 +6,8 @@ import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 
 import { API } from "aws-amplify";
 import { createTransaction, createTool, createMember } from "../../../graphql/mutations";
+
+import AuthContext from "../../../context/auth-context";
 
 import "./Maintenance.css";
 
@@ -22,9 +24,8 @@ const transactionTypes = [
 	"Cleaning",
 ];
 const members = {
-	TIW: "a1f01525-1bfd-483c-968f-19b3f56abc49",
-	Obinna: "b4677702-2227-43f6-a007-62bea3ac954e",
-	Test: "e7020ff2-7bd0-4739-adcb-79c1686f9f8c",
+	TIW: "tiw",
+	Obinna: "oaa876",
 };
 
 const initialToolState = {
@@ -38,20 +39,24 @@ const initialTransactionState = {
 	transactionType: "Test",
 	memberId: members["TIW"],
 	transactionStatus: "Processing",
-	staffMemberId: members["TIW"],
-	comment: "Test",
+	transactionComment: "Test",
 };
 const initialMemberState = {
 	firstName: "",
 	lastName: "",
 	eid: "",
 	email: "",
-	password: "",
 	memberType: "Staff",
 };
 
 const MaintenancePage = () => {
-	const [transaction, setTransaction] = useState(initialTransactionState);
+	const { auth } = useContext(AuthContext);
+
+	console.log(auth);
+	const [transaction, setTransaction] = useState({
+		...initialTransactionState,
+		staffMemberId: auth,
+	});
 	const [member, setMember] = useState(initialMemberState);
 	const [tool, setTool] = useState(initialToolState);
 
@@ -65,6 +70,7 @@ const MaintenancePage = () => {
 		console.log(newTool);
 	};
 	const submitTransactionHandler = async () => {
+		console.log(transaction);
 		let newTransaction = await API.graphql({
 			query: createTransaction,
 			variables: { input: transaction },
@@ -178,12 +184,14 @@ const MaintenancePage = () => {
 					</label>
 				</div>
 				<div className="form-control">
-					<label htmlFor="comment">
+					<label htmlFor="transactionComment">
 						Comment:
 						<input
 							type="string"
-							value={transaction.comment}
-							onChange={(event) => setTransaction({ ...transaction, comment: event.target.value })}
+							value={transaction.transactionComment}
+							onChange={(event) =>
+								setTransaction({ ...transaction, transactionComment: event.target.value })
+							}
 						/>
 					</label>
 				</div>

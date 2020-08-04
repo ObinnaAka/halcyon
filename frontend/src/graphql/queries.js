@@ -2,12 +2,11 @@
 // this is an auto generated file. This will be overwritten
 
 export const getOutstandingTransactions = /* GraphQL */ `
-  query GetOutstandingTransactions($status: String!) {
-    getOutstandingTransactions(status: $status) {
+  query GetOutstandingTransactions($transactionStatus: String!) {
+    getOutstandingTransactions(transactionStatus: $transactionStatus) {
       id
       transactionType
       staffMember {
-        id
         eid
         firstName
         lastName
@@ -50,7 +49,6 @@ export const getOutstandingTransactions = /* GraphQL */ `
       }
       staffMemberId
       member {
-        id
         eid
         firstName
         lastName
@@ -123,7 +121,7 @@ export const getOutstandingTransactions = /* GraphQL */ `
         updatedAt
       }
       transactionStatus
-      comment
+      transactionComment
       createdAt
       updatedAt
       version
@@ -136,7 +134,6 @@ export const listTransactionsRange = /* GraphQL */ `
       id
       transactionType
       staffMember {
-        id
         eid
         firstName
         lastName
@@ -179,7 +176,6 @@ export const listTransactionsRange = /* GraphQL */ `
       }
       staffMemberId
       member {
-        id
         eid
         firstName
         lastName
@@ -252,7 +248,7 @@ export const listTransactionsRange = /* GraphQL */ `
         updatedAt
       }
       transactionStatus
-      comment
+      transactionComment
       createdAt
       updatedAt
       version
@@ -265,7 +261,6 @@ export const getTransaction = /* GraphQL */ `
       id
       transactionType
       staffMember {
-        id
         eid
         firstName
         lastName
@@ -308,7 +303,6 @@ export const getTransaction = /* GraphQL */ `
       }
       staffMemberId
       member {
-        id
         eid
         firstName
         lastName
@@ -381,7 +375,7 @@ export const getTransaction = /* GraphQL */ `
         updatedAt
       }
       transactionStatus
-      comment
+      transactionComment
       createdAt
       updatedAt
       version
@@ -399,7 +393,6 @@ export const listTransactions = /* GraphQL */ `
         id
         transactionType
         staffMember {
-          id
           eid
           firstName
           lastName
@@ -416,7 +409,6 @@ export const listTransactions = /* GraphQL */ `
         }
         staffMemberId
         member {
-          id
           eid
           firstName
           lastName
@@ -445,7 +437,7 @@ export const listTransactions = /* GraphQL */ `
           updatedAt
         }
         transactionStatus
-        comment
+        transactionComment
         createdAt
         updatedAt
         version
@@ -455,9 +447,8 @@ export const listTransactions = /* GraphQL */ `
   }
 `;
 export const getMember = /* GraphQL */ `
-  query GetMember($id: ID!) {
-    getMember(id: $id) {
-      id
+  query GetMember($eid: ID!) {
+    getMember(eid: $eid) {
       eid
       firstName
       lastName
@@ -492,7 +483,6 @@ export const getMember = /* GraphQL */ `
         location
         toolStatus
         currentHolder {
-          id
           eid
           firstName
           lastName
@@ -546,7 +536,7 @@ export const getMember = /* GraphQL */ `
           staffMemberId
           memberId
           transactionStatus
-          comment
+          transactionComment
           createdAt
           updatedAt
           version
@@ -562,13 +552,20 @@ export const getMember = /* GraphQL */ `
 `;
 export const listMembers = /* GraphQL */ `
   query ListMembers(
+    $eid: ID
     $filter: ModelMemberFilterInput
     $limit: Int
     $nextToken: String
+    $sortDirection: ModelSortDirection
   ) {
-    listMembers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listMembers(
+      eid: $eid
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
       items {
-        id
         eid
         firstName
         lastName
@@ -622,7 +619,6 @@ export const getTool = /* GraphQL */ `
       location
       toolStatus
       currentHolder {
-        id
         eid
         firstName
         lastName
@@ -671,7 +667,6 @@ export const getTool = /* GraphQL */ `
         location
         toolStatus
         currentHolder {
-          id
           eid
           firstName
           lastName
@@ -723,7 +718,7 @@ export const getTool = /* GraphQL */ `
           staffMemberId
           memberId
           transactionStatus
-          comment
+          transactionComment
           createdAt
           updatedAt
           version
@@ -750,7 +745,6 @@ export const listTools = /* GraphQL */ `
         location
         toolStatus
         currentHolder {
-          id
           eid
           firstName
           lastName
@@ -852,7 +846,6 @@ export const getReservation = /* GraphQL */ `
     getReservation(id: $id) {
       id
       member {
-        id
         eid
         firstName
         lastName
@@ -893,6 +886,49 @@ export const getReservation = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      tool {
+        id
+        name
+        description
+        location
+        toolStatus
+        currentHolder {
+          eid
+          firstName
+          lastName
+          password
+          phone
+          signInStatus
+          email
+          conductRecord
+          memberStatus
+          bevoCard
+          memberType
+          createdAt
+          updatedAt
+        }
+        currentHolderId
+        currentWorkstation {
+          id
+          name
+          description
+          location
+          toolStatus
+          currentHolderId
+          toolType
+          updatedAt
+          createdAt
+        }
+        reservations {
+          nextToken
+        }
+        transactionRecord {
+          nextToken
+        }
+        toolType
+        updatedAt
+        createdAt
+      }
       createdAt
       updatedAt
     }
@@ -908,7 +944,6 @@ export const listReservations = /* GraphQL */ `
       items {
         id
         member {
-          id
           eid
           firstName
           lastName
@@ -922,6 +957,17 @@ export const listReservations = /* GraphQL */ `
           memberType
           createdAt
           updatedAt
+        }
+        tool {
+          id
+          name
+          description
+          location
+          toolStatus
+          currentHolderId
+          toolType
+          updatedAt
+          createdAt
         }
         createdAt
         updatedAt
@@ -947,7 +993,6 @@ export const searchTransactions = /* GraphQL */ `
         id
         transactionType
         staffMember {
-          id
           eid
           firstName
           lastName
@@ -964,7 +1009,6 @@ export const searchTransactions = /* GraphQL */ `
         }
         staffMemberId
         member {
-          id
           eid
           firstName
           lastName
@@ -993,7 +1037,7 @@ export const searchTransactions = /* GraphQL */ `
           updatedAt
         }
         transactionStatus
-        comment
+        transactionComment
         createdAt
         updatedAt
         version
@@ -1017,7 +1061,6 @@ export const searchMembers = /* GraphQL */ `
       nextToken: $nextToken
     ) {
       items {
-        id
         eid
         firstName
         lastName
@@ -1083,7 +1126,6 @@ export const searchTools = /* GraphQL */ `
         location
         toolStatus
         currentHolder {
-          id
           eid
           firstName
           lastName

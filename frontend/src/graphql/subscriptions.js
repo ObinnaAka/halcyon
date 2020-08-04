@@ -7,7 +7,6 @@ export const onCreateTransaction = /* GraphQL */ `
       id
       transactionType
       staffMember {
-        id
         eid
         firstName
         lastName
@@ -50,7 +49,6 @@ export const onCreateTransaction = /* GraphQL */ `
       }
       staffMemberId
       member {
-        id
         eid
         firstName
         lastName
@@ -123,7 +121,7 @@ export const onCreateTransaction = /* GraphQL */ `
         updatedAt
       }
       transactionStatus
-      comment
+      transactionComment
       createdAt
       updatedAt
       version
@@ -136,7 +134,6 @@ export const onUpdateTransaction = /* GraphQL */ `
       id
       transactionType
       staffMember {
-        id
         eid
         firstName
         lastName
@@ -179,7 +176,6 @@ export const onUpdateTransaction = /* GraphQL */ `
       }
       staffMemberId
       member {
-        id
         eid
         firstName
         lastName
@@ -252,7 +248,7 @@ export const onUpdateTransaction = /* GraphQL */ `
         updatedAt
       }
       transactionStatus
-      comment
+      transactionComment
       createdAt
       updatedAt
       version
@@ -265,7 +261,6 @@ export const onDeleteTransaction = /* GraphQL */ `
       id
       transactionType
       staffMember {
-        id
         eid
         firstName
         lastName
@@ -308,7 +303,6 @@ export const onDeleteTransaction = /* GraphQL */ `
       }
       staffMemberId
       member {
-        id
         eid
         firstName
         lastName
@@ -381,7 +375,7 @@ export const onDeleteTransaction = /* GraphQL */ `
         updatedAt
       }
       transactionStatus
-      comment
+      transactionComment
       createdAt
       updatedAt
       version
@@ -391,7 +385,6 @@ export const onDeleteTransaction = /* GraphQL */ `
 export const onCreateMember = /* GraphQL */ `
   subscription OnCreateMember {
     onCreateMember {
-      id
       eid
       firstName
       lastName
@@ -426,7 +419,6 @@ export const onCreateMember = /* GraphQL */ `
         location
         toolStatus
         currentHolder {
-          id
           eid
           firstName
           lastName
@@ -480,7 +472,7 @@ export const onCreateMember = /* GraphQL */ `
           staffMemberId
           memberId
           transactionStatus
-          comment
+          transactionComment
           createdAt
           updatedAt
           version
@@ -497,7 +489,6 @@ export const onCreateMember = /* GraphQL */ `
 export const onUpdateMember = /* GraphQL */ `
   subscription OnUpdateMember {
     onUpdateMember {
-      id
       eid
       firstName
       lastName
@@ -532,7 +523,6 @@ export const onUpdateMember = /* GraphQL */ `
         location
         toolStatus
         currentHolder {
-          id
           eid
           firstName
           lastName
@@ -586,7 +576,7 @@ export const onUpdateMember = /* GraphQL */ `
           staffMemberId
           memberId
           transactionStatus
-          comment
+          transactionComment
           createdAt
           updatedAt
           version
@@ -603,7 +593,6 @@ export const onUpdateMember = /* GraphQL */ `
 export const onDeleteMember = /* GraphQL */ `
   subscription OnDeleteMember {
     onDeleteMember {
-      id
       eid
       firstName
       lastName
@@ -638,7 +627,6 @@ export const onDeleteMember = /* GraphQL */ `
         location
         toolStatus
         currentHolder {
-          id
           eid
           firstName
           lastName
@@ -692,7 +680,7 @@ export const onDeleteMember = /* GraphQL */ `
           staffMemberId
           memberId
           transactionStatus
-          comment
+          transactionComment
           createdAt
           updatedAt
           version
@@ -715,7 +703,6 @@ export const onCreateTool = /* GraphQL */ `
       location
       toolStatus
       currentHolder {
-        id
         eid
         firstName
         lastName
@@ -764,7 +751,6 @@ export const onCreateTool = /* GraphQL */ `
         location
         toolStatus
         currentHolder {
-          id
           eid
           firstName
           lastName
@@ -816,7 +802,7 @@ export const onCreateTool = /* GraphQL */ `
           staffMemberId
           memberId
           transactionStatus
-          comment
+          transactionComment
           createdAt
           updatedAt
           version
@@ -838,7 +824,6 @@ export const onUpdateTool = /* GraphQL */ `
       location
       toolStatus
       currentHolder {
-        id
         eid
         firstName
         lastName
@@ -887,7 +872,6 @@ export const onUpdateTool = /* GraphQL */ `
         location
         toolStatus
         currentHolder {
-          id
           eid
           firstName
           lastName
@@ -939,7 +923,7 @@ export const onUpdateTool = /* GraphQL */ `
           staffMemberId
           memberId
           transactionStatus
-          comment
+          transactionComment
           createdAt
           updatedAt
           version
@@ -961,7 +945,6 @@ export const onDeleteTool = /* GraphQL */ `
       location
       toolStatus
       currentHolder {
-        id
         eid
         firstName
         lastName
@@ -1010,7 +993,6 @@ export const onDeleteTool = /* GraphQL */ `
         location
         toolStatus
         currentHolder {
-          id
           eid
           firstName
           lastName
@@ -1062,7 +1044,7 @@ export const onDeleteTool = /* GraphQL */ `
           staffMemberId
           memberId
           transactionStatus
-          comment
+          transactionComment
           createdAt
           updatedAt
           version
@@ -1143,7 +1125,6 @@ export const onCreateReservation = /* GraphQL */ `
     onCreateReservation {
       id
       member {
-        id
         eid
         firstName
         lastName
@@ -1183,6 +1164,49 @@ export const onCreateReservation = /* GraphQL */ `
         memberType
         createdAt
         updatedAt
+      }
+      tool {
+        id
+        name
+        description
+        location
+        toolStatus
+        currentHolder {
+          eid
+          firstName
+          lastName
+          password
+          phone
+          signInStatus
+          email
+          conductRecord
+          memberStatus
+          bevoCard
+          memberType
+          createdAt
+          updatedAt
+        }
+        currentHolderId
+        currentWorkstation {
+          id
+          name
+          description
+          location
+          toolStatus
+          currentHolderId
+          toolType
+          updatedAt
+          createdAt
+        }
+        reservations {
+          nextToken
+        }
+        transactionRecord {
+          nextToken
+        }
+        toolType
+        updatedAt
+        createdAt
       }
       createdAt
       updatedAt
@@ -1194,7 +1218,6 @@ export const onUpdateReservation = /* GraphQL */ `
     onUpdateReservation {
       id
       member {
-        id
         eid
         firstName
         lastName
@@ -1235,6 +1258,49 @@ export const onUpdateReservation = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      tool {
+        id
+        name
+        description
+        location
+        toolStatus
+        currentHolder {
+          eid
+          firstName
+          lastName
+          password
+          phone
+          signInStatus
+          email
+          conductRecord
+          memberStatus
+          bevoCard
+          memberType
+          createdAt
+          updatedAt
+        }
+        currentHolderId
+        currentWorkstation {
+          id
+          name
+          description
+          location
+          toolStatus
+          currentHolderId
+          toolType
+          updatedAt
+          createdAt
+        }
+        reservations {
+          nextToken
+        }
+        transactionRecord {
+          nextToken
+        }
+        toolType
+        updatedAt
+        createdAt
+      }
       createdAt
       updatedAt
     }
@@ -1245,7 +1311,6 @@ export const onDeleteReservation = /* GraphQL */ `
     onDeleteReservation {
       id
       member {
-        id
         eid
         firstName
         lastName
@@ -1285,6 +1350,49 @@ export const onDeleteReservation = /* GraphQL */ `
         memberType
         createdAt
         updatedAt
+      }
+      tool {
+        id
+        name
+        description
+        location
+        toolStatus
+        currentHolder {
+          eid
+          firstName
+          lastName
+          password
+          phone
+          signInStatus
+          email
+          conductRecord
+          memberStatus
+          bevoCard
+          memberType
+          createdAt
+          updatedAt
+        }
+        currentHolderId
+        currentWorkstation {
+          id
+          name
+          description
+          location
+          toolStatus
+          currentHolderId
+          toolType
+          updatedAt
+          createdAt
+        }
+        reservations {
+          nextToken
+        }
+        transactionRecord {
+          nextToken
+        }
+        toolType
+        updatedAt
+        createdAt
       }
       createdAt
       updatedAt

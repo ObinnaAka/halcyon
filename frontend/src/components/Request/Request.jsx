@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -8,16 +8,25 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import styles from "./Request.modules.css";
 import moment from "moment";
-import { API } from "aws-amplify";
-import { updateTransaction } from "../../graphql/mutations";
+import { API, auth0SignInButton } from "aws-amplify";
+import { updateTransaction, createNewTransaction } from "../../graphql/mutations";
 
 // import ListItemIcon from "@material-ui/core/ListItemIcon";
 
-const Request = ({ id, items, member, date, requestType, workstation = "-", comment }) => {
-	const [open, setOpen] = React.useState(false);
-	const [done, setDone] = React.useState(false);
-	const [requestDone, setRequestDone] = React.useState(false);
-	const [itemDone, setItemDone] = React.useState(false);
+const Request = ({
+	id,
+	items,
+	member,
+	staffMember,
+	date,
+	requestType,
+	workstation = "-",
+	comment,
+}) => {
+	const [open, setOpen] = useState(false);
+	const [done, setDone] = useState(false);
+	const [requestDone, setRequestDone] = useState(false);
+	const [itemDone, setItemDone] = useState(false);
 
 	// TODO Add setTools to this useState function
 	const [tools, setTools] = useState(Object.values(items));
@@ -25,6 +34,8 @@ const Request = ({ id, items, member, date, requestType, workstation = "-", comm
 	const handleItemClick = () => {
 		setOpen(!open);
 	};
+
+	// TODO Add animation during
 	const handleDoneClick = () => {
 		setRequestDone(!requestDone);
 		requestDone
@@ -35,11 +46,22 @@ const Request = ({ id, items, member, date, requestType, workstation = "-", comm
 		finishTransaction();
 		console.log(tools);
 	};
+
 	const finishTransaction = async () => {
 		await API.graphql({
-			query: updateTransaction,
-			variables: { input: id },
+			query: createNewTransaction,
+			variables: {
+				id: id,
+				transactionStatus: "Finished",
+				input: {
+					memberId: member.eid,
+					staffMemberId: staffMember.eid,
+					transactionType: "Fulfillment",
+					transactionStatus: "Finished",
+				},
+			},
 		});
+		console.log("DONE!");
 	};
 	const handleItemDone = () => {
 		setItemDone(!itemDone);

@@ -15,7 +15,7 @@ type Transaction
   materials: [Material] @connection
   training: Training @connection
   transactionStatus: String!
-  comment: String
+  transactionComment: String
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
 }
@@ -23,10 +23,9 @@ type Transaction
 type Member
   @model
   @searchable
-  @key(name: "byEID", fields: ["eid", "id"])
-  @key(name: "byMemberType", fields: ["memberType", "id"])
-  @key(name: "byName", fields: ["firstName", "lastName", "id"]) {
-  id: ID! # Required here but the memberInput will have this set to non-required
+  @key(fields: ["eid"])
+  @key(name: "byMemberType", fields: ["memberType", "eid"])
+  @key(name: "byName", fields: ["firstName", "lastName", "eid"]) {
   eid: ID!
   firstName: String!
   lastName: String!
@@ -39,8 +38,8 @@ type Member
   workstation: Tool
   conductRecord: [String]
   memberStatus: String
-  reservations: [Reservation] @connection(fields: ["id"])
-  transactionRecord: [Transaction] @connection(keyName: "byMember", fields: ["id"])
+  reservations: [Reservation] @connection(fields: ["eid"])
+  transactionRecord: [Transaction] @connection(keyName: "byMember", fields: ["eid"])
   bevoCard: String
   memberType: String!
   createdAt: AWSDateTime
@@ -80,7 +79,7 @@ type Material @model {
 type Reservation @model {
 	id: ID
 	member: Member @connection
-	# tool: Tool @connection
+	tool: Tool @connection
 }
 # @auth(allow: groups, groups:["Staff"], operations: [create, update, delete, read, list])
 
@@ -90,7 +89,7 @@ input CreateTransactionInput {
   staffMemberId: ID!
   memberId: ID!
   transactionStatus: String!
-  comment: String
+  transactionComment: String
   createdAt: AWSDateTime
   updatedAt: AWSDateTime
   transactionTrainingId: ID
@@ -100,9 +99,9 @@ input CreateTransactionInput {
 }
 
 type Query {
-  getOutstandingTransactions(status: String!): [Transaction]
+  getOutstandingTransactions(transactionStatus: String!): [Transaction]
   listTransactionsRange(sort: String!, from: String!, limit: Int!): Transaction
 }
 type Mutation {
-  createNewTransaction(input: CreateTransactionInput!): Transaction
+  createNewTransaction(id:ID, transactionStatus: String, transactionComment: String, input: CreateTransactionInput!): ID
 }

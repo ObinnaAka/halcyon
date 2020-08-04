@@ -2,8 +2,9 @@
 // STUDENT REQUESTS
 //--------------------------------------------
 
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect, useContext } from "react";
 import { Request } from "../../../components";
+import AuthContext from "../../../context/auth-context";
 import { API, graphqlOperation } from "aws-amplify";
 import { getOutstandingTransactions, listTransactions } from "../../../graphql/queries";
 import { updateTransaction } from "../../../graphql/mutations";
@@ -15,6 +16,8 @@ const StudentRequests = () => {
 	//--------------------------------------------
 	const [requests, setRequests] = useState(["loading"]);
 	const [subscribe, setSubscribe] = useState(null);
+
+	const { auth } = useContext(AuthContext);
 
 	useLayoutEffect(() => {
 		fetchOutstandingTransactions().then(() => setSubscribe(true));
@@ -96,6 +99,7 @@ const StudentRequests = () => {
 								items={request.tools}
 								requestType={request.transactionType}
 								member={request.member}
+								staffMember={auth}
 								date={request.updatedAt}
 								key={index}
 								workstation={request.member.workstation}
