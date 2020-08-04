@@ -4,7 +4,7 @@
 
 import React, { useState, useEffect, useLayoutEffect, useContext } from "react";
 import { Request } from "../../../components";
-import AuthContext from "../../../context/auth-context";
+import { AuthContext } from "../../../context/auth-context";
 import { API, graphqlOperation } from "aws-amplify";
 import { getOutstandingTransactions, listTransactions } from "../../../graphql/queries";
 import { updateTransaction } from "../../../graphql/mutations";

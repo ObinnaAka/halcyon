@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Route, Redirect } from "react-router-dom";
-import AuthContext from "../../context/auth-context";
+import { AuthContext } from "../../context/auth-context";
 import "./StaffPortal.css";
 import { SectionButton } from "../../components";
 import { Scrollbars } from "react-custom-scrollbars";

@@ -7,9 +7,9 @@ import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 import { API } from "aws-amplify";
 import { createTransaction, createTool, createMember } from "../../../graphql/mutations";
 
-import AuthContext from "../../../context/auth-context";
-
 import "./Maintenance.css";
+
+import { AuthContext } from "../../../context/auth-context";
 
 const toolStatus = ["Checked Out", "Checked in", "Cleaning", "Cleaned", "Repair", "Not in Service"];
 const transactionTypes = [
@@ -38,6 +38,7 @@ const initialToolState = {
 const initialTransactionState = {
 	transactionType: "Test",
 	memberId: members["TIW"],
+	staffMemberId: members["TIW"],
 	transactionStatus: "Processing",
 	transactionComment: "Test",
 };
@@ -52,14 +53,11 @@ const initialMemberState = {
 const MaintenancePage = () => {
 	const { auth } = useContext(AuthContext);
 
-	console.log(auth);
-	const [transaction, setTransaction] = useState({
-		...initialTransactionState,
-		staffMemberId: auth,
-	});
+	const [transaction, setTransaction] = useState(initialTransactionState);
 	const [member, setMember] = useState(initialMemberState);
 	const [tool, setTool] = useState(initialToolState);
 
+	console.log(transaction);
 	//____Handlers____
 	const submitToolHandler = async () => {
 		let newTool = await API.graphql({

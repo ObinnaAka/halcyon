@@ -1,8 +1,10 @@
-import { createContext } from "react";
+import React, { useState, createContext } from "react";
 
-const AuthContext = createContext({
-	auth: {},
-	setAuth: () => {},
-});
+// Create Context Object
+export const AuthContext = createContext();
 
-export default AuthContext;
+// Create a provider for components to consume and subscribe to changes
+export const AuthContextProvider = (props) => {
+	const [auth, setAuth] = useState("Test");
+	return <AuthContext.Provider value={[auth, setAuth]}>{props.children}</AuthContext.Provider>;
+};

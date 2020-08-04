@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import AuthContext from "../../../context/auth-context";
+import { AuthContext } from "../../../context/auth-context";
 
 const TestPage = () => {
 	const [transactionType, setTransactionType] = useState("Tool Checkout");
