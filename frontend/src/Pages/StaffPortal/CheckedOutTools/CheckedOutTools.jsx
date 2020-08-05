@@ -19,7 +19,7 @@ const CheckedOutTools = () => {
 	const fetchTools = async () => {
 		let results = await API.graphql({
 			query: listTools,
-			variables: { filter: { status: { eq: "Checked Out" } } },
+			variables: { filter: { toolStatus: { eq: "Checked Out" } } },
 		});
 		setTools(results.data.listTools.items);
 	};
