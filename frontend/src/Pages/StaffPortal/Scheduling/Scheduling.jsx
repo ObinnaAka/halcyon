@@ -9,7 +9,7 @@ import { listTools } from "../../../graphql/queries";
 import { updateTransaction } from "../../../graphql/mutations";
 import { onCreateTool } from "../../../graphql/subscriptions";
 
-const StudentRequests = () => {
+const Scheduling = () => {
 	//--------------------------------------------
 	// STATE MANAGEMENT
 	//--------------------------------------------
@@ -17,7 +17,7 @@ const StudentRequests = () => {
 	const [subscribe, setSubscribe] = useState(null);
 
 	useLayoutEffect(() => {
-		fetchOutstandingTransactions().then(() => setSubscribe(true));
+		fetchCleanedWorkstations().then(() => setSubscribe(true));
 	}, []);
 
 	useEffect(() => {
@@ -36,16 +36,17 @@ const StudentRequests = () => {
 	//--------------------------------------------
 
 	//--------------------------------------------
-	// Get initial workstations that are "Processing"
+	// Get initial workstations that are "Cleaned"
 	//--------------------------------------------
 
-	const fetchOutstandingTransactions = async () => {
+	const fetchCleanedWorkstations = async () => {
 		//--------------------------------------------
 		// Pull information from the database
 		//--------------------------------------------
 		let results = await API.graphql({
 			query: listTools,
-			variables: { filter: { toolType: { eq: "Workstation" }, status: { eq: "Cleaned" } } },
+			variables: { filter: { toolType: { eq: "Workstation" }, toolStatus: { eq: "Cleaned" } } },
+		
 		});
 
 		//--------------------------------------------
@@ -103,4 +104,4 @@ const StudentRequests = () => {
 	);
 };
 
-export default StudentRequests;
+export default Scheduling;
