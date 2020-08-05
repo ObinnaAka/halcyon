@@ -24,7 +24,7 @@ Amplify.configure(awsExports);
 const logger = new Logger("My-Logger");
 
 const App = () => {
-	// const [auth, setAuth] = useContext(AuthContext);
+	const [auth, setAuth] = useContext(AuthContext);
 
 	useEffect(() => {
 		// console.log(auth);
@@ -80,19 +80,19 @@ const App = () => {
 	}, []);
 
 	const getUser = async () => {
-		return (
-			Auth.currentAuthenticatedUser()
-				.then((userData) => userData.username)
-				// .then((userData) => setAuth(userData.username))
-				.catch(() => console.log("Not signed in"))
-		);
-		// let member = await API.graphql({
-		// 		query: createMember,
-		// 		variables: {
-		// 			eid: eid,
-		// 		},
-		// 	});
-		// 	return member.data.getMember.eid;
+		let eid = Auth.currentAuthenticatedUser()
+			.then((userData) => userData.username)
+			// .then((userData) => setAuth(userData.username))
+			.catch(() => console.log("Not signed in"));
+
+		let member = await API.graphql({
+			query: createMember,
+			variables: {
+				eid: eid,
+			},
+		});
+		setAuth(member.data.getMember);
+		return member.data.getMember;
 	};
 
 	const createUser = async () => {

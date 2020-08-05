@@ -1,0 +1,93 @@
+{
+	"providers": {
+		"awscloudformation": {
+			"AuthRoleName": "amplify-tiw-dev-05655-authRole",
+			"UnauthRoleArn": "arn:aws:iam::107464086687:role/amplify-tiw-dev-05655-unauthRole",
+			"AuthRoleArn": "arn:aws:iam::107464086687:role/amplify-tiw-dev-05655-authRole",
+			"Region": "us-east-1",
+			"DeploymentBucketName": "amplify-tiw-dev-05655-deployment",
+			"UnauthRoleName": "amplify-tiw-dev-05655-unauthRole",
+			"StackName": "amplify-tiw-dev-05655",
+			"StackId": "arn:aws:cloudformation:us-east-1:107464086687:stack/amplify-tiw-dev-05655/4ef3bdd0-d617-11ea-8d5d-0a8540e42a70",
+			"AmplifyAppId": "d19xz995nuxv35"
+		}
+	},
+	"api": {
+		"tiw": {
+			"service": "AppSync",
+			"providerPlugin": "awscloudformation",
+			"output": {
+				"authConfig": {
+					"additionalAuthenticationProviders": [],
+					"defaultAuthentication": {
+						"authenticationType": "API_KEY",
+						"apiKeyConfig": {
+							"description": "Default",
+							"apiKeyExpirationDays": 30
+						}
+					}
+				},
+				"GraphQLAPIIdOutput": "xqspcagsxrdbdkissyk3rct2sm",
+				"GraphQLAPIEndpointOutput": "https://bykckzhevvaerhsrvnthfukgmu.appsync-api.us-east-1.amazonaws.com/graphql",
+				"GraphQLAPIKeyOutput": "da2-kyqaw7rm5zfstad5zybjqokcnm"
+			},
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-tiw-dev-05655-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+				"logicalId": "apitiw"
+			},
+			"lastPushTimeStamp": "2020-08-04T17:42:56.576Z",
+			"lastPushDirHash": "ayXcvyLPg/6lD4+Gceaw71rM6lU="
+		}
+	},
+	"auth": {
+		"tiwa61444a0": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [],
+			"lastPushTimeStamp": "2020-08-04T17:42:55.551Z",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-tiw-dev-05655-deployment/amplify-cfn-templates/auth/tiwa61444a0-cloudformation-template.yml",
+				"logicalId": "authtiwa61444a0"
+			},
+			"output": {
+				"AppClientSecret": "1apupgcd886j1t0ltiufalk4ggl8col5h8d5hdne98d4dko3n6ca",
+				"UserPoolId": "us-east-1_DQ3dxLeZO",
+				"AppClientIDWeb": "32suesrpc8o9hoq2rdff4l9bv1",
+				"AppClientID": "60ljrrnjs8vbfhul1578p3j7ou",
+				"HostedUIDomain": "tiw-dev",
+				"IdentityPoolId": "us-east-1:89748313-41d2-40ce-a9ce-774a2a12533e",
+				"IdentityPoolName": "tiwa61444a0_identitypool_a61444a0__dev",
+				"OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:3000/\"],\"LogoutURLs\":[\"http://localhost:3000/\"]}",
+				"UserPoolName": "tiwa61444a0_userpool_a61444a0"
+			},
+			"lastPushDirHash": "2MBjMZZIjfZbGO+as7SnXvUddEw="
+		},
+		"userPoolGroups": {
+			"service": "Cognito-UserPool-Groups",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [
+				{
+					"category": "auth",
+					"resourceName": "tiwa61444a0",
+					"attributes": [
+						"UserPoolId",
+						"AppClientIDWeb",
+						"AppClientID",
+						"IdentityPoolId"
+					]
+				}
+			],
+			"lastPushTimeStamp": "2020-08-04T17:42:55.552Z",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-tiw-dev-05655-deployment/amplify-cfn-templates/auth/template.json",
+				"logicalId": "authuserPoolGroups"
+			},
+			"output": {
+				"StaffGroupRole": "arn:aws:iam::107464086687:role/us-east-1_DQ3dxLeZO-StaffGroupRole",
+				"AdminGroupRole": "arn:aws:iam::107464086687:role/us-east-1_DQ3dxLeZO-AdminGroupRole",
+				"ZeroGroupRole": "arn:aws:iam::107464086687:role/us-east-1_DQ3dxLeZO-ZeroGroupRole"
+			},
+			"lastPushDirHash": "1l4/J/Ms9vA15hR8z+PTExdxQ8Y="
+		}
+	}
+}

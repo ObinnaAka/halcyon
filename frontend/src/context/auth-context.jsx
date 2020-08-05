@@ -1,7 +1,10 @@
 import React, { useState, createContext } from "react";
 
 // Create Context Object
-export const AuthContext = createContext();
+export const AuthContext = createContext({
+	auth: {},
+	setAuth: () => {},
+});
 
 // Create a provider for components to consume and subscribe to changes
 export const AuthContextProvider = (props) => {
