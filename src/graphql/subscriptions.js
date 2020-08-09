@@ -7,7 +7,6 @@ export const onCreateTransaction = /* GraphQL */ `
       id
       transactionType
       staffMember {
-        id
         eid
         firstName
         lastName
@@ -22,38 +21,35 @@ export const onCreateTransaction = /* GraphQL */ `
           updatedAt
         }
         itemRecord {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
+          nextToken
         }
         workstation {
           id
           name
+          description
           location
-          status
+          toolStatus
           currentHolderId
+          currentWorkstationId
+          transactionRecordId
           toolType
           updatedAt
           createdAt
         }
         conductRecord
-        conductStatus
+        memberStatus
+        reservations {
+          nextToken
+        }
         transactionRecord {
           nextToken
         }
         bevoCard
-        memberType
         createdAt
         updatedAt
       }
       staffMemberId
       member {
-        id
         eid
         firstName
         lastName
@@ -68,57 +64,48 @@ export const onCreateTransaction = /* GraphQL */ `
           updatedAt
         }
         itemRecord {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
+          nextToken
         }
         workstation {
           id
           name
+          description
           location
-          status
+          toolStatus
           currentHolderId
+          currentWorkstationId
+          transactionRecordId
           toolType
           updatedAt
           createdAt
         }
         conductRecord
-        conductStatus
+        memberStatus
+        reservations {
+          nextToken
+        }
         transactionRecord {
           nextToken
         }
         bevoCard
-        memberType
         createdAt
         updatedAt
       }
       memberId
-      tools {
-        items {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
-        }
-        nextToken
-      }
+      tools
+      materials
       training {
         id
         name
+        transactionRecord {
+          nextToken
+        }
         createdAt
         updatedAt
       }
-      status
-      comment
+      request
+      transactionStatus
+      transactionComment
       createdAt
       updatedAt
       version
@@ -131,7 +118,6 @@ export const onUpdateTransaction = /* GraphQL */ `
       id
       transactionType
       staffMember {
-        id
         eid
         firstName
         lastName
@@ -146,38 +132,35 @@ export const onUpdateTransaction = /* GraphQL */ `
           updatedAt
         }
         itemRecord {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
+          nextToken
         }
         workstation {
           id
           name
+          description
           location
-          status
+          toolStatus
           currentHolderId
+          currentWorkstationId
+          transactionRecordId
           toolType
           updatedAt
           createdAt
         }
         conductRecord
-        conductStatus
+        memberStatus
+        reservations {
+          nextToken
+        }
         transactionRecord {
           nextToken
         }
         bevoCard
-        memberType
         createdAt
         updatedAt
       }
       staffMemberId
       member {
-        id
         eid
         firstName
         lastName
@@ -192,57 +175,48 @@ export const onUpdateTransaction = /* GraphQL */ `
           updatedAt
         }
         itemRecord {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
+          nextToken
         }
         workstation {
           id
           name
+          description
           location
-          status
+          toolStatus
           currentHolderId
+          currentWorkstationId
+          transactionRecordId
           toolType
           updatedAt
           createdAt
         }
         conductRecord
-        conductStatus
+        memberStatus
+        reservations {
+          nextToken
+        }
         transactionRecord {
           nextToken
         }
         bevoCard
-        memberType
         createdAt
         updatedAt
       }
       memberId
-      tools {
-        items {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
-        }
-        nextToken
-      }
+      tools
+      materials
       training {
         id
         name
+        transactionRecord {
+          nextToken
+        }
         createdAt
         updatedAt
       }
-      status
-      comment
+      request
+      transactionStatus
+      transactionComment
       createdAt
       updatedAt
       version
@@ -255,7 +229,6 @@ export const onDeleteTransaction = /* GraphQL */ `
       id
       transactionType
       staffMember {
-        id
         eid
         firstName
         lastName
@@ -270,38 +243,35 @@ export const onDeleteTransaction = /* GraphQL */ `
           updatedAt
         }
         itemRecord {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
+          nextToken
         }
         workstation {
           id
           name
+          description
           location
-          status
+          toolStatus
           currentHolderId
+          currentWorkstationId
+          transactionRecordId
           toolType
           updatedAt
           createdAt
         }
         conductRecord
-        conductStatus
+        memberStatus
+        reservations {
+          nextToken
+        }
         transactionRecord {
           nextToken
         }
         bevoCard
-        memberType
         createdAt
         updatedAt
       }
       staffMemberId
       member {
-        id
         eid
         firstName
         lastName
@@ -316,57 +286,48 @@ export const onDeleteTransaction = /* GraphQL */ `
           updatedAt
         }
         itemRecord {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
+          nextToken
         }
         workstation {
           id
           name
+          description
           location
-          status
+          toolStatus
           currentHolderId
+          currentWorkstationId
+          transactionRecordId
           toolType
           updatedAt
           createdAt
         }
         conductRecord
-        conductStatus
+        memberStatus
+        reservations {
+          nextToken
+        }
         transactionRecord {
           nextToken
         }
         bevoCard
-        memberType
         createdAt
         updatedAt
       }
       memberId
-      tools {
-        items {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
-        }
-        nextToken
-      }
+      tools
+      materials
       training {
         id
         name
+        transactionRecord {
+          nextToken
+        }
         createdAt
         updatedAt
       }
-      status
-      comment
+      request
+      transactionStatus
+      transactionComment
       createdAt
       updatedAt
       version
@@ -376,7 +337,6 @@ export const onDeleteTransaction = /* GraphQL */ `
 export const onCreateMember = /* GraphQL */ `
   subscription OnCreateMember {
     onCreateMember {
-      id
       eid
       firstName
       lastName
@@ -387,55 +347,35 @@ export const onCreateMember = /* GraphQL */ `
       trainings {
         id
         name
+        transactionRecord {
+          nextToken
+        }
         createdAt
         updatedAt
       }
       itemRecord {
-        id
-        name
-        location
-        status
-        currentHolder {
-          id
-          eid
-          firstName
-          lastName
-          password
-          phone
-          signInStatus
-          email
-          conductRecord
-          conductStatus
-          bevoCard
-          memberType
-          createdAt
-          updatedAt
-        }
-        currentHolderId
-        currentWorkstation {
+        items {
           id
           name
+          description
           location
-          status
+          toolStatus
           currentHolderId
+          currentWorkstationId
+          transactionRecordId
           toolType
           updatedAt
           createdAt
         }
-        transactionRecord {
-          nextToken
-        }
-        toolType
-        updatedAt
-        createdAt
+        nextToken
       }
       workstation {
         id
         name
+        description
         location
-        status
+        toolStatus
         currentHolder {
-          id
           eid
           firstName
           lastName
@@ -444,9 +384,8 @@ export const onCreateMember = /* GraphQL */ `
           signInStatus
           email
           conductRecord
-          conductStatus
+          memberStatus
           bevoCard
-          memberType
           createdAt
           updatedAt
         }
@@ -454,30 +393,62 @@ export const onCreateMember = /* GraphQL */ `
         currentWorkstation {
           id
           name
+          description
           location
-          status
+          toolStatus
           currentHolderId
+          currentWorkstationId
+          transactionRecordId
           toolType
           updatedAt
           createdAt
         }
-        transactionRecord {
+        currentWorkstationId
+        reservations {
           nextToken
         }
+        transactionRecord {
+          id
+          transactionType
+          staffMemberId
+          memberId
+          tools
+          materials
+          request
+          transactionStatus
+          transactionComment
+          createdAt
+          updatedAt
+          version
+        }
+        transactionRecordId
         toolType
         updatedAt
         createdAt
       }
       conductRecord
-      conductStatus
+      memberStatus
+      reservations {
+        items {
+          id
+          memberId
+          toolId
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       transactionRecord {
         items {
           id
           transactionType
           staffMemberId
           memberId
-          status
-          comment
+          tools
+          materials
+          request
+          transactionStatus
+          transactionComment
           createdAt
           updatedAt
           version
@@ -485,7 +456,6 @@ export const onCreateMember = /* GraphQL */ `
         nextToken
       }
       bevoCard
-      memberType
       createdAt
       updatedAt
     }
@@ -494,7 +464,6 @@ export const onCreateMember = /* GraphQL */ `
 export const onUpdateMember = /* GraphQL */ `
   subscription OnUpdateMember {
     onUpdateMember {
-      id
       eid
       firstName
       lastName
@@ -505,55 +474,35 @@ export const onUpdateMember = /* GraphQL */ `
       trainings {
         id
         name
+        transactionRecord {
+          nextToken
+        }
         createdAt
         updatedAt
       }
       itemRecord {
-        id
-        name
-        location
-        status
-        currentHolder {
-          id
-          eid
-          firstName
-          lastName
-          password
-          phone
-          signInStatus
-          email
-          conductRecord
-          conductStatus
-          bevoCard
-          memberType
-          createdAt
-          updatedAt
-        }
-        currentHolderId
-        currentWorkstation {
+        items {
           id
           name
+          description
           location
-          status
+          toolStatus
           currentHolderId
+          currentWorkstationId
+          transactionRecordId
           toolType
           updatedAt
           createdAt
         }
-        transactionRecord {
-          nextToken
-        }
-        toolType
-        updatedAt
-        createdAt
+        nextToken
       }
       workstation {
         id
         name
+        description
         location
-        status
+        toolStatus
         currentHolder {
-          id
           eid
           firstName
           lastName
@@ -562,9 +511,8 @@ export const onUpdateMember = /* GraphQL */ `
           signInStatus
           email
           conductRecord
-          conductStatus
+          memberStatus
           bevoCard
-          memberType
           createdAt
           updatedAt
         }
@@ -572,30 +520,62 @@ export const onUpdateMember = /* GraphQL */ `
         currentWorkstation {
           id
           name
+          description
           location
-          status
+          toolStatus
           currentHolderId
+          currentWorkstationId
+          transactionRecordId
           toolType
           updatedAt
           createdAt
         }
-        transactionRecord {
+        currentWorkstationId
+        reservations {
           nextToken
         }
+        transactionRecord {
+          id
+          transactionType
+          staffMemberId
+          memberId
+          tools
+          materials
+          request
+          transactionStatus
+          transactionComment
+          createdAt
+          updatedAt
+          version
+        }
+        transactionRecordId
         toolType
         updatedAt
         createdAt
       }
       conductRecord
-      conductStatus
+      memberStatus
+      reservations {
+        items {
+          id
+          memberId
+          toolId
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       transactionRecord {
         items {
           id
           transactionType
           staffMemberId
           memberId
-          status
-          comment
+          tools
+          materials
+          request
+          transactionStatus
+          transactionComment
           createdAt
           updatedAt
           version
@@ -603,7 +583,6 @@ export const onUpdateMember = /* GraphQL */ `
         nextToken
       }
       bevoCard
-      memberType
       createdAt
       updatedAt
     }
@@ -612,7 +591,6 @@ export const onUpdateMember = /* GraphQL */ `
 export const onDeleteMember = /* GraphQL */ `
   subscription OnDeleteMember {
     onDeleteMember {
-      id
       eid
       firstName
       lastName
@@ -623,55 +601,35 @@ export const onDeleteMember = /* GraphQL */ `
       trainings {
         id
         name
+        transactionRecord {
+          nextToken
+        }
         createdAt
         updatedAt
       }
       itemRecord {
-        id
-        name
-        location
-        status
-        currentHolder {
-          id
-          eid
-          firstName
-          lastName
-          password
-          phone
-          signInStatus
-          email
-          conductRecord
-          conductStatus
-          bevoCard
-          memberType
-          createdAt
-          updatedAt
-        }
-        currentHolderId
-        currentWorkstation {
+        items {
           id
           name
+          description
           location
-          status
+          toolStatus
           currentHolderId
+          currentWorkstationId
+          transactionRecordId
           toolType
           updatedAt
           createdAt
         }
-        transactionRecord {
-          nextToken
-        }
-        toolType
-        updatedAt
-        createdAt
+        nextToken
       }
       workstation {
         id
         name
+        description
         location
-        status
+        toolStatus
         currentHolder {
-          id
           eid
           firstName
           lastName
@@ -680,9 +638,8 @@ export const onDeleteMember = /* GraphQL */ `
           signInStatus
           email
           conductRecord
-          conductStatus
+          memberStatus
           bevoCard
-          memberType
           createdAt
           updatedAt
         }
@@ -690,30 +647,62 @@ export const onDeleteMember = /* GraphQL */ `
         currentWorkstation {
           id
           name
+          description
           location
-          status
+          toolStatus
           currentHolderId
+          currentWorkstationId
+          transactionRecordId
           toolType
           updatedAt
           createdAt
         }
-        transactionRecord {
+        currentWorkstationId
+        reservations {
           nextToken
         }
+        transactionRecord {
+          id
+          transactionType
+          staffMemberId
+          memberId
+          tools
+          materials
+          request
+          transactionStatus
+          transactionComment
+          createdAt
+          updatedAt
+          version
+        }
+        transactionRecordId
         toolType
         updatedAt
         createdAt
       }
       conductRecord
-      conductStatus
+      memberStatus
+      reservations {
+        items {
+          id
+          memberId
+          toolId
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       transactionRecord {
         items {
           id
           transactionType
           staffMemberId
           memberId
-          status
-          comment
+          tools
+          materials
+          request
+          transactionStatus
+          transactionComment
           createdAt
           updatedAt
           version
@@ -721,7 +710,6 @@ export const onDeleteMember = /* GraphQL */ `
         nextToken
       }
       bevoCard
-      memberType
       createdAt
       updatedAt
     }
@@ -732,10 +720,10 @@ export const onCreateTool = /* GraphQL */ `
     onCreateTool {
       id
       name
+      description
       location
-      status
+      toolStatus
       currentHolder {
-        id
         eid
         firstName
         lastName
@@ -750,32 +738,30 @@ export const onCreateTool = /* GraphQL */ `
           updatedAt
         }
         itemRecord {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
+          nextToken
         }
         workstation {
           id
           name
+          description
           location
-          status
+          toolStatus
           currentHolderId
+          currentWorkstationId
+          transactionRecordId
           toolType
           updatedAt
           createdAt
         }
         conductRecord
-        conductStatus
+        memberStatus
+        reservations {
+          nextToken
+        }
         transactionRecord {
           nextToken
         }
         bevoCard
-        memberType
         createdAt
         updatedAt
       }
@@ -783,10 +769,10 @@ export const onCreateTool = /* GraphQL */ `
       currentWorkstation {
         id
         name
+        description
         location
-        status
+        toolStatus
         currentHolder {
-          id
           eid
           firstName
           lastName
@@ -795,9 +781,8 @@ export const onCreateTool = /* GraphQL */ `
           signInStatus
           email
           conductRecord
-          conductStatus
+          memberStatus
           bevoCard
-          memberType
           createdAt
           updatedAt
         }
@@ -805,34 +790,99 @@ export const onCreateTool = /* GraphQL */ `
         currentWorkstation {
           id
           name
+          description
           location
-          status
+          toolStatus
           currentHolderId
+          currentWorkstationId
+          transactionRecordId
           toolType
           updatedAt
           createdAt
         }
-        transactionRecord {
+        currentWorkstationId
+        reservations {
           nextToken
         }
-        toolType
-        updatedAt
-        createdAt
-      }
-      transactionRecord {
-        items {
+        transactionRecord {
           id
           transactionType
           staffMemberId
           memberId
-          status
-          comment
+          tools
+          materials
+          request
+          transactionStatus
+          transactionComment
           createdAt
           updatedAt
           version
         }
+        transactionRecordId
+        toolType
+        updatedAt
+        createdAt
+      }
+      currentWorkstationId
+      reservations {
+        items {
+          id
+          memberId
+          toolId
+          createdAt
+          updatedAt
+        }
         nextToken
       }
+      transactionRecord {
+        id
+        transactionType
+        staffMember {
+          eid
+          firstName
+          lastName
+          password
+          phone
+          signInStatus
+          email
+          conductRecord
+          memberStatus
+          bevoCard
+          createdAt
+          updatedAt
+        }
+        staffMemberId
+        member {
+          eid
+          firstName
+          lastName
+          password
+          phone
+          signInStatus
+          email
+          conductRecord
+          memberStatus
+          bevoCard
+          createdAt
+          updatedAt
+        }
+        memberId
+        tools
+        materials
+        training {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        request
+        transactionStatus
+        transactionComment
+        createdAt
+        updatedAt
+        version
+      }
+      transactionRecordId
       toolType
       updatedAt
       createdAt
@@ -844,10 +894,10 @@ export const onUpdateTool = /* GraphQL */ `
     onUpdateTool {
       id
       name
+      description
       location
-      status
+      toolStatus
       currentHolder {
-        id
         eid
         firstName
         lastName
@@ -862,32 +912,30 @@ export const onUpdateTool = /* GraphQL */ `
           updatedAt
         }
         itemRecord {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
+          nextToken
         }
         workstation {
           id
           name
+          description
           location
-          status
+          toolStatus
           currentHolderId
+          currentWorkstationId
+          transactionRecordId
           toolType
           updatedAt
           createdAt
         }
         conductRecord
-        conductStatus
+        memberStatus
+        reservations {
+          nextToken
+        }
         transactionRecord {
           nextToken
         }
         bevoCard
-        memberType
         createdAt
         updatedAt
       }
@@ -895,10 +943,10 @@ export const onUpdateTool = /* GraphQL */ `
       currentWorkstation {
         id
         name
+        description
         location
-        status
+        toolStatus
         currentHolder {
-          id
           eid
           firstName
           lastName
@@ -907,9 +955,8 @@ export const onUpdateTool = /* GraphQL */ `
           signInStatus
           email
           conductRecord
-          conductStatus
+          memberStatus
           bevoCard
-          memberType
           createdAt
           updatedAt
         }
@@ -917,34 +964,99 @@ export const onUpdateTool = /* GraphQL */ `
         currentWorkstation {
           id
           name
+          description
           location
-          status
+          toolStatus
           currentHolderId
+          currentWorkstationId
+          transactionRecordId
           toolType
           updatedAt
           createdAt
         }
-        transactionRecord {
+        currentWorkstationId
+        reservations {
           nextToken
         }
-        toolType
-        updatedAt
-        createdAt
-      }
-      transactionRecord {
-        items {
+        transactionRecord {
           id
           transactionType
           staffMemberId
           memberId
-          status
-          comment
+          tools
+          materials
+          request
+          transactionStatus
+          transactionComment
           createdAt
           updatedAt
           version
         }
+        transactionRecordId
+        toolType
+        updatedAt
+        createdAt
+      }
+      currentWorkstationId
+      reservations {
+        items {
+          id
+          memberId
+          toolId
+          createdAt
+          updatedAt
+        }
         nextToken
       }
+      transactionRecord {
+        id
+        transactionType
+        staffMember {
+          eid
+          firstName
+          lastName
+          password
+          phone
+          signInStatus
+          email
+          conductRecord
+          memberStatus
+          bevoCard
+          createdAt
+          updatedAt
+        }
+        staffMemberId
+        member {
+          eid
+          firstName
+          lastName
+          password
+          phone
+          signInStatus
+          email
+          conductRecord
+          memberStatus
+          bevoCard
+          createdAt
+          updatedAt
+        }
+        memberId
+        tools
+        materials
+        training {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        request
+        transactionStatus
+        transactionComment
+        createdAt
+        updatedAt
+        version
+      }
+      transactionRecordId
       toolType
       updatedAt
       createdAt
@@ -956,10 +1068,10 @@ export const onDeleteTool = /* GraphQL */ `
     onDeleteTool {
       id
       name
+      description
       location
-      status
+      toolStatus
       currentHolder {
-        id
         eid
         firstName
         lastName
@@ -974,32 +1086,30 @@ export const onDeleteTool = /* GraphQL */ `
           updatedAt
         }
         itemRecord {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
+          nextToken
         }
         workstation {
           id
           name
+          description
           location
-          status
+          toolStatus
           currentHolderId
+          currentWorkstationId
+          transactionRecordId
           toolType
           updatedAt
           createdAt
         }
         conductRecord
-        conductStatus
+        memberStatus
+        reservations {
+          nextToken
+        }
         transactionRecord {
           nextToken
         }
         bevoCard
-        memberType
         createdAt
         updatedAt
       }
@@ -1007,10 +1117,10 @@ export const onDeleteTool = /* GraphQL */ `
       currentWorkstation {
         id
         name
+        description
         location
-        status
+        toolStatus
         currentHolder {
-          id
           eid
           firstName
           lastName
@@ -1019,9 +1129,8 @@ export const onDeleteTool = /* GraphQL */ `
           signInStatus
           email
           conductRecord
-          conductStatus
+          memberStatus
           bevoCard
-          memberType
           createdAt
           updatedAt
         }
@@ -1029,34 +1138,99 @@ export const onDeleteTool = /* GraphQL */ `
         currentWorkstation {
           id
           name
+          description
           location
-          status
+          toolStatus
           currentHolderId
+          currentWorkstationId
+          transactionRecordId
           toolType
           updatedAt
           createdAt
         }
-        transactionRecord {
+        currentWorkstationId
+        reservations {
           nextToken
         }
-        toolType
-        updatedAt
-        createdAt
-      }
-      transactionRecord {
-        items {
+        transactionRecord {
           id
           transactionType
           staffMemberId
           memberId
-          status
-          comment
+          tools
+          materials
+          request
+          transactionStatus
+          transactionComment
           createdAt
           updatedAt
           version
         }
+        transactionRecordId
+        toolType
+        updatedAt
+        createdAt
+      }
+      currentWorkstationId
+      reservations {
+        items {
+          id
+          memberId
+          toolId
+          createdAt
+          updatedAt
+        }
         nextToken
       }
+      transactionRecord {
+        id
+        transactionType
+        staffMember {
+          eid
+          firstName
+          lastName
+          password
+          phone
+          signInStatus
+          email
+          conductRecord
+          memberStatus
+          bevoCard
+          createdAt
+          updatedAt
+        }
+        staffMemberId
+        member {
+          eid
+          firstName
+          lastName
+          password
+          phone
+          signInStatus
+          email
+          conductRecord
+          memberStatus
+          bevoCard
+          createdAt
+          updatedAt
+        }
+        memberId
+        tools
+        materials
+        training {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        request
+        transactionStatus
+        transactionComment
+        createdAt
+        updatedAt
+        version
+      }
+      transactionRecordId
       toolType
       updatedAt
       createdAt
@@ -1068,6 +1242,23 @@ export const onCreateTraining = /* GraphQL */ `
     onCreateTraining {
       id
       name
+      transactionRecord {
+        items {
+          id
+          transactionType
+          staffMemberId
+          memberId
+          tools
+          materials
+          request
+          transactionStatus
+          transactionComment
+          createdAt
+          updatedAt
+          version
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -1078,6 +1269,23 @@ export const onUpdateTraining = /* GraphQL */ `
     onUpdateTraining {
       id
       name
+      transactionRecord {
+        items {
+          id
+          transactionType
+          staffMemberId
+          memberId
+          tools
+          materials
+          request
+          transactionStatus
+          transactionComment
+          createdAt
+          updatedAt
+          version
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -1088,6 +1296,563 @@ export const onDeleteTraining = /* GraphQL */ `
     onDeleteTraining {
       id
       name
+      transactionRecord {
+        items {
+          id
+          transactionType
+          staffMemberId
+          memberId
+          tools
+          materials
+          request
+          transactionStatus
+          transactionComment
+          createdAt
+          updatedAt
+          version
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateMaterial = /* GraphQL */ `
+  subscription OnCreateMaterial {
+    onCreateMaterial {
+      id
+      name
+      transactionRecord {
+        id
+        transactionType
+        staffMember {
+          eid
+          firstName
+          lastName
+          password
+          phone
+          signInStatus
+          email
+          conductRecord
+          memberStatus
+          bevoCard
+          createdAt
+          updatedAt
+        }
+        staffMemberId
+        member {
+          eid
+          firstName
+          lastName
+          password
+          phone
+          signInStatus
+          email
+          conductRecord
+          memberStatus
+          bevoCard
+          createdAt
+          updatedAt
+        }
+        memberId
+        tools
+        materials
+        training {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        request
+        transactionStatus
+        transactionComment
+        createdAt
+        updatedAt
+        version
+      }
+      count
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateMaterial = /* GraphQL */ `
+  subscription OnUpdateMaterial {
+    onUpdateMaterial {
+      id
+      name
+      transactionRecord {
+        id
+        transactionType
+        staffMember {
+          eid
+          firstName
+          lastName
+          password
+          phone
+          signInStatus
+          email
+          conductRecord
+          memberStatus
+          bevoCard
+          createdAt
+          updatedAt
+        }
+        staffMemberId
+        member {
+          eid
+          firstName
+          lastName
+          password
+          phone
+          signInStatus
+          email
+          conductRecord
+          memberStatus
+          bevoCard
+          createdAt
+          updatedAt
+        }
+        memberId
+        tools
+        materials
+        training {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        request
+        transactionStatus
+        transactionComment
+        createdAt
+        updatedAt
+        version
+      }
+      count
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteMaterial = /* GraphQL */ `
+  subscription OnDeleteMaterial {
+    onDeleteMaterial {
+      id
+      name
+      transactionRecord {
+        id
+        transactionType
+        staffMember {
+          eid
+          firstName
+          lastName
+          password
+          phone
+          signInStatus
+          email
+          conductRecord
+          memberStatus
+          bevoCard
+          createdAt
+          updatedAt
+        }
+        staffMemberId
+        member {
+          eid
+          firstName
+          lastName
+          password
+          phone
+          signInStatus
+          email
+          conductRecord
+          memberStatus
+          bevoCard
+          createdAt
+          updatedAt
+        }
+        memberId
+        tools
+        materials
+        training {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        request
+        transactionStatus
+        transactionComment
+        createdAt
+        updatedAt
+        version
+      }
+      count
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateInventory = /* GraphQL */ `
+  subscription OnCreateInventory {
+    onCreateInventory {
+      name
+      count
+      category
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateInventory = /* GraphQL */ `
+  subscription OnUpdateInventory {
+    onUpdateInventory {
+      name
+      count
+      category
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteInventory = /* GraphQL */ `
+  subscription OnDeleteInventory {
+    onDeleteInventory {
+      name
+      count
+      category
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateReservation = /* GraphQL */ `
+  subscription OnCreateReservation {
+    onCreateReservation {
+      id
+      member {
+        eid
+        firstName
+        lastName
+        password
+        phone
+        signInStatus
+        email
+        trainings {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        itemRecord {
+          nextToken
+        }
+        workstation {
+          id
+          name
+          description
+          location
+          toolStatus
+          currentHolderId
+          currentWorkstationId
+          transactionRecordId
+          toolType
+          updatedAt
+          createdAt
+        }
+        conductRecord
+        memberStatus
+        reservations {
+          nextToken
+        }
+        transactionRecord {
+          nextToken
+        }
+        bevoCard
+        createdAt
+        updatedAt
+      }
+      memberId
+      tool {
+        id
+        name
+        description
+        location
+        toolStatus
+        currentHolder {
+          eid
+          firstName
+          lastName
+          password
+          phone
+          signInStatus
+          email
+          conductRecord
+          memberStatus
+          bevoCard
+          createdAt
+          updatedAt
+        }
+        currentHolderId
+        currentWorkstation {
+          id
+          name
+          description
+          location
+          toolStatus
+          currentHolderId
+          currentWorkstationId
+          transactionRecordId
+          toolType
+          updatedAt
+          createdAt
+        }
+        currentWorkstationId
+        reservations {
+          nextToken
+        }
+        transactionRecord {
+          id
+          transactionType
+          staffMemberId
+          memberId
+          tools
+          materials
+          request
+          transactionStatus
+          transactionComment
+          createdAt
+          updatedAt
+          version
+        }
+        transactionRecordId
+        toolType
+        updatedAt
+        createdAt
+      }
+      toolId
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateReservation = /* GraphQL */ `
+  subscription OnUpdateReservation {
+    onUpdateReservation {
+      id
+      member {
+        eid
+        firstName
+        lastName
+        password
+        phone
+        signInStatus
+        email
+        trainings {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        itemRecord {
+          nextToken
+        }
+        workstation {
+          id
+          name
+          description
+          location
+          toolStatus
+          currentHolderId
+          currentWorkstationId
+          transactionRecordId
+          toolType
+          updatedAt
+          createdAt
+        }
+        conductRecord
+        memberStatus
+        reservations {
+          nextToken
+        }
+        transactionRecord {
+          nextToken
+        }
+        bevoCard
+        createdAt
+        updatedAt
+      }
+      memberId
+      tool {
+        id
+        name
+        description
+        location
+        toolStatus
+        currentHolder {
+          eid
+          firstName
+          lastName
+          password
+          phone
+          signInStatus
+          email
+          conductRecord
+          memberStatus
+          bevoCard
+          createdAt
+          updatedAt
+        }
+        currentHolderId
+        currentWorkstation {
+          id
+          name
+          description
+          location
+          toolStatus
+          currentHolderId
+          currentWorkstationId
+          transactionRecordId
+          toolType
+          updatedAt
+          createdAt
+        }
+        currentWorkstationId
+        reservations {
+          nextToken
+        }
+        transactionRecord {
+          id
+          transactionType
+          staffMemberId
+          memberId
+          tools
+          materials
+          request
+          transactionStatus
+          transactionComment
+          createdAt
+          updatedAt
+          version
+        }
+        transactionRecordId
+        toolType
+        updatedAt
+        createdAt
+      }
+      toolId
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteReservation = /* GraphQL */ `
+  subscription OnDeleteReservation {
+    onDeleteReservation {
+      id
+      member {
+        eid
+        firstName
+        lastName
+        password
+        phone
+        signInStatus
+        email
+        trainings {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        itemRecord {
+          nextToken
+        }
+        workstation {
+          id
+          name
+          description
+          location
+          toolStatus
+          currentHolderId
+          currentWorkstationId
+          transactionRecordId
+          toolType
+          updatedAt
+          createdAt
+        }
+        conductRecord
+        memberStatus
+        reservations {
+          nextToken
+        }
+        transactionRecord {
+          nextToken
+        }
+        bevoCard
+        createdAt
+        updatedAt
+      }
+      memberId
+      tool {
+        id
+        name
+        description
+        location
+        toolStatus
+        currentHolder {
+          eid
+          firstName
+          lastName
+          password
+          phone
+          signInStatus
+          email
+          conductRecord
+          memberStatus
+          bevoCard
+          createdAt
+          updatedAt
+        }
+        currentHolderId
+        currentWorkstation {
+          id
+          name
+          description
+          location
+          toolStatus
+          currentHolderId
+          currentWorkstationId
+          transactionRecordId
+          toolType
+          updatedAt
+          createdAt
+        }
+        currentWorkstationId
+        reservations {
+          nextToken
+        }
+        transactionRecord {
+          id
+          transactionType
+          staffMemberId
+          memberId
+          tools
+          materials
+          request
+          transactionStatus
+          transactionComment
+          createdAt
+          updatedAt
+          version
+        }
+        transactionRecordId
+        toolType
+        updatedAt
+        createdAt
+      }
+      toolId
       createdAt
       updatedAt
     }

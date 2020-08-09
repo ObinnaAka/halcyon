@@ -1,27 +1,79 @@
 # TIW
-<h1>Texas Inventionworks repository for student and equipment management</h1>
-<br>
+Texas Inventionworks repository for student and equipment management
 
-<h2>You will need a '<ins>tiw.env</ins>' file to access the database using this application. Please request for one from the admin and place it in the root folder of the cloned repository</h2>
+Texas Inventionworks repository for student and equipment management
 
-<br>
+Before starting, run
 
-<h2>You will need to install '<a href="https://nodejs.org/en/"><ins>Node.js</ins></a>' to run these files</h2>
+### 'npm install'
 
-<br>
+## to get all the dependencies
 
-<h2>After cloning the repository, open your terminal and run '<ins>npm install</ins>' <br> <br> Then run 'npm run first_start' to downoload all core dependancies and launch application</h2>
-<br>
-<br>
-<br>
-<h3>On subsequent launches, use '<ins>npm start</ins>' to to launch both the Frontend and Server simultaneously</h3>
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-<h3>Run 'npm run frontend' to run just the website</h3>
+## Available Scripts
 
-<h3>Run 'npm run server' to run just the server</h3>
+In the project directory, you can run:
 
-<h3>Run 'npm run install' to reinstall all dependencies for the frontend and server</h3>
+### `npm start`
 
-<h3>Run 'npm run install_frontend' to reinstall all dependencies for only the frontend</h3>
+Runs the app in the development mode.<br />
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-<h3>Run 'npm run install_server' to reinstall all dependencies for only the server</h3>
+The page will reload if you make edits.<br />
+You will also see any lint errors in the console.
+
+### `npm test`
+
+Launches the test runner in the interactive watch mode.<br />
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+
+### `npm run build`
+
+Builds the app for production to the `build` folder.<br />
+It correctly bundles React in production mode and optimizes the build for the best performance.
+
+The build is minified and the filenames include the hashes.<br />
+Your app is ready to be deployed!
+
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### `npm run eject`
+
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
+
+### Code Splitting
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+
+### Analyzing the Bundle Size
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+
+### Making a Progressive Web App
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+
+### Advanced Configuration
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+
+### Deployment
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+
+### `npm run build` fails to minify
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify

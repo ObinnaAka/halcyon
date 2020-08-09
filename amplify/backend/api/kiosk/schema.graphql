@@ -14,7 +14,7 @@ type Transaction
   tools: [ID] 
   materials: [ID]
   training: Training @connection(name: "transactionTraining")
-  requests: [String]
+  request: [String]
   transactionStatus: String!
   transactionComment: String
   createdAt: AWSDateTime!
@@ -108,7 +108,6 @@ input CreateTransactionInput {
   toolTransactionRecordId: ID
   tools: [ID]
   materials: [ID]
-  requests: [String]
 }
 
 

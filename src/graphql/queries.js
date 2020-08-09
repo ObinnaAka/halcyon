@@ -1,261 +1,12 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getOutstandingTransactions = /* GraphQL */ `
-  query GetOutstandingTransactions($status: String!) {
-    getOutstandingTransactions(status: $status) {
-      id
-      transactionType
-      staffMember {
-        id
-        eid
-        firstName
-        lastName
-        password
-        phone
-        signInStatus
-        email
-        trainings {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        itemRecord {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
-        }
-        workstation {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
-        }
-        conductRecord
-        conductStatus
-        transactionRecord {
-          nextToken
-        }
-        bevoCard
-        memberType
-        createdAt
-        updatedAt
-      }
-      staffMemberId
-      member {
-        id
-        eid
-        firstName
-        lastName
-        password
-        phone
-        signInStatus
-        email
-        trainings {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        itemRecord {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
-        }
-        workstation {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
-        }
-        conductRecord
-        conductStatus
-        transactionRecord {
-          nextToken
-        }
-        bevoCard
-        memberType
-        createdAt
-        updatedAt
-      }
-      memberId
-      tools {
-        items {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
-        }
-        nextToken
-      }
-      training {
-        id
-        name
-        createdAt
-        updatedAt
-      }
-      status
-      comment
-      createdAt
-      updatedAt
-      version
-    }
-  }
-`;
-export const listTransactionsRange = /* GraphQL */ `
-  query ListTransactionsRange($sort: String!, $from: String!, $limit: Int!) {
-    listTransactionsRange(sort: $sort, from: $from, limit: $limit) {
-      id
-      transactionType
-      staffMember {
-        id
-        eid
-        firstName
-        lastName
-        password
-        phone
-        signInStatus
-        email
-        trainings {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        itemRecord {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
-        }
-        workstation {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
-        }
-        conductRecord
-        conductStatus
-        transactionRecord {
-          nextToken
-        }
-        bevoCard
-        memberType
-        createdAt
-        updatedAt
-      }
-      staffMemberId
-      member {
-        id
-        eid
-        firstName
-        lastName
-        password
-        phone
-        signInStatus
-        email
-        trainings {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        itemRecord {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
-        }
-        workstation {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
-        }
-        conductRecord
-        conductStatus
-        transactionRecord {
-          nextToken
-        }
-        bevoCard
-        memberType
-        createdAt
-        updatedAt
-      }
-      memberId
-      tools {
-        items {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
-        }
-        nextToken
-      }
-      training {
-        id
-        name
-        createdAt
-        updatedAt
-      }
-      status
-      comment
-      createdAt
-      updatedAt
-      version
-    }
-  }
-`;
 export const getTransaction = /* GraphQL */ `
   query GetTransaction($id: ID!) {
     getTransaction(id: $id) {
       id
       transactionType
       staffMember {
-        id
         eid
         firstName
         lastName
@@ -270,38 +21,35 @@ export const getTransaction = /* GraphQL */ `
           updatedAt
         }
         itemRecord {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
+          nextToken
         }
         workstation {
           id
           name
+          description
           location
-          status
+          toolStatus
           currentHolderId
+          currentWorkstationId
+          transactionRecordId
           toolType
           updatedAt
           createdAt
         }
         conductRecord
-        conductStatus
+        memberStatus
+        reservations {
+          nextToken
+        }
         transactionRecord {
           nextToken
         }
         bevoCard
-        memberType
         createdAt
         updatedAt
       }
       staffMemberId
       member {
-        id
         eid
         firstName
         lastName
@@ -316,57 +64,48 @@ export const getTransaction = /* GraphQL */ `
           updatedAt
         }
         itemRecord {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
+          nextToken
         }
         workstation {
           id
           name
+          description
           location
-          status
+          toolStatus
           currentHolderId
+          currentWorkstationId
+          transactionRecordId
           toolType
           updatedAt
           createdAt
         }
         conductRecord
-        conductStatus
+        memberStatus
+        reservations {
+          nextToken
+        }
         transactionRecord {
           nextToken
         }
         bevoCard
-        memberType
         createdAt
         updatedAt
       }
       memberId
-      tools {
-        items {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
-        }
-        nextToken
-      }
+      tools
+      materials
       training {
         id
         name
+        transactionRecord {
+          nextToken
+        }
         createdAt
         updatedAt
       }
-      status
-      comment
+      request
+      transactionStatus
+      transactionComment
       createdAt
       updatedAt
       version
@@ -384,7 +123,6 @@ export const listTransactions = /* GraphQL */ `
         id
         transactionType
         staffMember {
-          id
           eid
           firstName
           lastName
@@ -393,15 +131,13 @@ export const listTransactions = /* GraphQL */ `
           signInStatus
           email
           conductRecord
-          conductStatus
+          memberStatus
           bevoCard
-          memberType
           createdAt
           updatedAt
         }
         staffMemberId
         member {
-          id
           eid
           firstName
           lastName
@@ -410,24 +146,23 @@ export const listTransactions = /* GraphQL */ `
           signInStatus
           email
           conductRecord
-          conductStatus
+          memberStatus
           bevoCard
-          memberType
           createdAt
           updatedAt
         }
         memberId
-        tools {
-          nextToken
-        }
+        tools
+        materials
         training {
           id
           name
           createdAt
           updatedAt
         }
-        status
-        comment
+        request
+        transactionStatus
+        transactionComment
         createdAt
         updatedAt
         version
@@ -437,9 +172,8 @@ export const listTransactions = /* GraphQL */ `
   }
 `;
 export const getMember = /* GraphQL */ `
-  query GetMember($id: ID!) {
-    getMember(id: $id) {
-      id
+  query GetMember($eid: ID!) {
+    getMember(eid: $eid) {
       eid
       firstName
       lastName
@@ -450,55 +184,35 @@ export const getMember = /* GraphQL */ `
       trainings {
         id
         name
+        transactionRecord {
+          nextToken
+        }
         createdAt
         updatedAt
       }
       itemRecord {
-        id
-        name
-        location
-        status
-        currentHolder {
-          id
-          eid
-          firstName
-          lastName
-          password
-          phone
-          signInStatus
-          email
-          conductRecord
-          conductStatus
-          bevoCard
-          memberType
-          createdAt
-          updatedAt
-        }
-        currentHolderId
-        currentWorkstation {
+        items {
           id
           name
+          description
           location
-          status
+          toolStatus
           currentHolderId
+          currentWorkstationId
+          transactionRecordId
           toolType
           updatedAt
           createdAt
         }
-        transactionRecord {
-          nextToken
-        }
-        toolType
-        updatedAt
-        createdAt
+        nextToken
       }
       workstation {
         id
         name
+        description
         location
-        status
+        toolStatus
         currentHolder {
-          id
           eid
           firstName
           lastName
@@ -507,9 +221,8 @@ export const getMember = /* GraphQL */ `
           signInStatus
           email
           conductRecord
-          conductStatus
+          memberStatus
           bevoCard
-          memberType
           createdAt
           updatedAt
         }
@@ -517,30 +230,62 @@ export const getMember = /* GraphQL */ `
         currentWorkstation {
           id
           name
+          description
           location
-          status
+          toolStatus
           currentHolderId
+          currentWorkstationId
+          transactionRecordId
           toolType
           updatedAt
           createdAt
         }
-        transactionRecord {
+        currentWorkstationId
+        reservations {
           nextToken
         }
+        transactionRecord {
+          id
+          transactionType
+          staffMemberId
+          memberId
+          tools
+          materials
+          request
+          transactionStatus
+          transactionComment
+          createdAt
+          updatedAt
+          version
+        }
+        transactionRecordId
         toolType
         updatedAt
         createdAt
       }
       conductRecord
-      conductStatus
+      memberStatus
+      reservations {
+        items {
+          id
+          memberId
+          toolId
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       transactionRecord {
         items {
           id
           transactionType
           staffMemberId
           memberId
-          status
-          comment
+          tools
+          materials
+          request
+          transactionStatus
+          transactionComment
           createdAt
           updatedAt
           version
@@ -548,7 +293,6 @@ export const getMember = /* GraphQL */ `
         nextToken
       }
       bevoCard
-      memberType
       createdAt
       updatedAt
     }
@@ -556,13 +300,20 @@ export const getMember = /* GraphQL */ `
 `;
 export const listMembers = /* GraphQL */ `
   query ListMembers(
+    $eid: ID
     $filter: ModelMemberFilterInput
     $limit: Int
     $nextToken: String
+    $sortDirection: ModelSortDirection
   ) {
-    listMembers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listMembers(
+      eid: $eid
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
       items {
-        id
         eid
         firstName
         lastName
@@ -577,32 +328,30 @@ export const listMembers = /* GraphQL */ `
           updatedAt
         }
         itemRecord {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
+          nextToken
         }
         workstation {
           id
           name
+          description
           location
-          status
+          toolStatus
           currentHolderId
+          currentWorkstationId
+          transactionRecordId
           toolType
           updatedAt
           createdAt
         }
         conductRecord
-        conductStatus
+        memberStatus
+        reservations {
+          nextToken
+        }
         transactionRecord {
           nextToken
         }
         bevoCard
-        memberType
         createdAt
         updatedAt
       }
@@ -615,10 +364,10 @@ export const getTool = /* GraphQL */ `
     getTool(id: $id) {
       id
       name
+      description
       location
-      status
+      toolStatus
       currentHolder {
-        id
         eid
         firstName
         lastName
@@ -633,32 +382,30 @@ export const getTool = /* GraphQL */ `
           updatedAt
         }
         itemRecord {
-          id
-          name
-          location
-          status
-          currentHolderId
-          toolType
-          updatedAt
-          createdAt
+          nextToken
         }
         workstation {
           id
           name
+          description
           location
-          status
+          toolStatus
           currentHolderId
+          currentWorkstationId
+          transactionRecordId
           toolType
           updatedAt
           createdAt
         }
         conductRecord
-        conductStatus
+        memberStatus
+        reservations {
+          nextToken
+        }
         transactionRecord {
           nextToken
         }
         bevoCard
-        memberType
         createdAt
         updatedAt
       }
@@ -666,10 +413,10 @@ export const getTool = /* GraphQL */ `
       currentWorkstation {
         id
         name
+        description
         location
-        status
+        toolStatus
         currentHolder {
-          id
           eid
           firstName
           lastName
@@ -678,9 +425,8 @@ export const getTool = /* GraphQL */ `
           signInStatus
           email
           conductRecord
-          conductStatus
+          memberStatus
           bevoCard
-          memberType
           createdAt
           updatedAt
         }
@@ -688,34 +434,99 @@ export const getTool = /* GraphQL */ `
         currentWorkstation {
           id
           name
+          description
           location
-          status
+          toolStatus
           currentHolderId
+          currentWorkstationId
+          transactionRecordId
           toolType
           updatedAt
           createdAt
         }
-        transactionRecord {
+        currentWorkstationId
+        reservations {
           nextToken
         }
-        toolType
-        updatedAt
-        createdAt
-      }
-      transactionRecord {
-        items {
+        transactionRecord {
           id
           transactionType
           staffMemberId
           memberId
-          status
-          comment
+          tools
+          materials
+          request
+          transactionStatus
+          transactionComment
           createdAt
           updatedAt
           version
         }
+        transactionRecordId
+        toolType
+        updatedAt
+        createdAt
+      }
+      currentWorkstationId
+      reservations {
+        items {
+          id
+          memberId
+          toolId
+          createdAt
+          updatedAt
+        }
         nextToken
       }
+      transactionRecord {
+        id
+        transactionType
+        staffMember {
+          eid
+          firstName
+          lastName
+          password
+          phone
+          signInStatus
+          email
+          conductRecord
+          memberStatus
+          bevoCard
+          createdAt
+          updatedAt
+        }
+        staffMemberId
+        member {
+          eid
+          firstName
+          lastName
+          password
+          phone
+          signInStatus
+          email
+          conductRecord
+          memberStatus
+          bevoCard
+          createdAt
+          updatedAt
+        }
+        memberId
+        tools
+        materials
+        training {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        request
+        transactionStatus
+        transactionComment
+        createdAt
+        updatedAt
+        version
+      }
+      transactionRecordId
       toolType
       updatedAt
       createdAt
@@ -732,10 +543,10 @@ export const listTools = /* GraphQL */ `
       items {
         id
         name
+        description
         location
-        status
+        toolStatus
         currentHolder {
-          id
           eid
           firstName
           lastName
@@ -744,9 +555,8 @@ export const listTools = /* GraphQL */ `
           signInStatus
           email
           conductRecord
-          conductStatus
+          memberStatus
           bevoCard
-          memberType
           createdAt
           updatedAt
         }
@@ -754,16 +564,35 @@ export const listTools = /* GraphQL */ `
         currentWorkstation {
           id
           name
+          description
           location
-          status
+          toolStatus
           currentHolderId
+          currentWorkstationId
+          transactionRecordId
           toolType
           updatedAt
           createdAt
         }
-        transactionRecord {
+        currentWorkstationId
+        reservations {
           nextToken
         }
+        transactionRecord {
+          id
+          transactionType
+          staffMemberId
+          memberId
+          tools
+          materials
+          request
+          transactionStatus
+          transactionComment
+          createdAt
+          updatedAt
+          version
+        }
+        transactionRecordId
         toolType
         updatedAt
         createdAt
@@ -777,6 +606,23 @@ export const getTraining = /* GraphQL */ `
     getTraining(id: $id) {
       id
       name
+      transactionRecord {
+        items {
+          id
+          transactionType
+          staffMemberId
+          memberId
+          tools
+          materials
+          request
+          transactionStatus
+          transactionComment
+          createdAt
+          updatedAt
+          version
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -792,10 +638,431 @@ export const listTrainings = /* GraphQL */ `
       items {
         id
         name
+        transactionRecord {
+          nextToken
+        }
         createdAt
         updatedAt
       }
       nextToken
+    }
+  }
+`;
+export const getMaterial = /* GraphQL */ `
+  query GetMaterial($id: ID!) {
+    getMaterial(id: $id) {
+      id
+      name
+      transactionRecord {
+        id
+        transactionType
+        staffMember {
+          eid
+          firstName
+          lastName
+          password
+          phone
+          signInStatus
+          email
+          conductRecord
+          memberStatus
+          bevoCard
+          createdAt
+          updatedAt
+        }
+        staffMemberId
+        member {
+          eid
+          firstName
+          lastName
+          password
+          phone
+          signInStatus
+          email
+          conductRecord
+          memberStatus
+          bevoCard
+          createdAt
+          updatedAt
+        }
+        memberId
+        tools
+        materials
+        training {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        request
+        transactionStatus
+        transactionComment
+        createdAt
+        updatedAt
+        version
+      }
+      count
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listMaterials = /* GraphQL */ `
+  query ListMaterials(
+    $filter: ModelMaterialFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listMaterials(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        transactionRecord {
+          id
+          transactionType
+          staffMemberId
+          memberId
+          tools
+          materials
+          request
+          transactionStatus
+          transactionComment
+          createdAt
+          updatedAt
+          version
+        }
+        count
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getInventory = /* GraphQL */ `
+  query GetInventory($name: ID!) {
+    getInventory(name: $name) {
+      name
+      count
+      category
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listInventorys = /* GraphQL */ `
+  query ListInventorys(
+    $name: ID
+    $filter: ModelInventoryFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listInventorys(
+      name: $name
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        name
+        count
+        category
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getReservation = /* GraphQL */ `
+  query GetReservation($id: ID!) {
+    getReservation(id: $id) {
+      id
+      member {
+        eid
+        firstName
+        lastName
+        password
+        phone
+        signInStatus
+        email
+        trainings {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        itemRecord {
+          nextToken
+        }
+        workstation {
+          id
+          name
+          description
+          location
+          toolStatus
+          currentHolderId
+          currentWorkstationId
+          transactionRecordId
+          toolType
+          updatedAt
+          createdAt
+        }
+        conductRecord
+        memberStatus
+        reservations {
+          nextToken
+        }
+        transactionRecord {
+          nextToken
+        }
+        bevoCard
+        createdAt
+        updatedAt
+      }
+      memberId
+      tool {
+        id
+        name
+        description
+        location
+        toolStatus
+        currentHolder {
+          eid
+          firstName
+          lastName
+          password
+          phone
+          signInStatus
+          email
+          conductRecord
+          memberStatus
+          bevoCard
+          createdAt
+          updatedAt
+        }
+        currentHolderId
+        currentWorkstation {
+          id
+          name
+          description
+          location
+          toolStatus
+          currentHolderId
+          currentWorkstationId
+          transactionRecordId
+          toolType
+          updatedAt
+          createdAt
+        }
+        currentWorkstationId
+        reservations {
+          nextToken
+        }
+        transactionRecord {
+          id
+          transactionType
+          staffMemberId
+          memberId
+          tools
+          materials
+          request
+          transactionStatus
+          transactionComment
+          createdAt
+          updatedAt
+          version
+        }
+        transactionRecordId
+        toolType
+        updatedAt
+        createdAt
+      }
+      toolId
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listReservations = /* GraphQL */ `
+  query ListReservations(
+    $filter: ModelReservationFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listReservations(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        member {
+          eid
+          firstName
+          lastName
+          password
+          phone
+          signInStatus
+          email
+          conductRecord
+          memberStatus
+          bevoCard
+          createdAt
+          updatedAt
+        }
+        memberId
+        tool {
+          id
+          name
+          description
+          location
+          toolStatus
+          currentHolderId
+          currentWorkstationId
+          transactionRecordId
+          toolType
+          updatedAt
+          createdAt
+        }
+        toolId
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getTransactionByStatus = /* GraphQL */ `
+  query GetTransactionByStatus(
+    $transactionStatus: String
+    $updatedAtId: ModelTransactionByStatusCompositeKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelTransactionFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    getTransactionByStatus(
+      transactionStatus: $transactionStatus
+      updatedAtId: $updatedAtId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        transactionType
+        staffMember {
+          eid
+          firstName
+          lastName
+          password
+          phone
+          signInStatus
+          email
+          conductRecord
+          memberStatus
+          bevoCard
+          createdAt
+          updatedAt
+        }
+        staffMemberId
+        member {
+          eid
+          firstName
+          lastName
+          password
+          phone
+          signInStatus
+          email
+          conductRecord
+          memberStatus
+          bevoCard
+          createdAt
+          updatedAt
+        }
+        memberId
+        tools
+        materials
+        training {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        request
+        transactionStatus
+        transactionComment
+        createdAt
+        updatedAt
+        version
+      }
+      nextToken
+    }
+  }
+`;
+export const searchTransactions = /* GraphQL */ `
+  query SearchTransactions(
+    $filter: SearchableTransactionFilterInput
+    $sort: SearchableTransactionSortInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    searchTransactions(
+      filter: $filter
+      sort: $sort
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        transactionType
+        staffMember {
+          eid
+          firstName
+          lastName
+          password
+          phone
+          signInStatus
+          email
+          conductRecord
+          memberStatus
+          bevoCard
+          createdAt
+          updatedAt
+        }
+        staffMemberId
+        member {
+          eid
+          firstName
+          lastName
+          password
+          phone
+          signInStatus
+          email
+          conductRecord
+          memberStatus
+          bevoCard
+          createdAt
+          updatedAt
+        }
+        memberId
+        tools
+        materials
+        training {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        request
+        transactionStatus
+        transactionComment
+        createdAt
+        updatedAt
+        version
+      }
+      nextToken
+      total
     }
   }
 `;
