@@ -1,0 +1,162 @@
+type Transaction
+  @model
+  @versioned
+  @key(name: "byStatus", fields: ["transactionStatus", "updatedAt", "id"], queryField: "getTransactionByStatus")
+  @key(name: "byMember", fields: ["memberId", "createdAt", "id"], queryField: "getTransactionByMember")
+  @key(name: "byStaff", fields: ["staffMemberId", "createdAt", "id"], queryField: "getTransactionByStaff")
+  @key(name: "byDate", fields: ["createdAt", "updatedAt", "id"], queryField: "getTransactionByDate"){
+  id: ID!
+  transactionType: String!
+  staffMember: Member @connection(fields: ["staffMemberId"])
+  staffMemberId: ID! #This can be empty for certain situations (Sign in etc...) but must be required for connections
+  member: Member @connection(fields: ["memberId"])
+  memberId: ID!
+  tools: [ID] #Cannot use @connection on a many to many unfortunately
+  materials: [ID]
+  reservations: [Reservation] @connection(keyName: "byGroup", fields:["id"])
+  reservationSlots: [String]
+  training: Training @connection(name: "transactionTraining")
+  requests: [String]
+  transactionStatus: String!
+  transactionComment: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+enum TransactionStatus{
+  INITIATED
+  PENDING
+  PROCESSING
+  COMPLETE
+  CANCELLED
+}
+
+type Member
+  @model
+  @key(fields: ["eid"])
+  @key(name: "byName", fields: ["firstName", "lastName", "eid"]) {
+  eid: ID!
+  firstName: String!
+  lastName: String!
+  password: String
+  phone: AWSPhone
+  signInStatus: Boolean
+  email: AWSEmail
+  trainings: [String] 
+  itemRecord: [Tool] @connection(keyName: "byMember", fields: ["eid"])
+  workstation: Tool @connection(fields: ["workstationId"])
+  workstationId: ID!
+  conductRecord: [String]
+  conductStatus: Int
+  reservations: [Reservation] @connection(keyName:"byMember", fields: ["eid"])
+  transactionRecord: [Transaction] @connection(keyName: "byMember", fields: ["eid"])
+  bevoCard: String
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type Tool @model
+  @key(name: "byName", fields: ["name", "id"])
+  @key(name: "byMember", fields: ["currentHolderId", "id"])
+  @key(name: "byStatus", fields: ["toolStatus", "id"])
+  @key(name: "byType", fields: ["toolType", "id"]) 
+  {
+  id: ID!
+  name: String!
+  description: String
+  location: String
+  group: Inventory @connection (name: "toolInventory")
+  toolStatus: String!
+  currentHolder: Member @connection(fields: ["currentHolderId"])
+  currentHolderId: ID! # will default tiw_member_account since it can't be nun-nullable
+  currentWorkstation: Tool @connection(fields: ["currentWorkstationId"])
+  currentWorkstationId: ID!
+  reservations: [Reservation] @connection(keyName: "byTool", fields: ["id"])
+  transactionRecord: [Transaction] 
+  transactionRecordId: [ID]
+  toolType: String!
+  updatedAt: AWSDateTime!
+}
+
+enum toolStatus{
+  CHECKEDOUT
+  CHECKEDIN
+  CLEANING
+  CLEANED
+  OUTOFSERVICE
+}
+
+type Training @model {
+  id: ID
+  name: String!
+  duration: Int!
+  capacity: Int!
+  transactionRecord: [Transaction] @connection(name: "transactionTraining")
+  reservations: [Reservation] @connection(name: "trainingGroup")
+}
+
+type Material @model {
+  id: ID
+  name: String!
+  transactionRecord: [Transaction]#  @connection(name: "transactionMaterials")
+  price: Float!
+  count: Int!
+}
+
+type Inventory @model @key(fields: ["name"]){
+  name: String!
+  count: Int
+  toolType: String
+  tools: [Tool] @connection (name: "toolInventory")
+}
+
+type Reservation @model 
+@key(name: "byMember", fields: ["memberId", "id"]) 
+@key(name: "byTool", fields: ["toolId", "id"])
+@key(name: "byGroup", fields: ["transactionGroup", "time", "id"], queryField: "listReservationGroups"){
+	id: ID!
+  time: String!
+	member: Member @connection (fields: ["memberId"])
+  memberId: ID!
+	tool: Tool @connection(fields: ["toolId"])
+  toolId: ID! # TODO Assign a Tool on training creation or Create a special tool for trainings that can't be checked out
+  training: Training @connection(name: "trainingGroup")
+  transactionGroup: ID!
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type Shop @model{ # @auth(rules: [{allow: groups, groups:["Staff", "Admin", "Zero"]}, {allow: public, operations: [read] }]){
+  name: ID!
+  openingTime: Int
+  closingTime: Int
+  description: String
+  requiredTrainings: [Training]
+  studentMessage: String
+  staffMessage: String
+}
+
+input CreateTransactionInput {
+  id: ID
+  transactionType: String!
+  staffMemberId: ID!
+  memberId: ID!
+  transactionStatus: String!
+  transactionComment: String
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+  transactionTrainingId: ID
+  toolTransactionRecordId: ID
+  requests: [String]
+  tools: [ID]
+  materials: [ID]
+  reservationSlots: [ID]
+}
+
+type TransactionOutput{
+  id: ID
+}
+
+type Mutation {
+  createNewTransaction(id:ID, transactionStatus: String, transactionComment: String, input: CreateTransactionInput!): Transaction
+}

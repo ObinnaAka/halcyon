@@ -1,0 +1,196 @@
+@keyframes button-click {
+	to {
+		background-color: #bf5700;
+		color: white;
+		border-radius: 5px;
+	}
+	from {
+		background-color: white;
+		color: #bf5700;
+		border-radius: 3px;
+	}
+}
+@keyframes raise-hover {
+	from {
+		position: relative;
+		border: 1px solid green;
+		bottom: 0px;
+		box-shadow: 0px 0px 5px #dddddd;
+		background-color: white;
+		color: #bf5700;
+	}
+	to {
+		position: relative;
+		border: 1px solid white;
+		bottom: 5px;
+		box-shadow: 0px 5px 10px #cccccc;
+		background-color: #bf5700;
+		color: white;
+	}
+}
+/* img {
+	opacity: 0.5;
+} */
+body {
+	/* background-image: url("images/tiw_logo.jpg");
+	background-color: #ffffff; 
+	height: 500px; 
+	background-position: left; 
+	background-repeat: no-repeat; 
+	background-size: contain; */
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+		"Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+code {
+	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+/* Center the AmplifyAuthenticator component */
+amplify-authenticator .auth {
+	background-color: #bf5700;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex: 1;
+	height: 100vh;
+}
+
+:root {
+	--amplify-primary-color: #bf5700;
+	--amplify-primary-tint: #076d04;
+	--amplify-primary-shade: #bf5700;
+}
+
+select {
+	width: 200px;
+	height: 25px;
+	min-width: 150px;
+	margin-left: 2vw;
+}
+Button {
+	width: auto;
+	background-color: white;
+	border: #bf5700 solid 1px;
+	border-radius: 5px;
+	transition: 1000ms;
+}
+button {
+	margin: 1vh;
+	width: 100px;
+	height: 30px;
+	background-color: #bf5700;
+	color: white;
+	border: #bf5700 solid 0px;
+	border-radius: 5px;
+	box-shadow: 1px 1px 0.5;
+	transition: 300ms;
+}
+button:hover {
+	background-color: #d16913;
+}
+button:active {
+	background-color: white;
+	color: #bf5700;
+	border: #bf5700 solid 1px;
+	transition: 300ms;
+}
+button.large {
+	width: 200px;
+	height: 40px;
+}
+input {
+	width: 200px;
+	height: 25px;
+	min-width: 150px;
+}
+.item {
+	flex-flow: row wrap;
+	justify-content: center;
+	align-content: center;
+	align-items: center;
+	border: 1px solid #eeeeee;
+	border-radius: 5px;
+
+	/* filter: drop-shadow(0 0 0.75rem crimson); */
+	/* box-shadow: 10px 10px 5px #eeeeee; */
+	width: 80%;
+	margin: auto;
+}
+
+.request {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	flex-wrap: wrap;
+	align-content: center;
+	align-items: center;
+	margin: 1vh;
+	max-width: 90vw;
+	border: 1px solid #eeeeee;
+	border-radius: 5px;
+	box-shadow: 5px 5px 5px #eeeeee;
+}
+.expanded {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+Backdrop {
+	z-index: 99;
+	color: #fff;
+}
+
+@media screen and (max-width: 860px) {
+	.section {
+		margin: 5vw;
+		flex: 80%;
+		height: 200px;
+	}
+}
+.section {
+	margin: 5vw;
+	min-height: 200px;
+	max-height: 400px;
+	min-width: 250px;
+	max-width: 400px;
+	flex-flow: row wrap;
+	justify-content: center;
+	align-items: center;
+	font-size: large;
+	padding: 10px;
+	border-radius: 10px;
+	background-color: white;
+	color: #bf5700;
+	box-shadow: 0px 10px 10px #00000025;
+}
+
+.sectionList {
+	background-color: #bf5700;
+	width: 100vw;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	flex-flow: row wrap;
+	height: auto;
+	overflow-y: visible;
+}
+
+MyReservation {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-content: center;
+	align-items: flex-start;
+	margin: 1vh;
+	border: 1px solid #eeeeee;
+	border-radius: 5px;
+	box-shadow: 10px 10px 5px #eeeeee;
+	max-width: 300px;
+}

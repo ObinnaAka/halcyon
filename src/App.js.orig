@@ -1,0 +1,436 @@
+/*
+import React, { useState, useLayoutEffect, useContext } from "react";
+import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
+import StaffPortal from "./Pages/StaffPortal/StaffPortal";
+import StudentPortal from "./Pages/StudentPortal/StudentPortal";
+import NavBar from "./components/NavBar/NavBar";
+import Footer from "./components/Footer/Footer";
+import { AuthContext } from "./context/auth-context";
+
+import Amplify, { API, Hub, Logger, Auth } from "aws-amplify";
+import { getMember } from "./graphql/queries";
+import { createMember } from "./graphql/mutations";
+
+import "@aws-amplify/ui/dist/style.css";
+import awsExports from "./aws-exports";
+import {
+	AmplifyAuthenticator,
+	AmplifySignOut,
+	AmplifySignIn,
+	AmplifySignUp,
+	AmplifyAuth0Button,
+} from "@aws-amplify/ui-react";
+
+import "./App.css";
+Amplify.configure(awsExports);
+
+//--------------------------------------------------------------------
+// References
+// https://medium.com/hackernoon/how-to-add-new-cognito-users-to-dynamodb-using-lambda-e3f55541297c
+//--------------------------------------------------------------------
+
+const logger = new Logger("My-Logger");
+
+const TestApp = () => {
+	const [member, setMember] = useState("tiw");
+
+	const { auth, setAuth } = useContext(AuthContext);
+
+	useLayoutEffect(() => {
+		getUser();
+		// console.log(auth);
+		Hub.listen("auth", (data) => {
+			console.log("Auth", data);
+			const event = data.payload.event;
+			const message = data.payload.message;
+			logger.info("-", event);
+			switch (event) {
+				case "signIn":
+					logger.info(message);
+					console.log(event);
+					getUser();
+					console.log(auth);
+					break;
+
+				case "signUp":
+					console.log(data);
+					logger.error("user signed up");
+					// createUser();
+					break;
+				case "cognitoHostedUI":
+					logger.info(message);
+					getUser();
+					break;
+				case "signOut":
+					logger.info(message);
+					// setAuth(null);
+					break;
+				case "oAuthSignOut":
+					logger.info(message);
+					// setAuth(null);
+					break;
+				case "signIn_failure":
+					logger.error(message);
+					break;
+				case "cognitoHostedUI_failure":
+					logger.error(message);
+					// setFailure(message);
+					break;
+				case "configured":
+					logger.info(message);
+					break;
+				case "parsingCallbackUrl":
+					logger.info(message);
+					break;
+				case "codeFlow":
+					logger.info(message);
+					break;
+				default:
+					logger.warn(message);
+					break;
+			}
+		});
+		// getUser().then((userData) => setAuth(userData));
+	}, []);
+
+	const getUser = async () => {
+		let eid = await Auth.currentAuthenticatedUser()
+			// .then((userData) => {
+			// 	console.log(userData.attributes);
+			// 	return userData.username;
+			// })
+			.then((userData) => userData.username)
+			.catch(() => console.log("Not signed in"));
+
+		setMember(eid);
+		// let member = await API.graphql({
+		// 	query: createMember,
+		// 	variables: {
+		// 		eid: eid,
+		// 	},
+		// });
+
+		// setAuth(member.data.getMember);
+		// return member.data.getMember;
+	};
+
+	console.log(auth);
+	return (
+		<BrowserRouter>
+			<AuthContext.Provider value={member}>
+				<React.Fragment>
+					<AmplifyAuthenticator>
+						<AmplifySignIn
+							className="auth"
+							headerText="Welcome to Texas Inventionworks!"
+							slot="sign-in"
+							formFields={[
+								{
+									type: "username",
+									label: "EID",
+									placeholder: "UT EID",
+									required: true,
+								},
+								{
+									type: "password",
+									label: "Password",
+									placeholder: "Password",
+									required: true,
+								},
+							]}
+						/>
+						<AmplifySignUp
+							className="auth"
+							headerText="TIW Staff Sign Up Page"
+							slot="sign-up"
+							formFields={[
+								{
+									type: "username",
+									label: "EID *",
+									placeholder: "UT EID",
+									required: true,
+								},
+								{
+									type: "password",
+									label: "Password *",
+									placeholder: "Password",
+									required: true,
+								},
+								{
+									type: "email",
+									label: "Email",
+									placeholder: "elon.musk@utexas.edu",
+									required: true,
+								},
+								{
+									type: "given_name",
+									label: "First Name *",
+									placeholder: "First Name",
+									required: true,
+								},
+								{
+									type: "family_name",
+									label: "Last Name *",
+									placeholder: "Last Name",
+									required: true,
+								},
+								{
+									type: "phone_number",
+									label: "Phone",
+									placeholder: "Phone ",
+									required: false,
+								},
+							]}
+						/>
+						<Switch>
+							<Redirect from="/" to="/staff/" exact />
+							<Route path="/staff/" component={StaffPortal} />
+							<Route path="/student/" component={StudentPortal} />
+						</Switch>
+						<Footer />
+					</AmplifyAuthenticator>
+				</React.Fragment>
+			</AuthContext.Provider>
+		</BrowserRouter>
+	);
+};
+
+export default TestApp;
+
+<<<<<<< HEAD
+/* STUDENT SITE */
+import "@aws-amplify/ui/dist/style.css";
+import Amplify, { API, Auth, Hub, Logger } from "aws-amplify";
+import React, { useContext, useEffect } from "react";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import "./App.css";
+import awsExports from "./aws-exports";
+import { AuthContext } from "./context/auth-context";
+import { createMember } from "./graphql/mutations";
+import BuyMaterials from "./Pages/StudentPortal/BuyMaterials/BuyMaterials";
+import Help from "./Pages/StudentPortal/Help/Help";
+import StudentPortal from "./Pages/StudentPortal/StudentPortal";
+import ToolCheckout from "./Pages/StudentPortal/ToolCheckout/ToolCheckout";
+import Trainings from "./Pages/StudentPortal/Trainings/Trainings";
+import Tutorials from "./Pages/StudentPortal/Tutorials/Tutorials";
+=======
+// /* STUDENT SITE */
+// import "@aws-amplify/ui/dist/style.css";
+// import Amplify, { API, Auth, Hub, Logger } from "aws-amplify";
+// import React, { useContext, useEffect } from "react";
+// import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+// import "./App.css";
+// import awsExports from "./aws-exports";
+// import StudentNavBar from "./components/StudentNavBar/StudentNavBar";
+// import { AuthContext } from "./context/auth-context";
+// import { createMember } from "./graphql/mutations";
+// import StudentPortal from "./Pages/StudentPortal/StudentPortal";
+// import BuyMaterials from "./Pages/StudentPortal/BuyMaterials/BuyMaterials";
+// import Help from "./Pages/StudentPortal/Help/Help";
+// import ToolCheckout from "./Pages/StudentPortal/ToolCheckout/ToolCheckout";
+// import Trainings from "./Pages/StudentPortal/Trainings/Trainings";
+// import Tutorials from "./Pages/StudentPortal/Tutorials/Tutorials";
+>>>>>>> 4ba19ee0d2910a3bcfb8c0e8db24c8dec3430d66
+
+// Amplify.configure(awsExports);
+
+// const logger = new Logger("My-Logger");
+
+// const App = () => {
+// 	const { auth, setAuth } = useContext(AuthContext);
+
+// 	useEffect(() => {
+// 		// console.log(auth);
+// 		getUser();
+// 		// console.log(auth);
+// 		Hub.listen("auth", (data) => {
+// 			console.log("Auth", data);
+// 			const event = data.payload.event;
+// 			const message = data.payload.message;
+// 			logger.info("-", event);
+// 			switch (event) {
+// 				case "signIn":
+// 					logger.info(message);
+// 					console.log(event);
+// 					getUser();
+// 					break;
+
+// 				case "signUp":
+// 					console.log(data);
+// 					logger.error("user signed up");
+// 					// createUser();
+// 					break;
+// 				case "cognitoHostedUI":
+// 					logger.info(message);
+// 					getUser();
+// 					break;
+// 				case "signOut":
+// 					logger.info(message);
+// 					// setAuth(null);
+// 					break;
+// 				case "oAuthSignOut":
+// 					logger.info(message);
+// 					// setAuth(null);
+// 					break;
+// 				case "signIn_failure":
+// 					logger.error(message);
+// 					break;
+// 				case "cognitoHostedUI_failure":
+// 					logger.error(message);
+// 					// setFailure(message);
+// 					break;
+// 				case "configured":
+// 					logger.info(message);
+// 					break;
+// 				case "parsingCallbackUrl":
+// 					logger.info(message);
+// 					break;
+// 				case "codeFlow":
+// 					logger.info(message);
+// 					break;
+// 				default:
+// 					logger.warn(message);
+// 					break;
+// 			}
+// 		});
+// 		// getUser().then((userData) => setAuth(userData));
+// 	}, []);
+
+// 	const getUser = async () => {
+// 		let eid = Auth.currentAuthenticatedUser()
+// 			.then((userData) => {
+// 				console.log(userData.attributes);
+// 				return userData.username;
+// 			})
+// 			// .then((userData) => setAuth(userData.username))
+// 			.catch(() => console.log("Not signed in"));
+
+// 		// let member = await API.graphql({
+// 		// 	query: createMember,
+// 		// 	variables: {
+// 		// 		eid: eid,
+// 		// 	},
+// 		// });
+
+// 		// setAuth(member.data.getMember);
+// 		// return member.data.getMember;
+// 	};
+
+// 	const createUser = async () => {
+// 		let data = Auth.currentAuthenticatedUser()
+// 			.then((userData) => {
+// 				console.log(userData);
+// 				return userData;
+// 			})
+// 			.catch(() => console.log("Not signed in"));
+
+// 		let member = await API.graphql({
+// 			query: createMember,
+// 			variables: {
+// 				eid: data.username,
+// 				email: data.attributes.email,
+// 				firstName: data.attributes.given_name,
+// 				lastName: data.attributes.family_name,
+// 				phone: data.attributes.phone_number,
+// 				memberType: "Staff",
+// 			},
+// 		});
+// 		console.log("Sign Up", member.data.getMember);
+// 		setAuth(member.data.getMember);
+// 	};
+
+// 	console.log(auth);
+// 	return (
+// 		<BrowserRouter>
+// 			<React.Fragment>
+// 				{/* <AmplifyAuthenticator>
+//           <AmplifySignIn
+//             className="auth"
+//             headerText="Welcome to Texas Inventionworks!"
+//             slot="sign-in"
+//             formFields={[
+//               {
+//                 type: "username",
+//                 label: "EID",
+//                 placeholder: "UT EID",
+//                 required: true,
+//               },
+//               {
+//                 type: "password",
+//                 label: "Password",
+//                 placeholder: "Password",
+//                 required: true,
+//               },
+//             ]}
+//           />
+//           <AmplifySignUp
+//             className="auth"
+//             headerText="TIW Staff Sign Up Page"
+//             slot="sign-up"
+//             formFields={[
+//               {
+//                 type: "email",
+//                 label: "Email",
+//                 placeholder: "elon.musk@utexas.edu",
+//                 required: true,
+//               },
+//               {
+//                 type: "given_name",
+//                 label: "First Name *",
+//                 placeholder: "First Name",
+//                 required: true,
+//               },
+//               {
+//                 type: "family_name",
+//                 label: "Last Name *",
+//                 placeholder: "Last Name",
+//                 required: true,
+//               },
+//               {
+//                 type: "phone_number",
+//                 label: "Phone",
+//                 placeholder: "Phone ",
+//                 required: false,
+//               },
+//             ]}
+//           />
+
+<<<<<<< HEAD
+          <AuthContextProvider> */}
+        {/* <StudentNavBar /> */}
+        <Switch>
+          <Redirect from="/" to="/student" exact />
+          <Route path="/student" component={StudentPortal} exact />
+          <Route path="/student/toolCheckout" component={ToolCheckout} />
+          <Route path="/student/buyMaterials" component={BuyMaterials} />
+          <Route path="/student/tutorials" component={Tutorials} />
+          <Route path="/student/trainings" component={Trainings} />
+          <Route path="/student/help" component={Help} />
+        </Switch>
+        {/* </AuthContextProvider>
+        </AmplifyAuthenticator> */}
+      </React.Fragment>
+    </BrowserRouter>
+  );
+};
+=======
+//           <AuthContextProvider> */}
+// 				{/* <StudentNavBar /> */}
+// 				<Switch>
+// 					<Redirect from="/" to="/student" exact />
+// 					<Route path="/student" component={StudentPortal} exact />
+// 					<Route path="/student/toolCheckout" component={ToolCheckout} />
+// 					<Route path="/student/buyMaterials" component={BuyMaterials} />
+// 					<Route path="/student/tutorials" component={Tutorials} />
+// 					<Route path="/student/trainings" component={Trainings} />
+// 					<Route path="/student/help" component={Help} />
+// 				</Switch>
+// 				{/* </AuthContextProvider>
+//         </AmplifyAuthenticator> */}
+// 			</React.Fragment>
+// 		</BrowserRouter>
+// 	);
+// };
+>>>>>>> 4ba19ee0d2910a3bcfb8c0e8db24c8dec3430d66
+
+// export default App;

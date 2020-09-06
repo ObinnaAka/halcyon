@@ -1,0 +1,139 @@
+@media screen and (max-width: 860px) {
+	.request .expanded {
+		flex-flow: column-reverse;
+		justify-content: center;
+		justify-self: center;
+	}
+	.request .expanded .left {
+		flex-flow: row wrap;
+		justify-content: center;
+	}
+
+	.request .expanded .right {
+		width: 100%;
+		flex-flow: row wrap;
+		justify-content: space-around;
+		align-items: center;
+	}
+
+	.request .expanded .right h3 {
+		margin-bottom: 0px;
+	}
+	.request .workstation span {
+		display: none;
+		width: 0px;
+	}
+
+	.request .count {
+		width: 2vw;
+		margin: 1vw;
+	}
+
+	.time span {
+		display: none;
+		width: 0px;
+	}
+	.request .name {
+		justify-content: flex-end;
+		width: 200px;
+	}
+	.request .expandIcon {
+		display: none;
+		width: 0px;
+	}
+	.request button {
+		width: 80px;
+	}
+	.request input {
+		width: 150px;
+	}
+	.request ListItem {
+		flex-flow: row wrap;
+	}
+}
+.request {
+	width: 100%;
+	flex-flow: column;
+	justify-self: center;
+	margin-bottom: 5px;
+}
+.request .item {
+	width: 100%;
+	border: 1px solid #eeeeee;
+	border-radius: 5px;
+	box-shadow: 10px 10px 5px #eeeeee;
+}
+
+.request_item_button {
+	align-self: center;
+	height: 30px;
+}
+.request .workstation {
+	display: flex;
+	width: 5vw;
+	justify-content: left;
+	padding-left: 1vw;
+	font-weight: bold;
+}
+
+.request .count {
+	width: 2vw;
+	margin: 1vw;
+}
+
+.time {
+	display: flex;
+	justify-content: flex-start;
+	width: 10vw;
+	flex-wrap: nowrap;
+	overflow: hidden;
+	margin-right: 1vw;
+	margin-left: 1vw;
+}
+.request .name {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	width: 15vw;
+}
+.type {
+	display: flex;
+	justify-content: flex-start;
+	flex-wrap: nowrap;
+	word-wrap: normal;
+	min-width: 100px;
+	width: 15vw;
+}
+.right {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	align-items: flex-end;
+	justify-content: flex-end;
+	padding: 2vh 2vw 2vh 2vw;
+}
+.left {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: flex-start;
+	width: 60%;
+	min-width: 300px;
+	padding: 2vh 2vw 2vh 2vw;
+}
+.right h3 {
+	margin-bottom: 2vh;
+}
+.barcode-item {
+	width: 100%;
+	/* flex-flow: column nowrap; */
+}
+.barcode-list {
+	width: 100%;
+	flex-flow: row nowrap;
+	overflow-y: scroll;
+}
+.barcode .title {
+	max-width: 100px;
+	/* width: 30vw; */
+}

@@ -1,0 +1,126 @@
+{
+	"providers": {
+		"awscloudformation": {
+			"AuthRoleName": "amplify-tiwappsync-dev-10450-authRole",
+			"UnauthRoleArn": "arn:aws:iam::107464086687:role/amplify-tiwappsync-dev-10450-unauthRole",
+			"AuthRoleArn": "arn:aws:iam::107464086687:role/amplify-tiwappsync-dev-10450-authRole",
+			"Region": "us-east-1",
+			"DeploymentBucketName": "amplify-tiwappsync-dev-10450-deployment",
+			"UnauthRoleName": "amplify-tiwappsync-dev-10450-unauthRole",
+			"StackName": "amplify-tiwappsync-dev-10450",
+			"StackId": "arn:aws:cloudformation:us-east-1:107464086687:stack/amplify-tiwappsync-dev-10450/23be7740-cb18-11ea-8350-12dace8e8b83",
+			"AmplifyAppId": "d39d9m9tkh5ffg"
+		},
+		"categories": {
+			"function": {
+				"tiwappsyncb664dac2PostConfirmation": {
+					"GROUP": "Members"
+				}
+			},
+			"auth": {
+				"tiwappsyncb9f01991": {}
+			}
+		}
+	},
+	"api": {
+		"tiwappsync": {
+			"service": "AppSync",
+			"providerPlugin": "awscloudformation",
+			"output": {
+				"authConfig": {
+					"additionalAuthenticationProviders": [],
+					"defaultAuthentication": {
+						"authenticationType": "API_KEY",
+						"apiKeyConfig": {
+							"description": "test",
+							"apiKeyExpirationDays": 36
+						}
+					}
+				},
+				"GraphQLAPIIdOutput": "o6apbnudsfgilcqlexkw5h5swu",
+				"GraphQLAPIEndpointOutput": "https://uxlsptaxg5gorhntof7cshumea.appsync-api.us-east-1.amazonaws.com/graphql",
+				"GraphQLAPIKeyOutput": "da2-zij4fnwlynesznoa6bsecyu3lu"
+			},
+			"lastPushTimeStamp": "2020-07-24T01:27:36.476Z",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-tiwappsync-dev-10450-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+				"logicalId": "apitiwappsync"
+			},
+			"lastPushDirHash": "Gd+Exi7YhLcb9j+Byq2SAiuQqLQ="
+		}
+	},
+	"auth": {
+		"tiwappsyncb9f01991": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [],
+			"customAuth": false,
+			"output": {
+				"AppClientSecret": "4ljkn250ps8vnqipcpc1hg1shvbnmhmsg78c496spac7okamsvo",
+				"UserPoolId": "us-east-1_8OFrjWuhq",
+				"AppClientIDWeb": "2bp27v230dcl8rnvn8ao9v95ju",
+				"AppClientID": "bsdckorvsir6i97r06iihds12",
+				"IdentityPoolId": "us-east-1:58baba58-4517-4454-a33f-3288746db653",
+				"IdentityPoolName": "tiwappsyncb9f01991_identitypool_b9f01991__dev",
+				"UserPoolName": "tiwappsyncb9f01991_userpool_b9f01991"
+			},
+			"lastPushTimeStamp": "2020-07-24T01:27:35.529Z",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-tiwappsync-dev-10450-deployment/amplify-cfn-templates/auth/tiwappsyncb9f01991-cloudformation-template.yml",
+				"logicalId": "authtiwappsyncb9f01991"
+			},
+			"lastPushDirHash": "621rRPy992SgLrNpt8wM9slCINo="
+		},
+		"userPoolGroups": {
+			"service": "Cognito-UserPool-Groups",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [
+				{
+					"category": "auth",
+					"resourceName": "tiwappsyncb9f01991",
+					"attributes": [
+						"UserPoolId",
+						"AppClientIDWeb",
+						"AppClientID",
+						"IdentityPoolId"
+					]
+				}
+			],
+			"output": {
+				"StaffGroupRole": "arn:aws:iam::107464086687:role/us-east-1_8OFrjWuhq-StaffGroupRole",
+				"FacultyGroupRole": "arn:aws:iam::107464086687:role/us-east-1_8OFrjWuhq-FacultyGroupRole",
+				"StudentGroupRole": "arn:aws:iam::107464086687:role/us-east-1_8OFrjWuhq-StudentGroupRole",
+				"AdminGroupRole": "arn:aws:iam::107464086687:role/us-east-1_8OFrjWuhq-AdminGroupRole",
+				"ZeroGroupRole": "arn:aws:iam::107464086687:role/us-east-1_8OFrjWuhq-ZeroGroupRole"
+			},
+			"lastPushTimeStamp": "2020-07-24T01:27:35.531Z",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-tiwappsync-dev-10450-deployment/amplify-cfn-templates/auth/template.json",
+				"logicalId": "authuserPoolGroups"
+			},
+			"lastPushDirHash": "ddKAOOZYmdXVuN+kKkr723ZREhA="
+		}
+	},
+	"function": {
+		"tiwappsyncb664dac2PostConfirmation": {
+			"build": true,
+			"providerPlugin": "awscloudformation",
+			"service": "Lambda",
+			"output": {
+				"Region": "us-east-1",
+				"Arn": "arn:aws:lambda:us-east-1:107464086687:function:tiwappsyncb664dac2PostConfirmation-dev",
+				"Name": "tiwappsyncb664dac2PostConfirmation-dev",
+				"LambdaExecutionRole": "tiwappsyncb664dac2PostConfirmation-dev"
+			},
+			"lastPushTimeStamp": "2020-07-24T01:27:35.533Z",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-tiwappsync-dev-10450-deployment/amplify-cfn-templates/function/tiwappsyncb664dac2PostConfirmation-cloudformation-template.json",
+				"logicalId": "functiontiwappsyncb664dac2PostConfirmation"
+			},
+			"lastBuildTimeStamp": "2020-07-24T00:13:57.196Z",
+			"lastPackageTimeStamp": "2020-07-24T00:13:57.426Z",
+			"distZipFilename": "tiwappsyncb664dac2PostConfirmation-7a586866416771437965-build.zip",
+			"lastPushDirHash": "ZV9Gsetaty7U7Jqxf4khSZJWBw0="
+		}
+	}
+}

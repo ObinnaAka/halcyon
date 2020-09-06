@@ -1,0 +1,22 @@
+@media (max-width: 600px) {
+	.page .scheduling {
+		display: -webkit-flex;
+		flex-flow: column wrap;
+		width: 100vw;
+		height: 70vh;
+		overflow: scroll;
+		align-content: flex-start;
+		justify-content: flex-start;
+	}
+}
+
+.scheduling {
+	display: -webkit-flex;
+	padding-bottom: 5vh;
+	flex-flow: column wrap;
+	justify-content: flex-start;
+	align-items: center;
+	width: 100vw;
+	overflow: scroll;
+	align-content: center;
+}

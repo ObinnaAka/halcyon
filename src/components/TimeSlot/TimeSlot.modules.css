@@ -1,0 +1,57 @@
+@keyframes hover {
+	from {
+		background-color: #ffffff;
+		color: #bf5700;
+	}
+	to {
+		background-color: #d16913;
+		color: #ffffff;
+	}
+}
+@keyframes active-hover {
+	from {
+		background-color: #bf5700;
+	}
+	to {
+		background-color: #d16913;
+	}
+}
+button {
+	margin: 3px;
+	align-items: center;
+}
+.timeslot {
+	border-radius: 5px;
+	background-color: #ffffff;
+	color: #bf5700;
+	transition: 300ms;
+}
+
+.timeslot:hover {
+	background-color: #d16913;
+	color: #ffffff;
+	border: 0px;
+}
+.dayActive {
+	background-color: #bf5700;
+	color: #ffffff;
+	transition: 300ms;
+}
+.dayActive:hover {
+	background-color: #d16913;
+}
+
+.active {
+	border: #dddddd solid 1px;
+}
+.end {
+	background-color: rgb(182, 65, 65);
+}
+.start {
+	background-color: rgb(92, 175, 92);
+}
+.inactive,
+.inactive:hover {
+	background-color: #dddddd;
+	color: #000000;
+}

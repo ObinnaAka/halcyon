@@ -1,0 +1,72 @@
+.info-bar {
+  height: 10vh;
+  max-height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.info-bar h1 {
+  margin: auto;
+}
+.info-bar .selector {
+  width: 15vw;
+}
+.info-bar .test {
+  width: 20vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: baseline;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  height: 72vh;
+}
+.left-scroll {
+  min-width: 70vw;
+}
+
+/* .left-view {
+  max-width: 100%;
+  padding: 2vh;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+} */
+
+.right-scroll {
+  max-width: 500px;
+}
+
+.right-view {
+  min-width: 27vh;
+  max-width: 500px;
+  padding: 2vh;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.sections {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

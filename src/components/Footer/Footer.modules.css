@@ -1,0 +1,83 @@
+/* This changes the Name and Version Tag*/
+@media (max-width: 850px) {
+	.footer div {
+		font-size: 1ch;
+		width: 100%;
+		display: flex;
+		color: white;
+		align-items: center;
+		justify-content: center;
+		flex-wrap: wrap;
+		flex-direction: row-reverse;
+		box-shadow: inset 0 0 10px #333333;
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		text-align: center;
+	}
+}
+
+.footer div {
+	width: 100%;
+	display: flex;
+	color: white;
+	background-color: #bf5700;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+	flex-direction: column;
+	box-shadow: inset 0 0 10px #333333;
+	font-size: 1.25ch;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 50px;
+	text-align: center;
+}
+
+/* This changes the Student/Staff Portal Links*/
+.foot-nav-list {
+	text-align: center;
+	color: rgba(255, 255, 255, 0.5);
+	list-style: none;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+.foot-nav-list a {
+	font-size: 1.5ch;
+	width: 15ch;
+	justify-content: center;
+	display: flex;
+	text-decoration: none;
+	text-align: center;
+	color: rgba(255, 255, 255, 0.5);
+	list-style: none;
+}
+.foot-nav-list a:hover {
+	display: flex;
+	text-decoration: none;
+	text-align: center;
+	color: white;
+	list-style: none;
+}
+.foot-nav-list a:active {
+	display: flex;
+	text-decoration: none;
+	text-align: center;
+	color: white;
+	list-style: none;
+}
+.foot-nav-list a.active {
+	display: flex;
+	text-align: center;
+	text-decoration: none;
+	background-color: white;
+	color: #bf5700;
+	padding: 0.5ch;
+	border-radius: 1ch;
+	list-style: none;
+}

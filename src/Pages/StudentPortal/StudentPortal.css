@@ -1,0 +1,58 @@
+.studentHeader{
+	z-index: 1;
+}
+
+.page1{
+	z-index: 0;
+}
+.info-bar {
+	height: 10vh;
+	max-height: 150px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+.info-bar h1 {
+	margin: auto;
+}
+.info-bar .selector {
+	width: 15vw;
+}
+
+.info-bar .test {
+	width: 20vw;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: baseline;
+}
+
+.student-view {
+	display: flex;
+	flex-direction: row-reverse;
+	align-self: center;
+	justify-content: center;
+	align-items: center;
+	height: 72vh;
+	max-width: 1000px;
+}
+
+
+
+
+.App-link {
+	color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+	from {
+		transform: rotate(0deg);
+	}
+
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+

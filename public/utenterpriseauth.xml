@@ -1,0 +1,47 @@
+<!-- https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-saml-idp.html -->
+<md:EntityDescriptor entityID="urn:amazon:cognito:sp:us-east-1_SMy0a1ofB" xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata">
+    <md:SPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+        <md:KeyDescriptor use="signing">
+            <KeyInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
+                <X509Data>
+                    <X509Certificate>MIICvDCCAaSgAwIBAgIIK6/sDtw00ugwDQYJKoZIhvcNAQELBQAwHjEcMBoGA1UEAwwTdXMtZWFzdC0xX1NNeTBhMW9mQjAeFw0yMDA4MDYxOTUwNTRaFw0zMDA4MDcxOTUwNTRaMB4xHDAaBgNVBAMME3VzLWVhc3QtMV9TTXkwYTFvZkIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCj8hq5TksjbphdF8RsmK/NFAcECzF7f1dWGXjC9wGyGBoMHsvO58KohYeu2iauZYdauPeoaqL//iWe3ENtbboOh/zypTmFDaT/BTjRmW4XpMXhgu5zzCoPXm4NUXnZIuJ/Lgh8Zx3035WFaUHYZ9iirMCGhY//N0vNPuGq7A/+KGnJD/93PUddhM7ixKU8eWC1gVQhAOxbYLIdAUE7vSmMbht5lKuPXUVIpGdM70Wbwoh/oykm/Po6tcslQiMX+5Dr0W+HuSe1CP6P2a+qyQ7HMGvzmxAvfdvc4tEuhtWQ3tJb4H8A/rFUfJDAyztpLs1pzQ0Wy9DmsLRY+ZmX90EHAgMBAAEwDQYJKoZIhvcNAQELBQADggEBABdvuf+p/ZmYxzUEhQBXCbdeskVDllnQqcgWaYbQwdETt9eNfIwZE3w3aNeMzq5U9tZTHvvYJP/iVwMOxn35fyiGwiWZm3Lh0cb8e32iZeuF8k82OONHexpggaTW5xzvkniGsnWgNpo7K3UC8bjbWtS+gXjcYEyu3xNJK6QMQ/pmaXEZ+F5eyXHSd4NBgQ8Bx4XL5V19CtnCCeniczKOCGYuIO3f65yhaO3il9KxJRA8Y2ZXzfgRBr6EyybliUM4U57Rx1eqznTmtIz2zwD9P2hBO7iZnOHi4A4jnEOPuoUJQelT+kpJWSj+S4kzQNV5NaSxHysO1u/u2/l80Y6C+C0=</X509Certificate>
+                </X509Data>
+            </KeyInfo>
+        </md:KeyDescriptor>
+        <md:KeyDescriptor use="encryption">
+            <KeyInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
+                <X509Data>
+                    <X509Certificate>MIICvDCCAaSgAwIBAgIIK6/sDtw00ugwDQYJKoZIhvcNAQELBQAwHjEcMBoGA1UEAwwTdXMtZWFzdC0xX1NNeTBhMW9mQjAeFw0yMDA4MDYxOTUwNTRaFw0zMDA4MDcxOTUwNTRaMB4xHDAaBgNVBAMME3VzLWVhc3QtMV9TTXkwYTFvZkIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCj8hq5TksjbphdF8RsmK/NFAcECzF7f1dWGXjC9wGyGBoMHsvO58KohYeu2iauZYdauPeoaqL//iWe3ENtbboOh/zypTmFDaT/BTjRmW4XpMXhgu5zzCoPXm4NUXnZIuJ/Lgh8Zx3035WFaUHYZ9iirMCGhY//N0vNPuGq7A/+KGnJD/93PUddhM7ixKU8eWC1gVQhAOxbYLIdAUE7vSmMbht5lKuPXUVIpGdM70Wbwoh/oykm/Po6tcslQiMX+5Dr0W+HuSe1CP6P2a+qyQ7HMGvzmxAvfdvc4tEuhtWQ3tJb4H8A/rFUfJDAyztpLs1pzQ0Wy9DmsLRY+ZmX90EHAgMBAAEwDQYJKoZIhvcNAQELBQADggEBABdvuf+p/ZmYxzUEhQBXCbdeskVDllnQqcgWaYbQwdETt9eNfIwZE3w3aNeMzq5U9tZTHvvYJP/iVwMOxn35fyiGwiWZm3Lh0cb8e32iZeuF8k82OONHexpggaTW5xzvkniGsnWgNpo7K3UC8bjbWtS+gXjcYEyu3xNJK6QMQ/pmaXEZ+F5eyXHSd4NBgQ8Bx4XL5V19CtnCCeniczKOCGYuIO3f65yhaO3il9KxJRA8Y2ZXzfgRBr6EyybliUM4U57Rx1eqznTmtIz2zwD9P2hBO7iZnOHi4A4jnEOPuoUJQelT+kpJWSj+S4kzQNV5NaSxHysO1u/u2/l80Y6C+C0=</X509Certificate>
+                </X509Data>
+            </KeyInfo>
+        </md:KeyDescriptor>
+        <md:AssertionConsumerService 
+            Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" 
+            Location="https://kiosk8125b447-8125b447-dev.auth.us-east-1.amazoncognito.com/saml2/idpresponse" 
+            index="1"/>
+    </md:SPSSODescriptor>
+    <!-- Required by IAM Team -->
+    <!-- https://ut.service-now.com/sp?id=kb_article&number=KB0017849#a1 -->
+    <md:Organization>
+        <md:OrganizationName xml:lang="en">Texas Inventionworks</md:OrganizationName>
+        <md:OrganizationDisplayName xml:lang="en">Texas Inventionworks</md:OrganizationDisplayName>
+        <md:OrganizationURL xml:lang="en">https://inventionworks.engr.utexas.edu/</md:OrganizationURL>
+    </md:Organization>
+    <md:ContactPerson contactType="technical">
+        <md:GivenName>Obinna Akahara</md:GivenName>
+        <md:EmailAddress>akaharao@utexas.edu</md:EmailAddress>
+    </md:ContactPerson>
+    <md:ContactPerson contactType="administrative">
+        <md:GivenName>Roger Rose</md:GivenName>
+        <md:EmailAddress>roger.rose@austin.utexas.edu</md:EmailAddress>
+    </md:ContactPerson>
+    <md:ContactPerson contactType="support">
+        <md:GivenName>Support Team</md:GivenName>
+        <md:EmailAddress>tiw@utexas.edu</md:EmailAddress>
+    </md:ContactPerson>
+    <md:ContactPerson contactType="other"
+        xmlns:remd="http://refeds.org/metadata" remd:contactType="http://refeds.org/metadata/contactType/security">
+        <md:GivenName>Security Team</md:GivenName>
+        <md:EmailAddress>tiw@utexas.edu</md:EmailAddress>
+    </md:ContactPerson>
+</md:EntityDescriptor>

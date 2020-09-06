@@ -1,0 +1,43 @@
+.modal {
+	width: 50vw;
+	min-width: 300px;
+	max-width: 500px;
+	max-height: 80vh;
+	justify-self: center;
+	background: white;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.26);
+	position: fixed;
+	top: 12vh;
+	left: calc(25vw + (50vw - max(50vw, 500px)) / 2);
+	z-index: 100;
+	overflow: auto;
+}
+
+.modal__header {
+	padding: 1rem;
+	background: #bf5700;
+	color: white;
+	/* font-size: calc(1.3em + (1.5 - 1.3) * ((100vmin - 21em)/(35 - 21))); */
+}
+
+.modal__header h1 {
+	margin: 0;
+	/* font-size:calc(1.2em + (.1) * ((1vmin - 80em)/(35 - 21))); */
+}
+
+.modal__content {
+	padding: 1rem;
+	/* font-size: calc(1.2em + (.1) * ((1vmin - 80em)/(35 - 21))); */
+}
+
+.modal__actions {
+	display: flex;
+	justify-content: flex-end;
+	padding: 1rem;
+}
+
+@media (max-width: 800px) {
+	.modal {
+		left: calc(25vw + (50vw - max(50vw, 300px)) / 2);
+	}
+}

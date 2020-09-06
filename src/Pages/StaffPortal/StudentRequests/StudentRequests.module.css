@@ -1,0 +1,14 @@
+.itemreq-enter {
+	opacity: 0;
+}
+.itemreq-enter-active {
+	opacity: 1;
+	transition: opacity 500ms ease-in;
+}
+.itemreq-exit {
+	opacity: 1;
+}
+.itemreq-exit-active {
+	opacity: 0;
+	transition: opacity 500ms ease-in;
+}

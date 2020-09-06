@@ -1,0 +1,10 @@
+.main-view {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-content: center;
+	text-align: center;
+}
+.MuiAutocomplete-popupIndicator {
+	width: 30px;
+}
