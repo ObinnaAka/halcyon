@@ -8,7 +8,7 @@ import moment from "moment";
 import React, { useEffect, useState, useContext } from "react";
 import styles from "./MyReservation.modules.css";
 import { API } from "aws-amplify";
-import { MemberContext } from "../../context/member-context";
+import { UserContext } from "../../context/user-context";
 import { createNewTransaction, createTransaction } from "../../graphql-optimized/mutations";
 
 const MyReservation = ({
@@ -24,16 +24,16 @@ const MyReservation = ({
 	checkInConfirmation,
 	times,
 }) => {
-	const member = useContext(MemberContext);
+	const user = useContext(UserContext);
 
 	const [open, setOpen] = useState(false);
 	const [canCheckIn, setCanCheckIn] = useState(
 		Math.abs(moment.duration(moment().diff(moment.unix(times[0] / 1000))).asMinutes()) <= 15 &&
-			!member.signInStatus
+			!user.signInStatus
 	);
 
 	times =
-		moment.unix(times[0] / 1000).format("h:mm") +
+		moment.unix(times[0] / 1000).format("MMM DD h:mm") +
 		" - " +
 		moment.unix(times[times.length - 1] / 1000 + 1800).format("h:mm A");
 
@@ -42,21 +42,6 @@ const MyReservation = ({
 			setShowModalConduct(true);
 			return;
 		}
-		console.log(workstation);
-		API.graphql({
-			query: createTransaction,
-			variables: {
-				input: {
-					memberId: member.eid,
-					staffMemberId: "tiw",
-					transactionType: "Sign In",
-					requests: workstation,
-					transactionStatus: "Processing",
-				},
-			},
-		})
-			.then((res) => console.log(res))
-			.catch((err) => console.log(err.message));
 
 		checkInConfirmation();
 		// window.location.reload();
@@ -65,8 +50,6 @@ const MyReservation = ({
 	};
 
 	const handleItemClick = () => {
-		console.log(moment.duration(moment().diff(moment.unix(times[0]) / 1000)).asMinutes());
-		console.log(canCheckIn);
 		setOpen(!open);
 	};
 	return isPast ? (
@@ -76,10 +59,10 @@ const MyReservation = ({
 					<React.Fragment>
 						<ListItem button onClick={handleItemClick}>
 							<ListItemText className="title" primary={myReservationLocations[group].name} />
-							<ListItemText
+							{/* <ListItemText
 								className="title"
 								primary={moment.unix(times[0] / 1000).format("MMM DD")}
-							/>
+							/> */}
 							<ListItemText className="range" primary={times} />
 
 							{canCheckOut && (
@@ -120,11 +103,11 @@ const MyReservation = ({
 				<List className="list">
 					<React.Fragment>
 						<ListItem button onClick={handleItemClick}>
-							<ListItemText className="title" primary={myReservationLocations[group].name} />
-							<ListItemText
+							<ListItemText className="title" primary={myReservationLocations[group]?.name} />
+							{/* <ListItemText
 								className="title"
 								primary={moment.unix(times[0] / 1000).format("MMM DD")}
-							/>
+							/> */}
 							<ListItemText className="range" primary={times} />
 
 							{!(canCheckIn || canCheckOut) && (open ? <ExpandLess /> : <ExpandMore />)}
@@ -159,8 +142,8 @@ const MyReservation = ({
 					</React.Fragment>
 				</List>
 			</div>
-			<div>
-				{/* {canCheckIn && ( */}
+			{/* <div>
+				{canCheckIn && (
 				<button
 					className="large"
 					onClick={(event) => {
@@ -173,8 +156,8 @@ const MyReservation = ({
 					}}>
 					Check In
 				</button>
-				{/* )} */}
-			</div>
+				 )} 
+			</div> */}
 		</div>
 	) : null;
 };

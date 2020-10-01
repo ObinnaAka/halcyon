@@ -7,13 +7,16 @@
 .left form {
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+	justify-content: space-between;
 	align-items: center;
-	border: 0.5px solid #bf5700;
 	border-radius: 10px;
+	border: solid 1px var(--main-color);
 	margin: 5px;
 	padding: 2vh;
 	width: 250px;
+	height: 400px;
+	overflow-y: auto;
+	box-shadow: 0px 10px 30px #00000025;
 }
 .left form div {
 	display: flex;

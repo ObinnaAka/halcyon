@@ -18,8 +18,8 @@ import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import "./App.css";
 import awsExports from "./aws-exports";
 import { Footer } from "./components";
-import { MemberContext, ShopContext } from "./context";
-import { getMember, getShop } from "./graphql-optimized/queries";
+import { UserContext, ShopContext } from "./context";
+import { getUser, getShop } from "./graphql-optimized/queries";
 import { AuthPage } from "./Pages/";
 import StaffPortal from "./Pages/StaffPortal/StaffPortal";
 import StudentPortal from "./Pages/StudentPortal/StudentPortal";
@@ -35,12 +35,13 @@ const logger = new Logger("My-Logger");
 
 const App = () => {
 	const shopContext = useContext(ShopContext);
+	const user = useContext(UserContext);
 
-	const [member, setMember] = useState(null);
+	// const [user, setUser] = useState(null);
 	const [shop, setShop] = useState({ openingTime: 43200000, closingTime: 64800000 });
 	const [username, setUsername] = useState("");
 
-	// const member = useContext(MemberContext);
+	// const user = useContext(UserContext);
 
 	useLayoutEffect(() => {
 		getUser();
@@ -107,17 +108,17 @@ const App = () => {
 			let eid = user.username;
 			let groups = user.signInUserSession.idToken.payload["cognito:groups"];
 			console.log(groups);
-			let member = await API.graphql({
-				query: getMember,
+			let user = await API.graphql({
+				query: getUser,
 				variables: {
 					eid: eid,
 				},
 			});
 
-			let fetchedMember = { ...member.data.getMember, groups };
+			let fetchedUser = { ...user.data.getUser, groups };
 
-			setMember(fetchedMember);
-			console.log(fetchedMember);
+			// setUser(fetchedUser);
+			console.log(fetchedUser);
 		}
 	};
 
@@ -139,34 +140,15 @@ const App = () => {
 	return (
 		<BrowserRouter>
 			<ShopContext.Provider value={shop}>
-				<MemberContext.Provider value={member}>
+				<UserContext.Provider value={user}>
 					<React.Fragment>
-						<div>
-							<p>User: {member ? JSON.stringify(member.attributes) : "None"}</p>
-							{member ? (
-								<button className="large" onClick={() => Auth.signOut()}>
-									Sign Out
-								</button>
-							) : (
-								<button className="large" onClick={() => Auth.federatedSignIn()}>
-									Federated Sign In
-								</button>
-							)}
-						</div>
-						{/* <button
-							className="large"
-							onClick={() => Auth.federatedSignIn({ provider: "utenterpriseauth" })}>
-							Sign in With UT EID
-						</button> */}
-
-						{/* <Switch>
+						<Switch>
 							<Redirect from="/" to="/auth/" exact />
 							<Route path="/auth/" component={AuthPage} />
-							<Route path="/staff/" component={StaffPortal} />
-							<Route path="/student/" component={StudentPortal} />
-						</Switch> */}
+							<Route path="/main/" component={StaffPortal} />
+						</Switch>
 					</React.Fragment>
-				</MemberContext.Provider>
+				</UserContext.Provider>
 			</ShopContext.Provider>
 		</BrowserRouter>
 	);

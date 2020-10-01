@@ -28,17 +28,31 @@
 		color: white;
 	}
 }
-/* img {
-	opacity: 0.5;
-} */
+@keyframes App-logo-spin {
+	from {
+		transform: rotate(0deg);
+	}
+
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+:root {
+	--main-bg-color: #002649;
+	--main-color: #ff9900;
+	--main-text-color: white;
+}
+
 body {
 	/* background-image: url("images/tiw_logo.jpg");
-	background-color: #ffffff; 
 	height: 500px; 
 	background-position: left; 
 	background-repeat: no-repeat; 
 	background-size: contain; */
 	margin: 0;
+	background-color: var(--main-bg-color);
+	color: var(--main-text-color);
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
 		"Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 	-webkit-font-smoothing: antialiased;
@@ -65,26 +79,47 @@ amplify-authenticator .auth {
 	--amplify-primary-shade: #bf5700;
 }
 
+.App-logo img {
+	height: 30px;
+	pointer-events: none;
+	align-self: center;
+	margin-top: 5px;
+}
+
+.App-logo:hover {
+	animation: App-logo-spin;
+	animation-duration: 500ms;
+}
+.page {
+	height: calc(100vh - 100px);
+	max-width: 100vw;
+	text-align: center;
+	display: -webkit-flex;
+	margin: 50px 0px;
+	flex-direction: column;
+}
+
+NavBar {
+	background-color: var(--main-color);
+	height: 10vh;
+}
+StudentNavBar {
+	height: 10vh;
+}
 select {
 	width: 200px;
 	height: 25px;
 	min-width: 150px;
 	margin-left: 2vw;
 }
-Button {
-	width: auto;
-	background-color: white;
-	border: #bf5700 solid 1px;
-	border-radius: 5px;
-	transition: 1000ms;
-}
+
 button {
 	margin: 1vh;
 	width: 100px;
 	height: 30px;
-	background-color: #bf5700;
+	background-color: var(--main-color);
 	color: white;
-	border: #bf5700 solid 0px;
+	border: var(--main-color) solid 0px;
 	border-radius: 5px;
 	box-shadow: 1px 1px 0.5;
 	transition: 300ms;
@@ -122,7 +157,6 @@ input {
 }
 
 .request {
-	display: flex;
 	flex-direction: row;
 	justify-content: flex-start;
 	flex-wrap: wrap;
@@ -132,7 +166,7 @@ input {
 	max-width: 90vw;
 	border: 1px solid #eeeeee;
 	border-radius: 5px;
-	box-shadow: 5px 5px 5px #eeeeee;
+	/* box-shadow: 5px 5px 5px #3535359a; */
 }
 .expanded {
 	display: flex;
@@ -147,16 +181,9 @@ Backdrop {
 	color: #fff;
 }
 
-@media screen and (max-width: 860px) {
-	.section {
-		margin: 5vw;
-		flex: 80%;
-		height: 200px;
-	}
-}
 .section {
-	margin: 5vw;
-	min-height: 200px;
+	margin: 2vw;
+	min-height: 300px;
 	max-height: 400px;
 	min-width: 250px;
 	max-width: 400px;
@@ -173,6 +200,8 @@ Backdrop {
 
 .sectionList {
 	background-color: #bf5700;
+	margin-top: 2vh;
+	padding: 5vh 0vw;
 	width: 100vw;
 	display: flex;
 	flex-direction: row;
@@ -193,4 +222,18 @@ MyReservation {
 	border-radius: 5px;
 	box-shadow: 10px 10px 5px #eeeeee;
 	max-width: 300px;
+}
+RightNav {
+	z-index: 101;
+}
+@media screen and (max-width: 860px) {
+	.sectionList .section {
+		margin: 5vw;
+		flex: 80%;
+		height: 300px;
+	}
+	button.large {
+		width: 150px;
+		height: 35px;
+	}
 }

@@ -3,7 +3,7 @@ import { API } from "aws-amplify";
 import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import Modal from "../../../components/Modal/Modal";
 import ToolCheckout from "../../../components/ToolCheckout/ToolCheckout";
-import { MemberContext } from "../../../context/member-context";
+import { UserContext } from "../../../context/user-context";
 import { createTransaction } from "../../../graphql-optimized/mutations";
 import { listMaterials } from "../../../graphql-optimized/queries";
 
@@ -15,13 +15,13 @@ const BuyMaterials = () => {
 	const [showModal, setShowModal] = useState(false); //confirming request
 	const [totalPrice, setTotalPrice] = useState(0);
 
-	const member = useContext(MemberContext);
+	const user = useContext(UserContext);
 	const [checkedIn, setCheckedIn] = useState(false);
 
 	useLayoutEffect(() => {
-		console.log(member);
-		if (member) setCheckedIn(member?.signInStatus);
-	}, [member]);
+		console.log(user);
+		if (user) setCheckedIn(user?.signInStatus);
+	}, [user]);
 
 	const fetchMaterials = async () => {
 		let materialResults = await API.graphql({
@@ -46,7 +46,7 @@ const BuyMaterials = () => {
 		console.log(materialsDict);
 		setMaterials(materialsDict);
 
-		if (member.signInStatus) setCheckedIn(member.signInStatus);
+		if (user.signInStatus) setCheckedIn(user.signInStatus);
 	};
 
 	const addMyMaterial = (event) => {
@@ -125,8 +125,8 @@ const BuyMaterials = () => {
 			variables: {
 				input: {
 					transactionType: "Student Request",
-					staffMemberId: "tiw",
-					memberId: member.eid,
+					staffUserId: "tiw",
+					userId: user.eid,
 					transactionStatus: "Processing",
 					requests: reqs,
 				},
@@ -206,7 +206,7 @@ const BuyMaterials = () => {
 										</li>
 									))}
 								</ul>
-								{member.bevoCard ? (
+								{user.bevoCard ? (
 									<label>Someone will bring your materials to you soon</label>
 								) : (
 									<label>

@@ -16,8 +16,8 @@ import Countdown from "react-countdown";
 const Request = ({
 	id,
 	requests,
-	member,
-	staffMemberId,
+	user,
+	staffUserId,
 	date,
 	transactionType,
 	workstation = "-",
@@ -44,25 +44,27 @@ const Request = ({
 	};
 
 	// TODO Add animation during exit
-	// requests = ["test1", "test2"];
 
 	const finishTransaction = async () => {
+		let now = new Date();
 		let restult1 = await API.graphql({
 			query: createNewTransaction,
 			variables: {
 				input: {
-					memberId: member.eid,
-					staffMemberId: staffMemberId,
+					userId: user?.eid,
+					staffUserId: staffUserId,
 					transactionType: transactionType,
 					transactionStatus: "Finished",
 					transactionComment: transactionComment,
 					tools:
 						transactionType === "Sign In" || transactionType === "Sign Out"
-							? requests[0]
+							? requests
+								? requests[0]
+								: "none"
 							: Object.values(transactionInfo),
 				},
 			},
-		});
+		}).catch((err) => console.log(err));
 		let restult2 = await API.graphql({
 			query: updateTransaction,
 			variables: {
@@ -70,7 +72,7 @@ const Request = ({
 					id: id,
 					transactionStatus: "Finished",
 					expectedVersion: 1,
-					updatedAt: date,
+					updatedAt: now,
 					createdAt: date,
 				},
 			},
@@ -125,7 +127,7 @@ const Request = ({
 					</ListItem>
 					<ListItem className="barcode-item">
 						<ListItemText className="barcode title" primary={"Status: "} />
-						<ListItemText styles={{ margin: "auto" }} primary={member.conductStatus} />
+						<ListItemText styles={{ margin: "auto" }} primary={user?.conductStatus} />
 					</ListItem>
 				</div>
 			)}
@@ -143,7 +145,9 @@ const Request = ({
 				break;
 
 			case "Sign In":
-				workstation = requests[1];
+				if (requests) {
+					workstation = requests[1];
+				}
 
 				return checkInRequest;
 				break;
@@ -159,7 +163,7 @@ const Request = ({
 					<ListItem button onClick={handleItemClick}>
 						<ListItemText className="count" primary={requests ? requests.length : 0} />
 						<ListItemText className="type" primary={transactionType} />
-						<ListItemText className="name" primary={member.firstName + " " + member.lastName} />
+						<ListItemText className="name" primary={user?.firstName + " " + user?.lastName} />
 						<ListItemText className="workstation" primary={workstation} />
 
 						<ListItemText className="time" primary={moment(date).fromNow(true)} />
@@ -174,7 +178,7 @@ const Request = ({
 							{requestDone ? (
 								<Countdown
 									className="time"
-									date={Date.now() + 2500}
+									date={Date.now() + 2100}
 									zeroPadTime={0}
 									onComplete={finishTransaction}
 									renderer={(time) => time.seconds + 1}
@@ -202,7 +206,7 @@ const Request = ({
 
 							<div className="right">
 								<div style={{ width: "100%", flexFlow: "column" }}>
-									<h3>Name</h3> {member.firstName + " " + member.lastName}
+									<h3>Name</h3> {user?.firstName + " " + user?.lastName}
 								</div>
 
 								<div style={{ width: "100%" }}>

@@ -5,21 +5,25 @@
 	align-content: center;
 	align-items: flex-start;
 	margin: 1vh;
+	width: 60vw;
+}
+@media (max-width: 850px) {
+	.request_item_div {
+		width: 90vw;
+	}
+	.request_type span {
+		width: 15vw;
+		max-width: 130px;
+	}
 }
 .request_item {
-	min-width: 95%;
-	width: 100%;
+	min-width: 100%;
+	width: 95vw;
 	border: 1px solid #eeeeee;
 	border-radius: 5px;
 	box-shadow: 10px 10px 5px #eeeeee;
 }
-.request_done {
-	display: flex;
-	margin: 2vh;
-	margin-top: 4vh;
-	flex-direction: column;
-	justify-self: start;
-}
+
 .request_item_button {
 	align-self: center;
 }
@@ -30,9 +34,6 @@
 	padding-left: 1vw;
 	font-weight: bold;
 }
-/* .itemDiv {
-	margin: 1vh;
-} */
 
 .request_item_number {
 	width: 2vw;
@@ -42,23 +43,25 @@
 .request_time {
 	display: flex;
 	justify-content: flex-end;
+	align-items: center;
 	width: 10vw;
+	min-width: 80px;
 	flex-wrap: wrap;
-	margin-right: 3vw;
-	margin-left: 1vw;
 }
 .request_member_name {
 	display: flex;
 	justify-content: flex-start;
 	flex-wrap: wrap;
-	width: 15vw;
+	width: 20vw;
+	margin-right: 1vw;
 }
 .request_type {
 	display: flex;
 	justify-content: flex-start;
-	flex-wrap: nowrap;
+	flex-wrap: wrap;
 	word-wrap: normal;
-	width: 15vw;
+	width: 20vw;
+	max-width: 200px;
 }
 .request_expanded_view {
 	display: flex;

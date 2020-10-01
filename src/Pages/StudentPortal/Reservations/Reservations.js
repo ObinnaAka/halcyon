@@ -6,7 +6,7 @@ import "../..";
 import { Scheduling } from "../../";
 import { MyReservation } from "../../../components";
 import Modal from "../../../components/Modal/Modal";
-import { MemberContext } from "../../../context/member-context";
+import { UserContext } from "../../../context/user-context";
 import { listReservations, listTools } from "../../../graphql-optimized/queries";
 
 const rules = [
@@ -23,7 +23,7 @@ const Reservation = () => {
 	const [currTime, setCurrTime] = useState(0);
 
 	const [conflictingErr, setConflictingErr] = useState(false);
-	const member = useContext(MemberContext);
+	const user = useContext(UserContext);
 
 	const confirmErrModal = () => {
 		setConflictingErr(false);
@@ -31,7 +31,7 @@ const Reservation = () => {
 	};
 
 	return (
-		<div className="page">
+		<div>
 			<div>
 				{!accepted && (
 					<Modal canConfirm onConfirm={() => setAccepted(true)} confirmText="Accept">
@@ -45,51 +45,21 @@ const Reservation = () => {
 					</Modal>
 				)}
 			</div>
-			{Object.keys(myReservations).length ? (
+			{/* {Object.keys(myReservations).length ? (
 				<div style={{ height: "250px" }}>
 					<h3>My Reservations</h3>
 					{Object.entries(myReservations).map(([group, times]) => (
-						<div key={group}>
-							{moment
-								.duration(moment.unix(currTime / 1000).diff(moment.unix(times[0] / 1000)))
-								.asMinutes() >= -15 &&
-								moment
-									.duration(
-										moment
-											.unix(currTime / 1000)
-											.diff(moment.unix(times[times.length - 1] / 1000 + 1800))
-									)
-									.asMinutes() < 0 && (
-									<MyReservation
-										cancelReservation={() => (
-											<Redirect from="/student/reservations" to="/student/home" exact />
-										)}
-										myReservationLocation={myReservationLocations[group]}
-										times={times}
-									/>
-								)}
-							{moment.duration(currTime.diff(moment.unix(times[0] / 1000) + 1800)).asMinutes() <=
-								0 && (
-								<div>
-									{/* <MyReservation
-										cancelReservation={() => (
-											<Redirect from="/student/reservations" to="/student/home" exact />
-										)}
-										myReservationLocation={myReservationLocations[group]}
-										times={times}
-									/> */}
-								</div>
-							)}
-						</div>
+						
+						
 					))}
 				</div>
 			) : (
-				""
-				// <div>
-				// 	<h4>No Reservations on your account</h4>
-				// 	<h5>Please note that in order to check into the space, you must have a reservation</h5>
-				// </div>
-			)}
+				
+				<div>
+					<h4>No Reservations on your account</h4>
+					<h5>Please note that in order to check into the space, you must have a reservation</h5>
+				</div>
+			)} */}
 			<React.Fragment>
 				<h3>Make A Reservation</h3>
 				<Scheduling />

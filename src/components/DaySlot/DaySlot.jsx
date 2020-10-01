@@ -29,7 +29,11 @@ const DaySlot = ({
 
 		setDay(index);
 
+		// if (!slot) return;
+
 		let timeSlots = [];
+
+		console.log(slot);
 		while (slot <= endTime) {
 			if (
 				workstationReservations.includes(slot.toString()) ||
@@ -55,7 +59,6 @@ const DaySlot = ({
 
 	const addTimeSlot = (between = false, reservation) => {
 		let newTimes;
-
 		// ------------------------------
 		// First time slot selection
 		// ------------------------------
@@ -70,7 +73,7 @@ const DaySlot = ({
 		else if (reservation === firstTimeSlot && firstTimeSlot === lastTimeSlot) {
 			setFirstTimeSlot(0);
 			setLastTimeSlot(0);
-			newTimes = [];
+			newTimes = [0];
 		}
 		// ------------------------------
 		//  Click on first time slot
@@ -81,7 +84,6 @@ const DaySlot = ({
 			newTimes = [firstTimeSlot];
 		} else {
 			newTimes = [firstTimeSlot, reservation];
-			console.log("5");
 		}
 		setActiveDay(newTimes);
 	};

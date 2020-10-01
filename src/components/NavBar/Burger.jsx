@@ -10,6 +10,7 @@ const StyledBurger = styled.div`
 	right: 20px;
 	z-index: 101;
 	display: none;
+	transition: 0.2s;
 	@media (max-width: 850px) {
 		display: flex;
 		justify-content: space-around;

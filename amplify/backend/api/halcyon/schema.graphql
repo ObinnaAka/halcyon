@@ -2,20 +2,19 @@ type Transaction
   @model
   @versioned
   @key(name: "byStatus", fields: ["transactionStatus", "updatedAt", "id"], queryField: "getTransactionByStatus")
-  @key(name: "byMember", fields: ["memberId", "createdAt", "id"], queryField: "getTransactionByMember")
-  @key(name: "byStaff", fields: ["staffMemberId", "createdAt", "id"], queryField: "getTransactionByStaff")
+  @key(name: "byUser", fields: ["userId", "createdAt", "id"], queryField: "getTransactionByUser")
+  @key(name: "byStaff", fields: ["staffUserId", "createdAt", "id"], queryField: "getTransactionByStaff")
   @key(name: "byDate", fields: ["createdAt", "updatedAt", "id"], queryField: "getTransactionByDate"){
   id: ID!
   transactionType: String!
-  staffMember: Member @connection(fields: ["staffMemberId"])
-  staffMemberId: ID! #This can be empty for certain situations (Sign in etc...) but must be required for connections
-  member: Member @connection(fields: ["memberId"])
-  memberId: ID!
-  tools: [ID] #Cannot use @connection on a many to many unfortunately
+  staffUser: User @connection(fields: ["staffUserId"])
+  staffUserId: ID!
+  user: User @connection(fields: ["userId"])
+  userId: ID!
+  tools: [ID]
   materials: [ID]
   reservations: [Reservation] @connection(keyName: "byGroup", fields:["id"])
   reservationSlots: [String]
-  training: Training @connection(name: "transactionTraining")
   requests: [String]
   transactionStatus: String!
   transactionComment: String
@@ -31,35 +30,31 @@ enum TransactionStatus{
   CANCELLED
 }
 
-type Member
+type User
   @model
-  @key(fields: ["eid"])
-  @key(name: "byName", fields: ["firstName", "lastName", "eid"]) {
-  eid: ID!
+  @key(name: "byName", fields: ["firstName", "lastName", "id"], queryField: "getByName") {
+  id: ID!
   firstName: String!
   lastName: String!
-  password: String
   phone: AWSPhone
   signInStatus: Boolean
   email: AWSEmail
-  trainings: [String] 
-  itemRecord: [Tool] @connection(keyName: "byMember", fields: ["eid"])
+  itemRecord: [Tool] @connection(keyName: "byUser", fields: ["id"])
   workstation: Tool @connection(fields: ["workstationId"])
   workstationId: ID!
   conductRecord: [String]
   conductStatus: Int
-  reservations: [Reservation] @connection(keyName:"byMember", fields: ["eid"])
-  transactionRecord: [Transaction] @connection(keyName: "byMember", fields: ["eid"])
-  bevoCard: String
+  reservations: [Reservation] @connection(keyName:"byUser", fields: ["id"])
+  transactionRecord: [Transaction] @connection(keyName: "byUser", fields: ["id"])
   createdAt: AWSDateTime
   updatedAt: AWSDateTime
 }
 
+
 type Tool @model
-  @key(name: "byName", fields: ["name", "id"])
-  @key(name: "byMember", fields: ["currentHolderId", "id"])
-  @key(name: "byStatus", fields: ["toolStatus", "id"])
-  @key(name: "byType", fields: ["toolType", "id"]) 
+  @key(name: "byUser", fields: ["currentHolderId", "id"], queryField: "getByUser")
+  @key(name: "byStatus", fields: ["toolStatus", "id"], queryField: "getByStatus")
+  @key(name: "byType", fields: ["toolType", "id"], queryField: "getByType") 
   {
   id: ID!
   name: String!
@@ -67,8 +62,8 @@ type Tool @model
   location: String
   group: Inventory @connection (name: "toolInventory")
   toolStatus: String!
-  currentHolder: Member @connection(fields: ["currentHolderId"])
-  currentHolderId: ID! # will default tiw_member_account since it can't be nun-nullable
+  currentHolder: User @connection(fields: ["currentHolderId"])
+  currentHolderId: ID! 
   currentWorkstation: Tool @connection(fields: ["currentWorkstationId"])
   currentWorkstationId: ID!
   reservations: [Reservation] @connection(keyName: "byTool", fields: ["id"])
@@ -91,14 +86,13 @@ type Training @model {
   name: String!
   duration: Int!
   capacity: Int!
-  transactionRecord: [Transaction] @connection(name: "transactionTraining")
   reservations: [Reservation] @connection(name: "trainingGroup")
 }
 
 type Material @model {
   id: ID
   name: String!
-  transactionRecord: [Transaction]#  @connection(name: "transactionMaterials")
+  transactionRecord: [Transaction]
   price: Float!
   count: Int!
 }
@@ -111,22 +105,22 @@ type Inventory @model @key(fields: ["name"]){
 }
 
 type Reservation @model 
-@key(name: "byMember", fields: ["memberId", "id"]) 
+@key(name: "byUser", fields: ["userId", "id"]) 
 @key(name: "byTool", fields: ["toolId", "id"])
 @key(name: "byGroup", fields: ["transactionGroup", "time", "id"], queryField: "listReservationGroups"){
 	id: ID!
   time: String!
-	member: Member @connection (fields: ["memberId"])
-  memberId: ID!
+	user: User @connection (fields: ["userId"])
+  userId: ID!
 	tool: Tool @connection(fields: ["toolId"])
-  toolId: ID! # TODO Assign a Tool on training creation or Create a special tool for trainings that can't be checked out
+  toolId: ID!
   training: Training @connection(name: "trainingGroup")
   transactionGroup: ID!
   createdAt: AWSDateTime
   updatedAt: AWSDateTime
 }
 
-type Shop @model{ # @auth(rules: [{allow: groups, groups:["Staff", "Admin", "Zero"]}, {allow: public, operations: [read] }]){
+type Shop @model{
   name: ID!
   openingTime: Int
   closingTime: Int
@@ -139,8 +133,8 @@ type Shop @model{ # @auth(rules: [{allow: groups, groups:["Staff", "Admin", "Zer
 input CreateTransactionInput {
   id: ID
   transactionType: String!
-  staffMemberId: ID!
-  memberId: ID!
+  staffUserId: ID!
+  userId: ID!
   transactionStatus: String!
   transactionComment: String
   createdAt: AWSDateTime

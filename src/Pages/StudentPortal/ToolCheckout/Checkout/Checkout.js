@@ -4,7 +4,7 @@ import { API } from "aws-amplify";
 import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import Modal from "../../../../components/Modal/Modal";
 import ToolCheckout from "../../../../components/ToolCheckout/ToolCheckout";
-import { MemberContext } from "../../../../context/member-context";
+import { UserContext } from "../../../../context/user-context";
 import { createTransaction } from "../../../../graphql-optimized/mutations";
 import { listInventorys } from "../../../../graphql-optimized/queries";
 
@@ -15,12 +15,12 @@ const Checkout = () => {
 	const [comment, setComment] = useState("");
 	const [showModal, setShowModal] = useState(false);
 
-	const member = useContext(MemberContext);
+	const user = useContext(UserContext);
 	const [checkedIn, setCheckedIn] = useState(false);
 
 	useLayoutEffect(() => {
-		if (member) fetchTools();
-	}, [member]);
+		if (user) fetchTools();
+	}, [user]);
 
 	const fetchTools = async () => {
 		let results = await API.graphql({
@@ -35,7 +35,7 @@ const Checkout = () => {
 		const tools = results.data.listInventorys.items;
 		setTools(tools);
 
-		if (member.signInStatus) setCheckedIn(member.signInStatus);
+		if (user.signInStatus) setCheckedIn(user.signInStatus);
 	};
 
 	const addMyTool = (event, newValue) => {
@@ -88,8 +88,8 @@ const Checkout = () => {
 			variables: {
 				input: {
 					transactionType: "Tool Request",
-					staffMemberId: "tiw",
-					memberId: member.eid,
+					staffUserId: "tiw",
+					userId: user.eid,
 					transactionStatus: "Processing",
 					requests: toolReservation,
 					transactionComment: comment,
@@ -181,7 +181,7 @@ const Checkout = () => {
 						confirmText="Okay!"
 						onConfirm={confirmModalHandler}>
 						<p>
-							A student technician will come to your location, at {member.workstation.name}, soon to
+							A student technician will come to your location, at {user.workstation.name}, soon to
 							drop off your tools!{" "}
 						</p>
 						{Object.entries(myTools).map(([tool, amount]) => (

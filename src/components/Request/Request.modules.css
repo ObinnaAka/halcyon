@@ -61,7 +61,7 @@
 	width: 100%;
 	border: 1px solid #eeeeee;
 	border-radius: 5px;
-	box-shadow: 10px 10px 5px #eeeeee;
+	box-shadow: 10px 10px 5px #29292949;
 }
 
 .request_item_button {

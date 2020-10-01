@@ -1,7 +1,7 @@
 @media (max-width: 600px) {
-	.page .scheduling {
+	div .scheduling {
 		display: -webkit-flex;
-		flex-flow: column wrap;
+		flex-flow: row nowrap;
 		width: 100vw;
 		height: 70vh;
 		overflow: scroll;
@@ -13,10 +13,10 @@
 .scheduling {
 	display: -webkit-flex;
 	padding-bottom: 5vh;
-	flex-flow: column wrap;
-	justify-content: flex-start;
+	flex-flow: row nowrap;
+	justify-content: center;
 	align-items: center;
-	width: 100vw;
+	width: 100%;
 	overflow: scroll;
 	align-content: center;
 }

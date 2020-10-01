@@ -1,8 +1,9 @@
 import { API } from "aws-amplify";
 import moment from "moment";
 import React, { useContext, useLayoutEffect, useState } from "react";
+import logo from "../../../images/logo-main.png";
 import { Modal, MyReservation, Section } from "../../../components";
-import { ShopContext, MemberContext } from "../../../context";
+import { ShopContext, UserContext } from "../../../context";
 import { createNewTransaction, createTransaction } from "../../../graphql-optimized/mutations";
 import "./Home.modules.css";
 
@@ -10,7 +11,7 @@ import "./Home.modules.css";
 const spaces = ["HQ"];
 
 const Home = () => {
-	const member = useContext(MemberContext);
+	const user = useContext(UserContext);
 
 	const shop = useContext(ShopContext);
 
@@ -32,7 +33,7 @@ const Home = () => {
 	const [hasCurrReservation, setHasCurrReservation] = useState(false);
 	const [mostRecentReservation, setMostRecentReservation] = useState(0);
 
-	const [memberLocation, setMemberLocation] = useState("");
+	const [userLocation, setUserLocation] = useState("");
 	const [helpDeskComment, setHelpDeskComment] = useState("");
 
 	const [machineLocation, setMachineLocation] = useState("");
@@ -42,19 +43,21 @@ const Home = () => {
 	const [errMessage, setErrMessage] = useState("");
 
 	useLayoutEffect(() => {
-		if (!member) return;
-		fetchMemberInfo();
-		setCheckedIn(member.signInStatus);
-	}, [member]);
+		if (!user) return;
+		fetchUserInfo();
+		setCheckedIn(user.signInStatus);
+	}, [user]);
 
-	const fetchMemberInfo = async () => {
-		console.log(member);
+	const fetchUserInfo = async () => {
+		const currReservations = user.reservations ? user.reservations.items : [];
 
-		const currReservations = member.reservations.items;
 		currReservations.sort((res1, res2) => (res1.time >= res2.time ? 1 : -1));
 
+		// A dictionary of the user's current reservations
 		let myRes = {};
+		// A dictionary of the workstations for the user's reservations
 		let myResLocations = {};
+		// A dictionary of the IDs for the user's reservations
 		let myResIds = {};
 
 		for (let res of currReservations) {
@@ -91,7 +94,6 @@ const Home = () => {
 					.asMinutes() > 0
 			) {
 				//this means this reservation is a past reservation
-				console.log("past reservation");
 				lastRes = resKey;
 			} else if (
 				moment
@@ -108,9 +110,10 @@ const Home = () => {
 				// -------------------------------------------------
 				// This means a reservation is happening now
 				// -------------------------------------------------
-				console.log("happening now");
+
 				lastRes = resKey;
 				hasCurrRes = true;
+
 				break;
 			} else {
 				// -------------------------------------------------
@@ -130,7 +133,7 @@ const Home = () => {
 		// Checking if a student is checked in
 		// -------------------------------------------------
 
-		if (member.signInStatus) {
+		if (user.signInStatus) {
 			if (!hasCurrRes && lastRes === 0) {
 				// -------------------------------------------------
 				// Signed in but don't any current reservation or
@@ -139,27 +142,26 @@ const Home = () => {
 				checkOut();
 				setCheckedIn(false);
 			} else {
-				setCheckedIn(member.signInStatus);
+				setCheckedIn(user.signInStatus);
 			}
 		}
 		// ---------------------------------------------------------------
-		// If member.conductStatus >= 5, this means a
+		// If user.conductStatus >= 5, this means a
 		// student has so many strikes they are no longer allowed in the space
 		// ---------------------------------------------------------------
-		if (member.conductStatus && member.conductStatus >= 5) setHasConductProb(true);
+		if (user.conductStatus && user.conductStatus >= 5) setHasConductProb(true);
 	};
 
 	const cancelReservation = async (groupId, workstation) => {
 		const resIds = myReservationIds[groupId];
-		console.log("cancelling reservation");
-		console.log(resIds);
+
 		let results = await API.graphql({
 			query: createNewTransaction,
 			variables: {
 				input: {
 					transactionType: "Cancel Reservation",
-					staffMemberId: "tiw",
-					memberId: member.eid,
+					staffUserId: "tiw",
+					userId: user.eid,
 					transactionStatus: "Finished",
 					reservationSlots: resIds,
 				},
@@ -178,6 +180,7 @@ const Home = () => {
 		setMyReservationIds(tempMyReservationIds);
 
 		setResCancelled(resCancelled + 1);
+		window.location.reload();
 	};
 
 	const checkOut = async () => {
@@ -186,14 +189,14 @@ const Home = () => {
 			variables: {
 				input: {
 					transactionType: "Sign Out",
-					staffMemberId: "tiw",
-					memberId: member.eid,
+					staffUserId: "tiw",
+					userId: user.eid,
 
 					// TODO ----------------------------------------------
 					// TODO I Don't know how to make this a querying value
 					// TODO ----------------------------------------------
 
-					tools: [member.workstation.id],
+					tools: [user.workstation.id],
 					transactionStatus: "Finished",
 				},
 			},
@@ -203,33 +206,60 @@ const Home = () => {
 		setShowModalCheckOutThanks(true);
 	};
 
+	const checkIn = async () => {
+		let currentReservation = myReservations[mostRecentReservation];
+		let times =
+			moment.unix(currentReservation[0] / 1000).format("h:mm") +
+			" - " +
+			moment.unix(currentReservation[currentReservation.length - 1] / 1000 + 1800).format("h:mm A");
+		await API.graphql({
+			query: createTransaction,
+			variables: {
+				input: {
+					transactionType: "Sign In",
+					staffUserId: "tiw",
+					userId: user.eid,
+					requests: [
+						myReservationLocations[mostRecentReservation]?.id,
+						myReservationLocations[mostRecentReservation]?.name,
+						times,
+					],
+					transactionStatus: "Processing",
+				},
+			},
+		}).then(() => (user.signInStatus = true));
+
+		setShowModalCheckInThanks(true);
+	};
+
 	const requestHelp = async () => {
 		await API.graphql({
 			query: createTransaction,
 			variables: {
 				input: {
 					transactionType: "Student Request",
-					staffMemberId: "tiw",
-					memberId: member.eid,
+					staffUserId: "tiw",
+					userId: user.eid,
 					transactionStatus: "Processing",
-					transactionComment: `Need technician's help. Visit ${member.firstName} ${
-						member.lastName
-					} at ${member.workstation.name ?? memberLocation}. Problem: ${helpDeskComment}`,
+					transactionComment: `Need technician's help. Visit ${user.firstName} ${
+						user.lastName
+					} at ${user.workstation.name ?? userLocation}. Problem: ${helpDeskComment}`,
 				},
 			},
-		}).then((res) => {
-			console.log(res);
 		});
 		setShowModalHelpComment(false);
 		setShowModalHelpDesk(true);
 	};
 
+	// TODO --------------------------------------------------
+	// TODO Please use a dictionary to manage all these states
+	// TODO --------------------------------------------------
+
 	const cancelHelp = () => {
 		setHelpDeskComment("");
 		setShowModalHelpComment(false);
-		setMemberLocation("");
+		setUserLocation("");
 	};
-
 	const requestMaintenance = async () => {
 		if (machineLocation === "") {
 			setErrMessage("Please enter a value for all fields");
@@ -241,8 +271,8 @@ const Home = () => {
 			variables: {
 				input: {
 					transactionType: "Student Request",
-					staffMemberId: "tiw",
-					memberId: member.eid,
+					staffUserId: "tiw",
+					userId: user.eid,
 					transactionStatus: "Processing",
 					transactionComment: `Broken Machine. Machine: ${machineName} (${machinePosition}), located at ${machineLocation}. Issue: ${machineComment}`,
 				},
@@ -261,7 +291,6 @@ const Home = () => {
 		setMachineComment("");
 		setShowModalMaintenance(false);
 	};
-
 	const cancelMachineForm = () => {
 		setErrMessage("");
 		setMachineLocation("");
@@ -274,7 +303,7 @@ const Home = () => {
 		setShowModalCheckInThanks(true);
 	};
 	return (
-		<div className="page">
+		<div>
 			<h1>Welcome to Texas Inventionworks!</h1>
 			<label>
 				Check out our{" "}
@@ -293,36 +322,102 @@ const Home = () => {
 					style={{ color: "#bf5700", textDecoration: "underline" }}>
 					{"COVID-19 Guidelines!"}
 				</a>
+				<br></br>
+				<a
+					href="https://docs.google.com/forms/d/1gztFI8w8DSIN6rPzYO6QESYM1MYxBPWkm1UVxrjwN3E"
+					rel="noopener noreferrer"
+					target="_blank"
+					style={{ color: "#bf5700", textDecoration: "underline" }}>
+					<h3>{"Submit a 3D Print File"}</h3>
+				</a>
 			</label>
+
 			<h3>Our Hours</h3>
 			<label>Monday - Friday</label>
 			<br></br>
 			<label>12am - 6pm</label>
 			<br></br>
-			<h4>My Dashboard</h4>
-			{checkedIn && !hasCurrReservation && (
-				<div>
-					<h4 style={{ color: "red" }}>Your reservation has expired. Please check out!</h4>
-					<label>{myReservationLocations[mostRecentReservation].name}: </label>
-					<label>
-						{moment.unix(myReservations[mostRecentReservation][0] / 1000).format("MMMM DD h:mm A")}{" "}
-						-
-						{moment
-							.unix(
-								myReservations[mostRecentReservation][
-									myReservations[mostRecentReservation].length - 1
-								] /
-									1000 +
-									1800
-							)
-							.format("h:mm A")}
-					</label>
-					<button onClick={checkOut}>Check Out</button>
-				</div>
-			)}
+
 			<div className="sectionList">
 				<Section>
-					<h4>My Reservations</h4>
+					<h2>Announcements</h2>
+					<p>
+						{shop?.studentMessage?.split("\\n").map((line, i) => (
+							<div key={"x" + i}>{line}</div>
+						))}
+					</p>
+					<div className="App-logo">
+						<img src={logo} alt="logo" />
+					</div>
+				</Section>
+				<Section>
+					<h2>My Dashboard</h2>
+					<label>
+						Status:
+						<label style={user?.signInStatus ? { color: "green" } : { color: "red" }}>
+							{" "}
+							{user?.signInStatus ? "Checked In" : "Checked Out"}
+						</label>
+					</label>
+					{hasCurrReservation && (
+						<div>
+							Check in for your reservation
+							<br></br>
+							<h3>{myReservationLocations[mostRecentReservation]?.name}</h3>
+							<h3>
+								{moment
+									.unix(myReservations[mostRecentReservation][0] / 1000)
+									.format("MMMM DD h:mm A")}{" "}
+								-
+								{moment
+									.unix(
+										myReservations[mostRecentReservation][
+											myReservations[mostRecentReservation].length - 1
+										] /
+											1000 +
+											1800
+									)
+									.format("h:mm A")}
+							</h3>
+							<button className="large" onClick={checkIn}>
+								Check In
+							</button>
+						</div>
+					)}
+					{checkedIn &&
+						(hasCurrReservation ? (
+							<div>
+								<button className="large" onClick={checkOut}>
+									Check Out
+								</button>
+							</div>
+						) : (
+							<div>
+								<h4 style={{ color: "red" }}>Your reservation has expired. Please check out!</h4>
+								<label>{myReservationLocations[mostRecentReservation].name}: </label>
+								{moment
+									.unix(myReservations[mostRecentReservation][0] / 1000)
+									.format("MMMM DD h:mm A")}{" "}
+								-
+								{moment
+									.unix(
+										myReservations[mostRecentReservation][
+											myReservations[mostRecentReservation].length - 1
+										] /
+											1000 +
+											1800
+									)
+									.format("h:mm A")}
+								<br></br>
+								<button className="large" onClick={checkOut}>
+									Check Out
+								</button>
+							</div>
+						))}
+				</Section>
+
+				<Section>
+					<h2>My Reservations</h2>
 					{Object.keys(myReservations).length ? (
 						Object.entries(myReservations).map(
 							([group, times]) =>
@@ -337,11 +432,12 @@ const Home = () => {
 											checkInConfirmation={checkInConfirmation}
 											cancelReservation={cancelReservation}
 											setShowModalConduct={setShowModalConduct}
-											hasConductProb={member.conductStatus >= 4}
+											hasConductProb={user.conductStatus >= 4}
+											canCancel={true}
 											group={group}
 											times={times}
 											currTime={currTime}
-											member={member.eid}
+											user={user.eid}
 										/>
 									</div>
 								)
@@ -357,7 +453,14 @@ const Home = () => {
 					)}
 				</Section>
 				<Section>
-					<h4>Help Desk</h4>
+					<h2>Help Desk</h2>
+					<a
+						href="https://docs.google.com/forms/d/1gztFI8w8DSIN6rPzYO6QESYM1MYxBPWkm1UVxrjwN3E"
+						rel="noopener noreferrer"
+						target="_blank"
+						style={{ color: "#bf5700", textDecoration: "underline" }}>
+						<h3>{"Submit a 3D Print File"}</h3>
+					</a>
 					{checkedIn && (
 						<React.Fragment>
 							<label
@@ -400,10 +503,12 @@ const Home = () => {
 						setShowModalCheckInThanks(false);
 					}}
 					confirmText="Okay!">
-					<h1>
-						Please proceed to the student near the front door in order to complete your check in!
-					</h1>
-					<p>Also, don't forget to check out!</p>
+					<h1>Please proceed to the front desk to finish checking in!</h1>
+					<p>
+						A staff user will confirm your reservation and let you in. Don't forget to check out
+						when you're done!
+					</p>
+					<br></br>
 					<p>
 						Please read our{" "}
 						<a
@@ -424,10 +529,11 @@ const Home = () => {
 					canConfirm
 					onConfirm={() => {
 						setShowModalCheckOutThanks(false);
+						window.location.reload();
 					}}
 					confirmText="Done">
-					<h1>Thanks for checking out!</h1>
-					<p>Please continue to visit us!</p>
+					<h1>Thanks for checking out</h1>
+					<p>We can't wait to see you again!</p>
 				</Modal>
 			)}
 			{showModalConduct && (
@@ -454,13 +560,13 @@ const Home = () => {
 					title="Requesting Help From Front Desk"
 					onConfirm={requestHelp}
 					confirmText="Request Help">
-					{member.workstation.name ?? (
+					{user.workstation.name ?? (
 						<div>
 							<label>Where are you located?</label>
 							<input
 								type="string"
-								value={memberLocation}
-								onChange={(event) => setMemberLocation(event.target.value)}
+								value={userLocation}
+								onChange={(event) => setUserLocation(event.target.value)}
 							/>
 						</div>
 					)}
@@ -478,7 +584,7 @@ const Home = () => {
 				<Modal canConfirm onConfirm={() => setShowModalHelpDesk(false)} confirmText="Okay!">
 					<h3>
 						A student technician is on the way to your workstation,{" "}
-						{member.workstation.name ?? memberLocation}!
+						{user.workstation.name ?? userLocation}!
 					</h3>
 				</Modal>
 			)}

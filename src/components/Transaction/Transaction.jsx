@@ -12,7 +12,8 @@ const Transaction = ({
 	tools,
 	requests,
 	materials,
-	member,
+	staffUser,
+	user,
 	date,
 	transactionType,
 	transactionComment,
@@ -24,13 +25,13 @@ const Transaction = ({
 	};
 
 	return (
-		<div className="request_item_div">
-			<List className="request_item">
+		<div className="request">
+			<List>
 				<ListItem button onClick={handleItemClick}>
 					<ListItemText className="request_type" primary={transactionType} />
 					<ListItemText
-						className="request_member_name"
-						primary={member?.firstName + " " + member?.lastName}
+						className="request_user_name"
+						primary={staffUser?.firstName + " " + staffUser?.lastName}
 					/>
 					<ListItemText className="request_time" primary={moment(date).format("MMM DD h:mm A")} />
 					{open ? <ExpandLess /> : <ExpandMore />}
@@ -64,7 +65,7 @@ const Transaction = ({
 						</div>
 						<div className="request_expanded_view_right">
 							<h3>Name</h3>
-							<div>{member?.firstName + " " + member?.lastName}</div>
+							<div>{user?.firstName + " " + user?.lastName}</div>
 							<h3>Comment</h3>
 							<div>{transactionComment}</div>
 						</div>

@@ -5,15 +5,17 @@ import {
 	createTransaction,
 	createNewTransaction,
 	createTool,
-	createMember,
+	createUser,
 	createInventory,
+	createShop,
+	updateShop,
 } from "../../../graphql-optimized/mutations";
-import { listTools } from "../../../graphql-optimized/queries";
+import { listTools, listShops } from "../../../graphql-optimized/queries";
 
 import "./Maintenance.css";
 
-import { MemberContext } from "../../../context/member-context";
-import { Workstation } from "../../../components";
+import { UserContext } from "../../../context/user-context";
+import { Section } from "../../../components";
 
 const toolStatus = ["Checked Out", "Checked in", "Cleaning", "Cleaned", "Repair", "Not in Service"];
 const transactionTypes = [
@@ -28,7 +30,7 @@ const transactionTypes = [
 	"Cleaning",
 ];
 const toolTypes = ["Handheld", "Workstation", "Consumable"];
-const members = {
+const users = {
 	TIW: "tiw",
 	Obinna: "oaa876",
 };
@@ -37,7 +39,7 @@ const initialToolState = {
 	name: "HQ-",
 	location: "HQ",
 	toolType: "Workstation",
-	currentHolderId: members["TIW"],
+	currentHolderId: users["TIW"],
 	currentWorkstationId: "HQ",
 	toolStatus: "Cleaned",
 };
@@ -48,39 +50,44 @@ const initialInventoryState = {
 };
 const initialTransactionState = {
 	transactionType: "Test",
-	memberId: members["TIW"],
+	userId: users["TIW"],
 	transactionStatus: "Processing",
 	transactionComment: "Test",
 };
-const initialMemberState = {
+const initialUserState = {
 	firstName: "",
 	lastName: "",
-	eid: "",
+	id: "",
 	email: "",
 };
-const initialMemberCheckInState = {
-	eid: "",
+const initialUserCheckInState = {
+	id: "",
 	signInStatus: "Sign In",
 	workstation: "none",
 };
-
+const initialShopState = {
+	name: "",
+};
 const MaintenancePage = () => {
-	const auth = useContext(MemberContext);
+	const auth = useContext(UserContext);
 
 	const [transaction, setTransaction] = useState({
 		...initialTransactionState,
-		staffMemberId: auth.eid,
+		staffUserId: auth?.id,
 	});
 
-	const [member, setMember] = useState(initialMemberState);
-	const [memberCheckIn, setMemberCheckIn] = useState(initialMemberCheckInState);
+	const [user, setUser] = useState(initialUserState);
+	const [userCheckIn, setUserCheckIn] = useState(initialUserCheckInState);
 	const [tool, setTool] = useState(initialToolState);
 	const [inventory, setInventory] = useState(initialInventoryState);
 	const [workstations, setWorkstations] = useState([]);
+	const [shop, setShop] = useState(initialShopState);
 
 	useEffect(() => {
-		setTransaction({ ...transaction, staffMemberId: auth.eid });
+		if (!auth) return;
+		setTransaction({ ...transaction, staffUserId: auth.id });
 		fetchWorkstations();
+		// fetchShops();
 	}, [auth]);
 
 	//____Handlers____
@@ -99,6 +106,18 @@ const MaintenancePage = () => {
 			console.log(results);
 		});
 	};
+	// const fetchShops = () => {
+	// 	API.graphql({
+	// 		query: listShops,
+	// 	})
+	// 		.then((shops) => {
+	// 			setShops(shops);
+	// 			console.log(shops);
+	// 		})
+	// 		.catch((err) => {
+	// 			console.log(err);
+	// 		});
+	// };
 	const submitToolHandler = async (evt) => {
 		evt.preventDefault();
 		console.log(tool);
@@ -127,50 +146,75 @@ const MaintenancePage = () => {
 		});
 		alert("New Transaction Created!");
 	};
-	const submitMemberCheckInHandler = async (evt) => {
+	const submitUserCheckInHandler = async (evt) => {
 		evt.preventDefault();
-		console.log(memberCheckIn);
-		let newMember = await API.graphql({
+		console.log(userCheckIn);
+		await API.graphql({
 			query: createNewTransaction,
 			variables: {
 				input: {
-					memberId: memberCheckIn.eid.replace(/\s/g, "").toLowerCase(),
-					tools: memberCheckIn.workstation,
-					staffMemberId: "tiw",
-					transactionType: memberCheckIn.signInStatus,
+					userId: userCheckIn.id.replace(/\s/g, "").toLowerCase(),
+					tools: userCheckIn.workstation,
+					staffUserId: "tiw",
+					transactionType: userCheckIn.signInStatus,
 					transactionStatus: "Finished",
 					transactionComment: "",
 				},
 			},
 		})
-			.then(() => alert("New Transaction Created!"))
+			.then(() => alert("User Checked In!"))
 			.catch((err) => {
 				alert("This user has not created an account");
 				console.log(err);
 			});
-		console.log(newMember);
 	};
-	const submitMemberHandler = async (evt) => {
+	const submitUserHandler = async (evt) => {
 		evt.preventDefault();
 		console.log("here");
-		let newMember = await API.graphql({
-			query: createMember,
-			variables: { input: member },
+		console.log(user);
+		let newUser = await API.graphql({
+			query: createUser,
+			variables: { input: { ...user, workstationId: "none" } },
 		});
-		console.log(newMember);
+		console.log(newUser);
 	};
+	const submitShopHandler = async (evt) => {
+		evt.preventDefault();
+		console.log(shop);
+		await API.graphql({
+			query: createShop,
+			variables: { input: shop },
+		})
+			.then(() => alert("New Shop Created!"))
+			.catch((err) => console.log(err));
+	};
+	const updateShopHandler = async (evt) => {
+		evt.preventDefault();
+		console.log(shop);
+		await API.graphql({
+			query: updateShop,
+			variables: { input: { id: shop.name, ...shop } },
+		})
+			.then(() => alert("Shop Updated!"))
+			.catch((err) => console.log(err));
+	};
+
+	// TODO ----------------------------------------------------------
+	// TODO Create a form object that takes in "Input Labels" and automatically
+	// TODO generates a form component for this page (and anywhere else)
+	// TODO ----------------------------------------------------------
 
 	return (
 		<div className="left">
 			<form>
 				<h2>Check In Student</h2>
 				<div>
-					<label className="selector-label" htmlFor="memberId">
-						eid:
+					<label className="selector-label" htmlFor="userId">
+						id:
 						<input
 							type="string"
-							value={memberCheckIn.eid}
-							onChange={(event) => setMemberCheckIn({ ...memberCheckIn, eid: event.target.value })}
+							value={userCheckIn.id}
+							onChange={(event) => setUserCheckIn({ ...userCheckIn, id: event.target.value })}
 						/>
 					</label>
 				</div>
@@ -181,7 +225,7 @@ const MaintenancePage = () => {
 						<select
 							className="selector"
 							onChange={(event) =>
-								setMemberCheckIn({ ...memberCheckIn, signInStatus: event.target.value })
+								setUserCheckIn({ ...userCheckIn, signInStatus: event.target.value })
 							}>
 							{checkIn.map((checkIn, index) => {
 								return (
@@ -200,7 +244,7 @@ const MaintenancePage = () => {
 							className="selector"
 							defaultValue=""
 							onChange={(event) =>
-								setMemberCheckIn({ ...memberCheckIn, workstation: event.target.value })
+								setUserCheckIn({ ...userCheckIn, workstation: event.target.value })
 							}>
 							<option value="" disabled hidden>
 								Select a Workstation
@@ -221,7 +265,7 @@ const MaintenancePage = () => {
 					</label>
 				</div>
 				<div>
-					<button className="large" onClick={submitMemberCheckInHandler}>
+					<button className="large" onClick={submitUserCheckInHandler}>
 						Change Status
 					</button>
 				</div>
@@ -230,7 +274,7 @@ const MaintenancePage = () => {
 			<form>
 				<h2>New Inventory</h2>
 				<div>
-					<label className="selector-label" htmlFor="memberId">
+					<label className="selector-label" htmlFor="userId">
 						Tool Name:
 						<input
 							type="string"
@@ -336,16 +380,14 @@ const MaintenancePage = () => {
 			<form>
 				<h2>New Transaction</h2>
 				<div>
-					<label className="selector-label" htmlFor="memberId">
-						Member:
+					<label className="selector-label" htmlFor="userId">
+						User:
 						<select
 							className="selector"
-							onChange={(event) =>
-								setTransaction({ ...transaction, memberId: event.target.value })
-							}>
-							{Object.keys(members).map((key, index) => {
+							onChange={(event) => setTransaction({ ...transaction, userId: event.target.value })}>
+							{Object.keys(users).map((key, index) => {
 								return (
-									<option key={key} value={members[key]}>
+									<option key={key} value={users[key]}>
 										{key}
 									</option>
 								);
@@ -403,13 +445,13 @@ const MaintenancePage = () => {
 				</div>
 			</form>
 			<form>
-				<h2>New Member</h2>
+				<h2>New User</h2>
 				<div>
 					<label htmlFor="firstName">
 						First Name
 						<input
-							onChange={(event) => setMember({ ...member, firstName: event.target.value })}
-							value={member.firstName}
+							onChange={(event) => setUser({ ...user, firstName: event.target.value })}
+							value={user.firstName}
 							placeholder="First Name"
 						/>
 					</label>
@@ -418,19 +460,19 @@ const MaintenancePage = () => {
 					<label htmlFor="lastName">
 						Last Name:
 						<input
-							onChange={(event) => setMember({ ...member, lastName: event.target.value })}
-							value={member.lastName}
+							onChange={(event) => setUser({ ...user, lastName: event.target.value })}
+							value={user.lastName}
 							placeholder="Last Name"
 						/>
 					</label>
 				</div>
 				<div>
-					<label htmlFor="eid">
-						EID:
+					<label htmlFor="id">
+						ID:
 						<input
-							onChange={(event) => setMember({ ...member, eid: event.target.value })}
-							value={member.eid}
-							placeholder="EID"
+							onChange={(event) => setUser({ ...user, id: event.target.value })}
+							value={user.id}
+							placeholder="ID"
 						/>
 					</label>
 				</div>
@@ -439,15 +481,47 @@ const MaintenancePage = () => {
 						Email:
 						<input
 							type="email"
-							onChange={(event) => setMember({ ...member, email: event.target.value })}
-							value={member.email}
+							onChange={(event) => setUser({ ...user, email: event.target.value })}
+							value={user.email}
 							placeholder="Email"
 						/>
 					</label>
 				</div>
 				<div className="form-actions">
-					<button className="large" onClick={submitMemberHandler}>
+					<button className="large" onClick={submitUserHandler}>
 						Register
+					</button>
+				</div>
+			</form>
+			<form>
+				<h2>Shops</h2>
+				<div>
+					<label>
+						Shop Name
+						<input
+							onChange={(event) => setShop({ ...shop, name: event.target.value })}
+							value={shop.name}
+							placeholder="Shop Name"
+						/>
+					</label>
+				</div>
+				<div>
+					<label>
+						Student Message
+						<input
+							onChange={(event) => setShop({ ...shop, studentMessage: event.target.value })}
+							value={shop.studentMessage}
+							placeholder="Student Message"
+						/>
+					</label>
+				</div>
+
+				<div className="form-actions">
+					{/* <button className="large" onClick={submitShopHandler}>
+						Create Shop
+					</button> */}
+					<button className="large" onClick={updateShopHandler}>
+						Update Shop
 					</button>
 				</div>
 			</form>

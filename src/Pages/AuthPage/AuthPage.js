@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
 import { Redirect } from "react-router-dom";
-import { MemberContext } from "../../context/member-context";
+import { UserContext } from "../../context/user-context";
 import "./Auth.modules.css";
 
 // -------------------------------------------------
@@ -11,8 +11,8 @@ import "./Auth.modules.css";
 // -------------------------------------------------
 
 const AuthPage = () => {
-	const member = useContext(MemberContext);
-	return <Redirect from="/" to="/student" exact />;
+	const user = useContext(UserContext);
+	return <Redirect from="/" to="/main" exact />;
 };
 
 export default AuthPage;

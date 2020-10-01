@@ -8,7 +8,7 @@
 	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.26);
 	position: fixed;
 	top: 12vh;
-	left: calc(25vw + (50vw - max(50vw, 500px)) / 2);
+	left: calc(25vw + (50vw - min(50vw, 500px)) / 2);
 	z-index: 100;
 	overflow: auto;
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { MemberContext } from "../../../context/member-context";
+import { UserContext } from "../../../context/user-context";
 
 import { Transaction } from "../../../components";
 import { API, graphqlOperation } from "aws-amplify";
@@ -13,7 +13,7 @@ const Transactions = () => {
 	const [transactions, setTransactions] = useState([]);
 	const [empty, setEmpty] = useState(true);
 
-	const member = useContext(MemberContext);
+	const user = useContext(UserContext);
 
 	useEffect(() => {
 		fetchTransactions().then((results) => {
@@ -54,7 +54,7 @@ const Transactions = () => {
 	};
 
 	return (
-		<div className="left-view">
+		<div>
 			{transactions.length
 				? transactions[0] !== "loading"
 					? transactions.map((request, index) => (
@@ -64,7 +64,8 @@ const Transactions = () => {
 								requests={request.requests}
 								materials={request.materials}
 								transactionType={request.transactionType}
-								member={request.member}
+								user={request.user}
+								staffUser={request.staffUser}
 								date={request.updatedAt}
 								key={index}
 								transactionComment={request.transactionComment}

@@ -3,7 +3,7 @@ import moment from "moment";
 import React, { useContext, useEffect, useState, useLayoutEffect } from "react";
 import Modal from "../../../../components/Modal/Modal";
 import MyTool from "../../../../components/MyTool/MyTool";
-import { MemberContext } from "../../../../context/member-context";
+import { UserContext } from "../../../../context/user-context";
 import {
 	createNewTransaction,
 	createTransaction,
@@ -24,14 +24,14 @@ const MyTools = () => {
 	const [comment, setComment] = useState("");
 	const [loading, setLoading] = useState(true);
 
-	const member = useContext(MemberContext);
+	const member = useContext(UserContext);
 	const [checkedIn, setCheckedIn] = useState(false);
 
 	useLayoutEffect(() => {
-		if (member) setMemberInfo();
+		if (member) setUserInfo();
 	}, [member]);
 
-	const setMemberInfo = async () => {
+	const setUserInfo = async () => {
 		if (member.itemRecord.items) {
 			let tempCheckedItems = {};
 			const checkedItems = member.itemRecord.items;
@@ -90,7 +90,7 @@ const MyTools = () => {
 			variables: {
 				input: {
 					transactionType: "Tool Return",
-					staffMemberId: "tiw",
+					staffUserId: "tiw",
 					memberId: member.eid,
 					transactionStatus: "Processing",
 					tools: tools,
@@ -153,7 +153,7 @@ const MyTools = () => {
 			variables: {
 				input: {
 					transactionType: "Student Request",
-					staffMemberId: "tiw",
+					staffUserId: "tiw",
 					memberId: member.eid,
 					transactionStatus: "Processing",
 					transactionComment: `Tool Maintenance Requested. Tool: ${name}, Problem:${comment}`,

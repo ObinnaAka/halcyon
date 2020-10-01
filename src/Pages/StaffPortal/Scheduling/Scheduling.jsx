@@ -3,7 +3,7 @@
 //--------------------------------------------
 
 import React, { useState, useContext, useEffect, useLayoutEffect } from "react";
-import { ShopContext, MemberContext } from "../../../context";
+import { ShopContext, UserContext } from "../../../context";
 import { DaySlot, Modal } from "../../../components";
 import { API } from "aws-amplify";
 import { listTools, getTool } from "../../../graphql-optimized/queries";
@@ -29,21 +29,22 @@ const StudentRequests = () => {
 		setSchedulingErr(null);
 	};
 
-	const member = useContext(MemberContext);
+	const user = useContext(UserContext);
 	const shop = useContext(ShopContext);
 
 	useLayoutEffect(() => {
 		fetchWorkstations();
 	}, []);
 	useLayoutEffect(() => {
-		if (!member) return;
+		if (!user) return;
+		if (!user.reservations) return;
 
 		let myReservations = [];
-		member.reservations.items.map((reservation) => {
+		user.reservations.items.map((reservation) => {
 			myReservations.push(reservation.time);
 		});
 		setMyReservations(myReservations);
-	}, [member]);
+	}, [user]);
 
 	let timeLength = 1800000;
 
@@ -114,8 +115,8 @@ const StudentRequests = () => {
 			query: createNewTransaction,
 			variables: {
 				input: {
-					memberId: member.eid,
-					staffMemberId: "tiw",
+					userId: user.eid,
+					staffUserId: "tiw",
 					tools: tools,
 					reservationSlots: reservations,
 					transactionType: "Create Reservation",
@@ -131,7 +132,7 @@ const StudentRequests = () => {
 			})
 			.catch((err) => {
 				setSchedulingErr(
-					"Sorry, there was an error making your reservation. Please try again or talk to a staff member"
+					"Sorry, there was an error making your reservation. Please try again or talk to a staff user"
 				);
 			});
 	};
@@ -155,12 +156,14 @@ const StudentRequests = () => {
 	}
 
 	return (
-		<div className="page">
+		<div>
 			<h3>
 				{reservations.length
-					? moment(Math.min.apply(Math, reservations)).format("ddd  DD MMM h:mm A") +
-					  " - " +
-					  moment(Math.max.apply(Math, reservations) + timeLength).format("h:mm A")
+					? reservations[0]
+						? moment(Math.min.apply(Math, reservations)).format("ddd  DD MMM h:mm A") +
+						  " - " +
+						  moment(Math.max.apply(Math, reservations) + timeLength).format("h:mm A")
+						: "No time selected"
 					: "No time selected"}
 			</h3>
 			<div>
@@ -202,7 +205,9 @@ const StudentRequests = () => {
 								key={date}
 								date={date}
 								startTime={date + shop.openingTime}
+								// startTime={date}
 								endTime={date + shop.closingTime}
+								// endTime={date + 84000000}
 								index={index}
 								setDay={setDay}
 								setReservations={setReservations}

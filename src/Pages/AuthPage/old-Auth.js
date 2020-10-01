@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 
 import { Redirect } from "react-router-dom";
-import AuthContext from "../../context/member-context";
+import AuthContext from "../../context/user-context";
 import "./Auth.modules.css";
 import { useInput } from "../../helpers/helpers";
 
@@ -19,7 +19,7 @@ const AuthPage = (Apollo) => {
 	// This sets the state to the user's entered data
 	// -------------------------------------------------
 
-	const [memberLogin, setMemberLogin] = useState(true);
+	const [userLogin, setUserLogin] = useState(true);
 
 	// -------------------------------------------------
 	// This is the context that we use throughout the site
@@ -43,22 +43,22 @@ const AuthPage = (Apollo) => {
 	// "Register" screen
 	// -------------------------------------------------
 	const handleRegister = () => {
-		setMemberLogin(false);
+		setUserLogin(false);
 	};
 
 	// -------------------------------------------------
 	// This is the GraphQL query used for the login.
 	// It passes the eid and password as variables to the
-	// backend which returns the member's data
+	// backend which returns the user's data
 	// -------------------------------------------------
 
 	const LOGIN = gql`{ login (eid: "${eid}", password: "${password}"){
-		member {
+		user {
 			_id
 			eid
 			firstName
 			lastName
-			memberType
+			userType
 		}
 		token
 		tokenExpiration
@@ -77,8 +77,8 @@ const AuthPage = (Apollo) => {
 				data,
 			});
 			window.localStorage.setItem("token", data.login.token);
-			window.localStorage.setItem("member", data.login.member);
-			setAuth({ token: data.login.token, member: data.login.member });
+			window.localStorage.setItem("user", data.login.user);
+			setAuth({ token: data.login.token, user: data.login.user });
 		},
 	});
 
@@ -104,7 +104,7 @@ const AuthPage = (Apollo) => {
 
 	return (
 		<div>
-			{!memberLogin && <Redirect path="/auth" to="/register" />}
+			{!userLogin && <Redirect path="/auth" to="/register" />}
 			{auth.token ? (
 				<Redirect from="/" to="/staff" exact />
 			) : (

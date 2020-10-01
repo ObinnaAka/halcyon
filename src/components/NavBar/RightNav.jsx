@@ -10,11 +10,15 @@ const U1 = styled.ul`
 	display: flex;
 	flex-flow: row nowrap;
 	align-items: center;
+	position: fixed;
+	top: -10px;
+	right: 0;
 	z-index: 100;
+	padding-left: 0;
 
 	li {
 		text-color: white;
-		padding: 10px 10px;
+		padding: 10px 8px;
 
 		a {
 			text-decoration: none;
@@ -30,16 +34,20 @@ const U1 = styled.ul`
 		}
 	}
 	@media (max-width: 850px) {
+		display: -webkit-flex;
 		flex-flow: column nowrap;
-		background-color: #bf5700;
+		background-color: var(--main-bg-color);
 		position: fixed;
-		transform: ${({ open }) => (open ? "translateX(0)" : "translateX(100%)")};
+		-webkit-transform: ${({ open }) =>
+			open ? " translate3d(0, 0, -200px) " : " translate3d(100%, 0, 200px)"};
 		top: -25px;
 		right: 0;
 		height: 100vh;
 		width: 300px;
 		padding-top: 5rem;
 		transition: transform 0.3s ease-in-out;
+		z-index: 100;
+		-webkit-overflow-scrolling: auto!;
 		li {
 			padding-top: 1vh;
 			color: white;

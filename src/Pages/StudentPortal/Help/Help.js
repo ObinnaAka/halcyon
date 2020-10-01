@@ -1,8 +1,8 @@
 import { API } from "aws-amplify";
 import React, { useContext, useEffect, useState } from "react";
 import Modal from "../../../components/Modal/Modal";
-import { MemberContext } from "../../../context/member-context";
-import { createNewTransaction } from "../../../graphql-optimized/mutations";
+import { UserContext } from "../../../context/user-context";
+import { createNewTransaction, createTransaction } from "../../../graphql-optimized/mutations";
 import "./Help.modules.css";
 
 const faq = {
@@ -21,29 +21,29 @@ const Help = () => {
 	const [machineComment, setMachineComment] = useState("");
 	const [errMessage, setErrMessage] = useState("");
 
-	const member = useContext(MemberContext);
+	const user = useContext(UserContext);
 	const [checkedIn, setCheckedIn] = useState(false);
 
 	useEffect(() => {
-		if (member) {
+		if (user) {
 			setCheckedInStatus();
 		}
-	}, [member]);
+	}, [user]);
 
 	const setCheckedInStatus = () => {
-		if (member.signInStatus) setCheckedIn(member.signInStatus);
+		if (user.signInStatus) setCheckedIn(user.signInStatus);
 	};
 
 	const needTech = async () => {
 		await API.graphql({
-			query: createNewTransaction,
+			query: createTransaction,
 			variables: {
 				input: {
-					transactionType: "Student Request",
-					staffMemberId: "tiw",
-					memberId: member.eid,
+					transactionType: "Help Request",
+					staffUserId: "tiw",
+					userId: user.eid,
 					transactionStatus: "Processing",
-					transactionComment: `Need technician's help. Visit ${member.firstName} ${member.lastName} at ${member.workstation}`,
+					transactionComment: `Need technician's help. Visit ${user.firstName} ${user.lastName} at ${user.workstation.name}`,
 				},
 			},
 		});
@@ -70,9 +70,9 @@ const Help = () => {
 			query: createNewTransaction,
 			variables: {
 				input: {
-					transactionType: "Student Request",
-					staffMemberId: "tiw",
-					memberId: member.eid,
+					transactionType: "Help Request",
+					staffUserId: "tiw",
+					userId: user.eid,
 					transactionStatus: "Processing",
 					transactionComment: `Broken Machine. Machine: ${machineName} (${machinePosition}), located at ${machineLocation}. Issue: ${machineComment}`,
 				},
@@ -109,7 +109,7 @@ const Help = () => {
 			))}
 			{showTechModal && (
 				<Modal canConfirm onConfirm={() => setShowTechModal(false)} confirmText="Okay!">
-					<h3>A student technician is on the way to your workstation, {member.workstation}!</h3>
+					<h3>A student technician is on the way to your workstation, {user.workstation.name}!</h3>
 				</Modal>
 			)}
 			{showBrokenModal && (

@@ -1,2 +1,2 @@
-export { MemberContext } from "./member-context";
+export { UserContext } from "./user-context";
 export { ShopContext } from "./shop-context";
